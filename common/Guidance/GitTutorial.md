@@ -58,9 +58,9 @@ git config --global user.email <邮箱>    #设置用户签名之邮箱
 5. **注意注意**：如果此时配置好ssh后，从远程库git clone总是提示失败(`ssh: Could not resolve hostname gitee.com: Temporary failure in name resolution
 fatal: 无法读取远程仓库。`)，很有可能是ssh笔记本电脑时，笔记本电脑连接的是校园网JUST，将校园网改成手机热点就可以正常git了。
 
-## 如何在主仓库中加入子仓库
-适用场景：随着仓库越来越大，gitee已经不能支持我原来仓库的大小，所以需要将仓库拆分开来，通过主仓库包含子仓库的方式来应对
-### 处理步骤
+# 如何在主仓库中加入子仓库
+适用场景：随着git仓库越来越大，gitee已经不能支持我原来仓库的大小，所以需要将仓库拆分开来，通过主仓库包含子仓库的方式来应对
+## 处理步骤
 1. 将原来的仓库复制一份，并将其根目录下的.git文件夹删掉
 2. 进入该仓库主目录，对需要变为子仓库的文件做如下处理：
    ```bash
@@ -98,11 +98,13 @@ fatal: 无法读取远程仓库。`)，很有可能是ssh笔记本电脑时，�
    上述指令过程在vscode中会显示如下，操作简单，不再赘述  
    ![alt text](.assets_IMG/GitTutorial/image.png)  
    可以看到此时，子仓库中的修改，在主仓库中已没有明细，而是作为一个独立文件。修改明细只能在子仓库的git中看到。
-### 如果别人的主仓库中包含子仓库 如何获取
+## 如果别人的主仓库中包含子仓库 如何获取
 - 方法一：直接运行`git clone --recurse-submodules <仓库地址>`即可克隆主仓库及其子仓库所有内容
 - 方法二：先运行`git clone <仓库地址>`，再运行`git submodule update --init --recursive`
+## 参考博客
+[Git工具-子模块(submodule)：一个仓库包含另一个仓库](https://www.tsingfun.com/it/opensource/git-submodule.html)
 
-## 配置忽略文件
+# 配置忽略文件
 在 .gitconfig 同级目录下(即用户名目录)，创建 .gitignore 文件，在其中加入想要忽略的文件。语法：
 1. 空行或是以`#`开头的行即注释行将被忽略。
 2. 可以在前面添加正斜杠`/`来避免递归,下面的例子中可以很明白的看出来与下一条的区别。
