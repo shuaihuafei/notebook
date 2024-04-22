@@ -1,0 +1,10 @@
+question:
+流的刷新及定位用到了哪些函数？分别有什么作用？
+
+answer:
+流的刷新：
+int fflush(FILE *fp);:将流缓冲区中的数据写入实际的文件,Linux下只能刷新输出缓冲区,输入缓冲区丢弃
+流的定位:
+long fseek(FILE *stream, long offset,  int whence);:fseek 参数whence参数：SEEK_SET/SEEK_CUR/SEEK_END,SEEK_SETL:从距文件开头 offset 位移量为新的读写位置,SEEK_CUR：以目前的读写位置往后增加 offset 个位移量,SEEK_END：将读写位置指向文件尾后再增加 offset 个位移量,offset参数：偏移量，可正可负
+void rewind(FILE *stream);:相当于 fseek(fp,0,SEEK_SET) 从距文件开头 offset 位移量为新的读写位置
+long ftell(FILE *stream);:返回当前文件指针的位置

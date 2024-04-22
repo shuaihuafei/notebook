@@ -1,0 +1,35 @@
+#include <sys/mman.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
+
+int main(){
+    
+    void *addr;
+    int fd;
+    fd =open("test",O_RDWR);
+    if(fd<0){
+        perror("open");
+        return 0;
+    }
+    int len = lseek(fd,0,SEEK_END);    
+    addr = mmap(NULL,2048, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
+    if(addr == MAP_FAILED){
+        perror("mmap");
+        return 0;
+    }
+    close(fd);
+//    memcpy((addr),"99999999999999",15);
+    while(1){
+        printf("read=%s\n",(char*)(addr));
+        sleep(1);
+    }
+
+
+}
