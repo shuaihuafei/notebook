@@ -58,6 +58,50 @@ git config --global user.email <邮箱>    #设置用户签名之邮箱
 5. **注意注意**：如果此时配置好ssh后，从远程库git clone总是提示失败(`ssh: Could not resolve hostname gitee.com: Temporary failure in name resolution
 fatal: 无法读取远程仓库。`)，很有可能是ssh笔记本电脑时，笔记本电脑连接的是校园网JUST，将校园网改成手机热点就可以正常git了。
 
+## 如何在主仓库中加入子仓库
+适用场景：随着仓库越来越大，gitee已经不能支持我原来仓库的大小，所以需要将仓库拆分开来，通过主仓库包含子仓库的方式来应对
+### 处理步骤
+1. 将原来的仓库复制一份，并将其根目录下的.git文件夹删掉
+2. 进入该仓库主目录，对需要变为子仓库的文件做如下处理：
+   ```bash
+   # 进入子文件夹
+   cd subdir
+   # 初始化仓库，并推送到远程库。当然远程库需要在gitee或者github上先创建好
+   git init .
+   git add .
+   git commit -m "first commit"
+   git remote add origin <远程库地址，尽量使用ssh的>
+   git push -u origin "master"
+   # 对于其他需要做子仓库的文件夹同理，主仓库也一样处理
+
+   # 推动到远程库后，将这几个子文件也就是子仓库删除，注意删除的是子仓库，主仓库不要删除
+   # 然后执行如下clone指令，这个指令的作用不光是将子仓库重新clone下来，还建立了主仓库与子仓库的父子关系
+   # 此时在主仓库下会生成一个.gitmodules文件，其中会记录子仓库所在的远程地址
+   git submodule add <子仓库地址>
+   ```
+3. 上述步骤就已经将主仓库和子仓库及其对应关系配置好了，但是如果此时想要更改子仓库中的内容，并且需要将其推动到子仓库的远程库中。可以执行如下：
+   ```bash
+   # 进入子文件夹
+   cd subdir
+   git status
+   git add .
+   git commit -m "Update submodule"
+   git push
+
+   # 此时还需要同步主仓库中对子仓库的引用，也就是说要使得别人clone这个主仓库时，能通过git submodule update --init --recursive下载到最新的子仓库，就需要同步
+   # 回到主仓库
+   cd ..
+   git add .
+   git commit -m "Update submodule commit"
+   git push
+   ```
+   上述指令过程在vscode中会显示如下，操作简单，不再赘述  
+   ![alt text](.assets_IMG/GitTutorial/image.png)  
+   可以看到此时，子仓库中的修改，在主仓库中已没有明细，而是作为一个独立文件。修改明细只能在子仓库的git中看到。
+### 如果别人的主仓库中包含子仓库 如何获取
+- 方法一：直接运行`git clone --recurse-submodules <仓库地址>`即可克隆主仓库及其子仓库所有内容
+- 方法二：先运行`git clone <仓库地址>`，再运行`git submodule update --init --recursive`
+
 ## 配置忽略文件
 在 .gitconfig 同级目录下(即用户名目录)，创建 .gitignore 文件，在其中加入想要忽略的文件。语法：
 1. 空行或是以`#`开头的行即注释行将被忽略。
