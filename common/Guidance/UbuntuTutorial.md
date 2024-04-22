@@ -487,6 +487,9 @@ gnome-terminal --window -e 'bash -c "roscore; exec bash"' \
 2. `-e`: 这个选项表示在新创建的终端窗口中执行一个命令。命令是在单引号内指定的，例如 'bash -c "roscore; exec bash"'。
 3. `exec bash`: 这个命令是确保在执行完 roscore 后保持终端窗口打开，而不会关闭。
 
+# 设置Vim的tab键为四个空格
+[ubuntu 20.04下设置Vim的tab键为四个空格](https://blog.csdn.net/jcl314159/article/details/118670197)
+
 # 如何将clash固定在收藏夹、如何在终端中启动clash
 [ubuntu使用clash客户端，带桌面，不带桌面](https://www.youtube.com/watch?v=VOlWdNZAq_o)
 ## 如何将clash固定在收藏夹
