@@ -340,7 +340,7 @@ ps -ef | grep <想要杀死的进程中包含的关键字> | awk '{print $2}' | 
 ### 248WIFI
 1. 无人机 192.168.1.110
 2. 笔记本 192.168.1.116
-3. 青云1000 192.168.1.100
+3. 青云1000 192.168.1.101
 4. 台式机Windows 192.168.1.115
 5. 台式机Linux 192.168.1.118
 6. 单体船小电脑  192.168.1.117
@@ -493,9 +493,65 @@ gnome-terminal --window -e 'bash -c "roscore; exec bash"' \
 # 如何将clash固定在收藏夹、如何在终端中启动clash
 [ubuntu使用clash客户端，带桌面，不带桌面](https://www.youtube.com/watch?v=VOlWdNZAq_o)
 ## 如何将clash固定在收藏夹
-
-aarch64
+### 步骤
+1. `cd ~/.local/share/applications`，切换到目录文件夹，一般自己的应用全部放在这里面
+2. `vim clash.desktop`，在其中创建一个文件，其中的内容为
+```txt
+[Desktop Entry]
+Name=clash for windows
+Icon=/home/shuai/Pictures/clash.png
+Exec=/home/shuai/clash/cfw
+Type=Application
+```
+3. `chmod +x clash.desktop`，这一步权限一定要给，不给，就无法在左下角的三个点中看到这个图标应用
 ## 如何在终端中启动clash
-步骤：
-[clash-core下载地址](https://github.com/szkzn/Clash_Core_Latest_Bak_2023-09-05)
-[clash-ui下载地址](https://gitlab.com/accessable-net/clash-dashboard/-/tree/gh-pages?ref_type=heads)
+### 资源下载
+[clash-core下载地址(自己百度网盘中也备份了)](https://github.com/szkzn/Clash_Core_Latest_Bak_2023-09-05)
+[clash-ui下载地址(自己百度网盘中也备份了)](https://gitlab.com/accessable-net/clash-dashboard/-/tree/gh-pages?ref_type=heads)
+### 步骤
+1. `uname -m`，查看系统架构，如果返回的是aarch64，就使用clash-linux-arm64-latest.gz这个版本的core，如果返回x86_64，就使用clash-linux-amd64-latest.gz这个版本的core
+2. `mkdir clash && cd clash`，将对应版本的core，通过ssh复制到板载计算机中
+3. `gunzip clash-linux-arm64-latest.gz`，解压缩
+4. `chmod +x clash-linux-arm64-latest`，添加可执行权限
+5. `sudo su root`，因为下面很多地方需要root权限，直接切换到root用户
+6. `mkdir /opt/clash`，创建一个文件夹，将clash移动到里面
+7. `mv clash-linux-arm64-latest /opt/clash/`，移动clash到刚刚创建的目录中
+8. `cd /opt/clash/`，切换到新的clash目录中
+9. `mv clash-linux-arm64-latest clash`，将文件重命名，名字太长
+10. 以上clash已经可以运行，但是需要配置文件，没有配置文件，就只是clash运行，但是没有节点。配置文件可以从Windows端的clash获取，通过如下图所示方式获取，并将其移动到Linux的`/opt/clash/`目录下
+    ![alt text](.assets_IMG/UbuntuTutorial/image-7.png)  
+    ![alt text](.assets_IMG/UbuntuTutorial/image-8.png)  
+11. `./clash -f 1705112484308.yml`，此时就可以直接运行了
+12. 但是上述运行过程过于复杂，可以将其简化为一个系统命令
+13. `mv 1705112484308.yml config.yaml`，先将1705112484308.yml文件重命名
+14. `vim /etc/systemd/system/clash.service`，clash.service的内容为
+```txt
+[Unit]
+Description=clash-core
+[Service]
+Type=simple
+ExecStart=/opt/clash/clash -f /opt/clash/config.yaml
+```
+15. `systemctl daemon-reload`，重新加载 Systemd 的配置文件
+16. `systemctl start clash`，启动clash
+17. `systemctl status clash`，查看clash状态，可以发现已经启动
+18. 但是此时终端`curl -i google.com`还是无法连通
+19. `vim ~/.bashrc`，这里是直接在root目录下的.bashrc中修改，在最一开始添加  
+    ![alt text](.assets_IMG/UbuntuTutorial/image-9.png)
+```bash
+alias proxy="export http_proxy=http://127.0.0.1:7890;export https_proxy=http://127.0.0.1"
+alias unproxy="unset http_proxy;unset https_proxy"
+```
+20. `source ~/.bashrc`，刷新环境变量
+21. `proxy`，运行在.bashrc文件中定义的指令名
+22. `curl -i google.com`，此时可以发现google可以ping通
+23. 以上可以实现，在终端中输入`proxy`，就可以在终端科学上网，在终端中输入`unproxy`，就可以在终端停止科学上网。然后可以退出root用户，将当前用户的.bashrc文件中也加上那两行，这样不论是普通用户还是root用户都可以科学上网。然后再切换至root用户。但是上述方式目前为止，只能在终端查看clash的状态`systemctl status clash`，最好能有个ui，下面的步骤将介绍如何在同局域网的其他计算机的浏览器中查看clash状态
+24. 下载ui相关的zip，如下图所示
+    ![alt text](.assets_IMG/UbuntuTutorial/image-10.png)
+25. `mkdir /opt/clash/ui && cd /opt/clash/ui`，在Linux端新建一个目录/opt/clash/ui
+26. 将下载好的zip文件移动到Linux端的目录/opt/clash/ui中，或者复制下载链接，在终端中执行`wget 下载链接`直接下载也可以
+27. 下载后使用unzip解压。解压后，将压缩文件删除，并将解压出来的文件夹中的文件都移出来`mv clash-dashboard-gh-pages/* .`。并退回到/opt/clash目录中`cd ..`
+28. `vim config.yaml`，在config.yaml文件中添加一行，使其指向`ui/index.html`这个文件，这样才能在网页中看到。添加的一行为`external-ui: /opt/clash/ui`，位置如图中红框所示。还需修改一行，否则无法从其他计算机浏览器访问这个网页，修改处如图中绿框中所示，将其中的127.0.0.1修改为0.0.0.0。
+    ![alt text](.assets_IMG/UbuntuTutorial/image-11.png)  
+29. 修改完成后保存，并`systemctl restart clash`重启clash。重启后可`systemctl status clash`，查看clash状态
+30. 重启完成后在同局域网的其他计算机的浏览器中输入该Linux端的IP地址加端口号，`192.168.1.107:9090/ui`，即可看到clash的ui，可在其中选择节点。如果此时跳出来一个界面，输入Linux端的IP地址即可

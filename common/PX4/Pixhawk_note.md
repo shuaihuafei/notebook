@@ -13,8 +13,8 @@
    ![alt text](.assets_IMG/Pixhawk_note/image-3.png)
 ## 测试pixhawk与MavROS通信
 ### 参考博客
-[测试px4与mavros通信](https://blog.csdn.net/weixin_43296222/article/details/103778476?ops_request_misc=&request_id=&biz_id=102&utm_term=%E6%B5%8B%E8%AF%95px4%E4%B8%8Emavros%E9%80%9A%E8%AE%AF&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-7-103778476.142^v100^pc_search_result_base4&spm=1018.2226.3001.4187)
-[测试px4与mavros通信](https://blog.csdn.net/weixin_65733623/article/details/130695966?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522171297182916800225543502%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=171297182916800225543502&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_click~default-2-130695966-null-null.142^v100^pc_search_result_base4&utm_term=mavros&spm=1018.2226.3001.4187)
+[测试px4与mavros通信](https://blog.csdn.net/weixin_43296222/article/details/103778476?ops_request_misc=&request_id=&biz_id=102&utm_term=%E6%B5%8B%E8%AF%95px4%E4%B8%8Emavros%E9%80%9A%E8%AE%AF&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-7-103778476.142^v100^pc_search_result_base4&spm=1018.2226.3001.4187)  
+[测试px4与mavros通信](https://blog.csdn.net/weixin_65733623/article/details/130695966?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522171297182916800225543502%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=171297182916800225543502&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_click~default-2-130695966-null-null.142^v100^pc_search_result_base4&utm_term=mavros&spm=1018.2226.3001.4187)  
 [测试apm与mavros通信](https://blog.csdn.net/qq_42994487/article/details/135655473)
 ### 总结步骤
 1. 安装mavros，有两种方式：
@@ -70,3 +70,8 @@
    # 另起一个终端，测试 NUC 订阅 Pixhawk 中的 IMU 发布频率信息
    rostopic hz /mavros/imu/data_raw
    ```
+
+## 板载计算机4G模块通信
+### 参考博客
+[手把手教你打造自己的4G数传模块](https://blog.csdn.net/weixin_43053387/article/details/103026843?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522171395645816800211587350%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=171395645816800211587350&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-3-103026843-null-null.142^v100^pc_search_result_base1&utm_term=%E9%A3%9E%E6%8E%A7%204G%E6%A8%A1%E5%9D%97&spm=1018.2226.3001.4187)  
+[阿木实验室4G异地控制](https://docs.amovlab.com/nywiki/#/zh-cn/4G%E5%BC%82%E5%9C%B0%E6%8E%A7%E5%88%B6)  
