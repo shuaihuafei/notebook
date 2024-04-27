@@ -555,3 +555,37 @@ alias unproxy="unset http_proxy;unset https_proxy"
     ![alt text](.assets_IMG/UbuntuTutorial/image-11.png)  
 29. 修改完成后保存，并`systemctl restart clash`重启clash。重启后可`systemctl status clash`，查看clash状态
 30. 重启完成后在同局域网的其他计算机的浏览器中输入该Linux端的IP地址加端口号，`192.168.1.107:9090/ui`，即可看到clash的ui，可在其中选择节点。如果此时跳出来一个界面，输入Linux端的IP地址即可
+
+# 检查Linux有无新的USB插拔
+## 指令
+1. `lsusb -t`：列举USB设备
+2. `dmesg -wH`：USB插拔的日志信息
+
+# 全新青云1000镜像上手
+## 参考
+[快速上手-烧录固件](https://qingyun-docs.readthedocs.io/zh/latest/02%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B.html)  
+[网络连接-配置网络](https://qingyun-docs.readthedocs.io/zh/latest/03%E7%BD%91%E7%BB%9C%E8%BF%9E%E6%8E%A5.html)  
+[Ubuntu20.04软件源更换](https://zhuanlan.zhihu.com/p/142014944)  
+[Ubuntu软件仓库-清华大学开源软件镜像站](https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/)
+## 上网步骤
+1. 配置网络前，确保USB网卡和USB转typec线都正常连接
+2. USB连接windows，设置RNDIS，建立连接。一开始windows的IP地址设置为192.168.1.100
+3. 设置完RNDIS即可连接，然后修改青云1000usb0的IP地址为192.168.251.2，防止与wifi局域网冲突。修改文件`/etc/netplan/01-netcfg.yaml`，并执行指令`sudo netplan apply`，执行一瞬间会断网
+4. 修改windows端RNDIS的IP地址为192.168.251.100，修改后可以ssh重新连接青云1000
+5. 连接wifi，先扫描网络`nmcli device wifi list`，然后连接`sudo nmcli device wifi connect 248服务器 password 201248sciei`，再通过`nmcli device wifi list`，查看连接的网络前是否有星号。有星号表示连接上了。此时就可以通过WIFI网络来ssh青云了
+6. 尝试更新源，如果`sudo apt update`更新失败，查看当前系统时间`date`，如果当前系统时间不是当前时间，请`sudo date -s "YYYY-MM-DD HH:MM:SS"`暂时先手动修改为当前时间。然后就可以update成功，此时就可以正常使用了。
+7. (可选)修改镜像源，先备份`sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak`，再修改`sudo vim /etc/apt/sources.list`，最后更新`sudo apt update`
+## 使用4G模块
+1. 先看下4G模块的接口图，4G模块12V供电，并插上可用的电话卡，5G卡也可以，不过用的是4G网络
+   ![alt text](.assets_IMG/UbuntuTutorial/image-13.png)  
+   ![alt text](.assets_IMG/UbuntuTutorial/image-14.png)  
+2. 将4G模块按照下图所示方式与青云1000接线。使用的连接线是SH1.25-4P转水晶头的线，4G模块接LAN口。使用4G模块的时候请确保无线网卡可用，否则断掉USB0，电脑就连不上青云1000了
+   ![alt text](.assets_IMG/UbuntuTutorial/image-16.png)  
+3. 此时如果在连接USB0的情况下ping百度会发现无法ping通，如果断掉USB0，则发现可以ping通。此时可尝试使用命令`tracepath -b www.baidu.com`来查看，网络访问的依次顺序，第一个出现的是网关，如下图：  
+   ![alt text](.assets_IMG/UbuntuTutorial/image-17.png)  
+   然而这里的网关是自己在/etc/netplan/01-netcfg.yaml文件中配置的，文件内容如下，需要将其注释掉，注释后如图：  
+   ![alt text](.assets_IMG/UbuntuTutorial/image-18.png)  
+4. 注释后可以发现，可以ping通了。此时就可以拔掉USB网卡，只通过4G模块上网了。注意USB0是要连接着青云1000，通过USB0来ssh青云1000
+5. 其实这里有个问题，明明是通过无线网卡连的网，但是ping百度的时候确是走的USB0的网关，为什么？经手动验证发现，连外部网时，选择网关的顺序时按照`route -n`列举的网关顺序，默认会经过第一个网关来联通外部网络
+   ![alt text](.assets_IMG/UbuntuTutorial/image-12.png)  
+   之前为什么联不通，是因为自己在/etc/netplan/01-netcfg.yaml文件中配置的网关实际上不存在，任何目标地址在本地子网之外的数据包都将被转发到这个网关进行进一步路由，指定的网关不存在或无法访问可能会导致与本地子网之外的主机之间的通信受限或无法进行。确保配置中指定的网关可访问且针对网络进行了正确配置是确保网络正常运行的关键。
