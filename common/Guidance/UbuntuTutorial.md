@@ -343,7 +343,8 @@ ps -ef | grep <想要杀死的进程中包含的关键字> | awk '{print $2}' | 
 3. 青云1000 192.168.1.101
 4. 台式机Windows 192.168.1.115
 5. 台式机Linux 192.168.1.118
-6. 单体船小电脑  192.168.1.117
+6. 单体船小电脑 192.168.1.117
+7. Atlas200 192.168.1.100
 ### 手机热点
 1. 单体船小电脑 192.168.70.100
 2. 笔记本 192.168.70.101
@@ -539,7 +540,7 @@ ExecStart=/opt/clash/clash -f /opt/clash/config.yaml
 19. `vim ~/.bashrc`，这里是直接在root目录下的.bashrc中修改，在最一开始添加  
     ![alt text](.assets_IMG/UbuntuTutorial/image-9.png)
 ```bash
-alias proxy="export http_proxy=http://127.0.0.1:7890;export https_proxy=http://127.0.0.1"
+alias proxy="export http_proxy=http://127.0.0.1:7890;export https_proxy=http://127.0.0.1:7890"
 alias unproxy="unset http_proxy;unset https_proxy"
 ```
 20. `source ~/.bashrc`，刷新环境变量
@@ -551,10 +552,71 @@ alias unproxy="unset http_proxy;unset https_proxy"
 25. `mkdir /opt/clash/ui && cd /opt/clash/ui`，在Linux端新建一个目录/opt/clash/ui
 26. 将下载好的zip文件移动到Linux端的目录/opt/clash/ui中，或者复制下载链接，在终端中执行`wget 下载链接`直接下载也可以
 27. 下载后使用unzip解压。解压后，将压缩文件删除，并将解压出来的文件夹中的文件都移出来`mv clash-dashboard-gh-pages/* .`。并退回到/opt/clash目录中`cd ..`
+    解压出来的文件大概有如下：  
+    ![alt text](.assets_IMG/UbuntuTutorial/image-19.png)
 28. `vim config.yaml`，在config.yaml文件中添加一行，使其指向`ui/index.html`这个文件，这样才能在网页中看到。添加的一行为`external-ui: /opt/clash/ui`，位置如图中红框所示。还需修改一行，否则无法从其他计算机浏览器访问这个网页，修改处如图中绿框中所示，将其中的127.0.0.1修改为0.0.0.0。
     ![alt text](.assets_IMG/UbuntuTutorial/image-11.png)  
 29. 修改完成后保存，并`systemctl restart clash`重启clash。重启后可`systemctl status clash`，查看clash状态
 30. 重启完成后在同局域网的其他计算机的浏览器中输入该Linux端的IP地址加端口号，`192.168.1.107:9090/ui`，即可看到clash的ui，可在其中选择节点。如果此时跳出来一个界面，输入Linux端的IP地址即可
+#### 使用root用户登录终端配置更简单
+1. `uname -m`，查看系统架构，如果返回的是aarch64，就使用clash-linux-arm64-latest.gz这个版本的core，如果返回x86_64，就使用clash-linux-amd64-latest.gz这个版本的core
+2. `mkdir /opt/clash && cd /opt/clash`，将对应版本的core，通过ssh复制到板载计算机/opt/clash的文件夹中
+3. `gunzip clash-linux-arm64-latest.gz`，解压缩
+4. `chmod +x clash-linux-arm64-latest`，添加可执行权限
+5. `mv clash-linux-arm64-latest clash`，将文件重命名，名字太长
+6. 以上clash已经可以运行，但是需要配置文件，没有配置文件，就只是clash运行，但是没有节点。配置文件可以从Windows端的clash获取，通过如下图所示方式获取，并将其移动到Linux的`/opt/clash/`目录下
+    ![alt text](.assets_IMG/UbuntuTutorial/image-7.png)  
+    ![alt text](.assets_IMG/UbuntuTutorial/image-8.png)  
+7. `./clash -f 1705112484308.yml`，此时就可以直接运行了
+8. 但是上述运行过程过于复杂，可以将其简化为一个系统命令
+9. `mv 1705112484308.yml config.yaml`，先将1705112484308.yml文件重命名
+10. `vim /etc/systemd/system/clash.service`，clash.service的内容为
+```txt
+[Unit]
+Description=clash-core
+[Service]
+Type=simple
+ExecStart=/opt/clash/clash -f /opt/clash/config.yaml
+```
+11. `systemctl daemon-reload`，重新加载 Systemd 的配置文件
+12. `systemctl start clash`，启动clash
+13. `systemctl status clash`，查看clash状态，可以发现已经启动
+14. 但是此时终端`curl -i google.com`还是无法连通
+15. `vim ~/.bashrc`，这里是直接在root目录下的.bashrc中修改，在最一开始添加  
+    ![alt text](.assets_IMG/UbuntuTutorial/image-9.png)
+```bash
+alias proxy="export http_proxy=http://127.0.0.1:7890;export https_proxy=http://127.0.0.1"
+alias unproxy="unset http_proxy;unset https_proxy"
+```
+16. `source ~/.bashrc`，刷新环境变量
+17. `proxy`，运行在.bashrc文件中定义的指令名
+18. `curl -i google.com`，此时可以发现google可以ping通
+19. 以上可以实现，在终端中输入`proxy`，就可以在终端科学上网，在终端中输入`unproxy`，就可以在终端停止科学上网。然后可以退出root用户，将当前用户的.bashrc文件中也加上那两行，这样不论是普通用户还是root用户都可以科学上网。然后再切换至root用户。但是上述方式目前为止，只能在终端查看clash的状态`systemctl status clash`，最好能有个ui，下面的步骤将介绍如何在同局域网的其他计算机的浏览器中查看clash状态
+20. 下载ui相关的zip，如下图所示
+    ![alt text](.assets_IMG/UbuntuTutorial/image-10.png)
+21. `mkdir /opt/clash/ui && cd /opt/clash/ui`，在Linux端新建一个目录/opt/clash/ui
+22. 将下载好的zip文件移动到Linux端的目录/opt/clash/ui中，或者复制下载链接，在终端中执行`wget 下载链接`直接下载也可以
+23. 下载后使用unzip解压。解压后，将压缩文件删除，并将解压出来的文件夹中的文件都移出来`mv clash-dashboard-gh-pages/* .`。并退回到/opt/clash目录中`cd ..`
+    解压出来的文件大概有如下：  
+    ![alt text](.assets_IMG/UbuntuTutorial/image-19.png)
+24. `vim config.yaml`，在config.yaml文件中添加一行，使其指向`ui/index.html`这个文件，这样才能在网页中看到。添加的一行为`external-ui: /opt/clash/ui`，位置如图中红框所示。还需修改一行，否则无法从其他计算机浏览器访问这个网页，修改处如图中绿框中所示，将其中的127.0.0.1修改为0.0.0.0。
+    ![alt text](.assets_IMG/UbuntuTutorial/image-11.png)  
+25. 修改完成后保存，并`systemctl restart clash`重启clash。重启后可`systemctl status clash`，查看clash状态
+26. 重启完成后在同局域网的其他计算机的浏览器中输入该Linux端的IP地址加端口号，`192.168.1.107:9090/ui`，即可看到clash的ui，可在其中选择节点。如果此时跳出来一个界面，输入Linux端的IP地址即可
+### 启动
+1. 以后每次开机都需要
+   ```bash
+   # 启动clash
+   sudo systemctl start clash
+   # 查看clash状态，是否被启动
+   sudo systemctl status clash
+   # 在终端环境变量中定义的变量，终端可上网
+   proxy
+   # 在终端环境变量中定义的变量，终端关闭上网
+   unproxy
+   # 关闭clash
+   sudo systemctl stop clash
+   ```
 
 # 检查Linux有无新的USB插拔
 ## 指令
@@ -575,8 +637,8 @@ alias unproxy="unset http_proxy;unset https_proxy"
 5. 连接wifi，先扫描网络`nmcli device wifi list`，然后连接`sudo nmcli device wifi connect 248服务器 password 201248sciei`，再通过`nmcli device wifi list`，查看连接的网络前是否有星号。有星号表示连接上了。此时就可以通过WIFI网络来ssh青云了
 6. 尝试更新源，如果`sudo apt update`更新失败，查看当前系统时间`date`，如果当前系统时间不是当前时间，请`sudo date -s "YYYY-MM-DD HH:MM:SS"`暂时先手动修改为当前时间。然后就可以update成功，此时就可以正常使用了。
 7. (可选)修改镜像源，先备份`sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak`，再修改`sudo vim /etc/apt/sources.list`，最后更新`sudo apt update`
-## 使用4G模块
-1. 先看下4G模块的接口图，4G模块12V供电，并插上可用的电话卡，5G卡也可以，不过用的是4G网络
+## 使用4G模块(先插卡再插电源)
+1. 先看下4G模块的接口图，4G模块12V供电，并插上可用的电话卡，5G卡也可以，不过用的是4G网络。先插卡再插电源，否则连不上网  
    ![alt text](.assets_IMG/UbuntuTutorial/image-13.png)  
    ![alt text](.assets_IMG/UbuntuTutorial/image-14.png)  
 2. 将4G模块按照下图所示方式与青云1000接线。使用的连接线是SH1.25-4P转水晶头的线，4G模块接LAN口。使用4G模块的时候请确保无线网卡可用，否则断掉USB0，电脑就连不上青云1000了
@@ -589,3 +651,66 @@ alias unproxy="unset http_proxy;unset https_proxy"
 5. 其实这里有个问题，明明是通过无线网卡连的网，但是ping百度的时候确是走的USB0的网关，为什么？经手动验证发现，连外部网时，选择网关的顺序时按照`route -n`列举的网关顺序，默认会经过第一个网关来联通外部网络
    ![alt text](.assets_IMG/UbuntuTutorial/image-12.png)  
    之前为什么联不通，是因为自己在/etc/netplan/01-netcfg.yaml文件中配置的网关实际上不存在，任何目标地址在本地子网之外的数据包都将被转发到这个网关进行进一步路由，指定的网关不存在或无法访问可能会导致与本地子网之外的主机之间的通信受限或无法进行。确保配置中指定的网关可访问且针对网络进行了正确配置是确保网络正常运行的关键。
+
+# 全新华为Atlas 200IDK 2A上手
+[Atlas 200I DK A2开发者套件](https://www.hiascend.com/document/detail/zh/Atlas200IDKA2DeveloperKit/23.0.RC2/lg/toctopics/topic_0000001698461113.html)  
+## 配置网络
+最初始的/etc/netplan/01-netcfg.yaml配置文件备份
+```yaml
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    eth0:
+      dhcp4: yes
+      nameservers:
+        addresses: [8.8.8.8]
+        addresses: [114.114.114.114]
+
+    eth1:
+      dhcp4: no
+      addresses: [192.168.137.100/24]
+      routes:
+        - to: default
+          via: 192.168.137.1
+      nameservers:
+        addresses: [8.8.8.8]
+        addresses: [114.114.114.114]
+
+    usb0:
+      dhcp4: no
+      addresses: [192.168.0.2/24]
+```
+## 使用VNC远程
+[使用VNC登录](https://www.hiascend.com/document/detail/zh/Atlas200IDKA2DeveloperKit/23.0.RC2/Hardware%20Interfaces/hiug/hiug_0060.html)
+## 如何在公网上建立局域网(内网透传)
+1. 安装Tailscale，[下载](https://tailscale.com/download/linux)。运行下载指令  
+   ![alt text](.assets_IMG/UbuntuTutorial/image-20.png)  
+2. 将指令粘贴到Linux终端直接运行
+3. 运行完后，会提示执行`sudo tailscale up`，启动tailscale
+4. 启动后终端会返回一个网址，将这个网址输入到其他电脑的浏览器里面，然后登陆账号。这样就自动构建局域网了，可以在[网站](https://login.tailscale.com/admin/machines)上看到。其中address栏就是对应的IP地址  
+   ![alt text](.assets_IMG/UbuntuTutorial/image-21.png)  
+5. 关机后，下次开机，Tailscale会自启，在上面的网址中可以看到
+### 注意
+1. 用这种方式ssh远程连接，网速很慢，达不到及时控制的要求，所以最多只能用来远程
+2. Linux终端可以输入`ip addr show tailscale0`获取tailscale的内网透传IP地址
+## 问题记录
+1. **问题**：  
+   在使用 APT 安装软件包的结尾，出现这样的报错：  
+   Failed to retrieve available kernel versions.  
+   Failed to check for processor microcode upgrades.  
+   **解决**：
+   通过修改 needrestart 的配置去消去这类报错1：  
+   ```bash
+   sudo vim /etc/needrestart/needrestart.conf
+   ```
+   在配置文件中找到 kernelhints 和 ucodehints 这两行，取消注释并将值改成 0：  
+   (vim中如何搜索？在普通模式下  
+   输入 / 后跟要搜索的词或短语，然后按 Enter。  
+   例如，/word 会搜索文档中的 “word”。  
+   使用 n（next）跳转到下一个匹配项。  
+   使用 N（previous）跳转到上一个匹配项。)  
+   ```conf
+   $nrconf{kernelhints} = 0;
+   $nrconf{ucodehints} = 0;
+   ```
