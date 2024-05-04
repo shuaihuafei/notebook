@@ -344,7 +344,7 @@ ps -ef | grep <想要杀死的进程中包含的关键字> | awk '{print $2}' | 
 4. 台式机Windows 192.168.1.115
 5. 台式机Linux 192.168.1.118
 6. 单体船小电脑 192.168.1.117
-7. Atlas200 192.168.1.100
+7. Atlas200 192.168.1.103
 ### 手机热点
 1. 单体船小电脑 192.168.70.100
 2. 笔记本 192.168.70.101
@@ -604,7 +604,7 @@ alias unproxy="unset http_proxy;unset https_proxy"
 25. 修改完成后保存，并`systemctl restart clash`重启clash。重启后可`systemctl status clash`，查看clash状态
 26. 重启完成后在同局域网的其他计算机的浏览器中输入该Linux端的IP地址加端口号，`192.168.1.107:9090/ui`，即可看到clash的ui，可在其中选择节点。如果此时跳出来一个界面，输入Linux端的IP地址即可
 ### 启动
-1. 以后每次开机都需要
+1. 如何启动和关闭clash
    ```bash
    # 启动clash
    sudo systemctl start clash
@@ -714,3 +714,18 @@ network:
    $nrconf{kernelhints} = 0;
    $nrconf{ucodehints} = 0;
    ```
+## 安装ros1
+安装前提是已经配置并可以科学上网了。安装步骤大体遵循[此教程](http://www.autolabor.com.cn/book/ROSTutorials/chapter1/12-roskai-fa-gong-ju-an-zhuang/124-an-zhuang-ros.html)  
+虽然已经科学上网，但是安装依旧有可能出错。在执行`sudo rosdep init`和`rosdep update`时。此时需要修改/etc/hosts文件，具体实现：
+1. 访问 https://www.ipaddress.com/ 并输入域名 raw.githubusercontent.com，查询 ip 地址。  
+![alt text](.assets_IMG/UbuntuTutorial/image-22.png)  
+2. 修改/etc/hosts文件：  
+`sudo gedit /etc/hosts`。添加ip和域名映射到hosts文件，保存并退出。  
+![alt text](.assets_IMG/UbuntuTutorial/image-24.png)  
+操作完毕后，终端再次运行指令即可正常执行。  
+
+# 修改Ubuntu密码
+## 步骤
+1. `sudo su`，想要修改密码，必须先提升为root用户
+2. `sudo passwd root`，修改root用户密码
+3. `sudo passwd user`，(user是对应的用户名)修改普通用户密码
