@@ -1,6 +1,6 @@
 # 视频教程
-[新手入门无人机+PX4+ROS工程应用开发](https://www.bilibili.com/video/BV1Mh4y1h74x/?spm_id_from=333.337.search-card.all.click&vd_source=a5f4029436fab3ad44f642e3a69eb1d1)
-## P1
+## [新手入门无人机+PX4+ROS工程应用开发](https://www.bilibili.com/video/BV1Mh4y1h74x/?spm_id_from=333.337.search-card.all.click&vd_source=a5f4029436fab3ad44f642e3a69eb1d1)
+### P1
 ![alt text](.assets_IMG/note/image.png)  
 1. 飞机命令一般就跟轴距有关
 2. 叉型比十字型更稳定
@@ -72,7 +72,7 @@
 1. P1 - 1:27:30 分析日志
 2. [日志在线分析网站](https://logs.px4.io/)
 
-## P2
+### P2
 ![alt text](.assets_IMG/note/image-26.png)  
 
 ![alt text](.assets_IMG/note/image-27.png)  
@@ -105,7 +105,7 @@
 
 ![alt text](.assets_IMG/note/image-41.png)  
 
-## P3
+### P3
 ![alt text](.assets_IMG/note/image-42.png)  
 
 ![alt text](.assets_IMG/note/image-43.png)  
@@ -174,7 +174,7 @@
 
 ![alt text](.assets_IMG/note/image-75.png)  
 
-## P4
+### P4
 ![alt text](.assets_IMG/note/image-76.png)  
 
 ![alt text](.assets_IMG/note/image-77.png)  
@@ -198,7 +198,7 @@
 
 ![alt text](.assets_IMG/note/image-86.png)  
 
-## P6
+### P6
 ![alt text](.assets_IMG/note/image-87.png)  
 
 ![alt text](.assets_IMG/note/image-88.png)  
@@ -235,6 +235,27 @@
 ![alt text](.assets_IMG/note/image-103.png)  
 
 可以使用rqt plot 测试飞机飞行高度
+
+## [PX4二次开发快速入门](https://www.bilibili.com/video/BV1WU421Z7Kw/?spm_id_from=333.1007.top_right_bar_window_history.content.click&vd_source=a5f4029436fab3ad44f642e3a69eb1d1)
+### P1 概述
+![alt text](.assets_IMG/note/image-104.png)  
+`https://cwkj-tech.yuque.com/bsge84/uav-m1/lab6xeqmegbegwvu`这个是视频中说的他们文档的地址  
+
+### P2 自定义工作队列
+
+## [ROS+PX4无人机全开源系列教程专栏](https://www.bilibili.com/video/BV1QN411q7YG/?spm_id_from=333.880.my_history.page.click&vd_source=a5f4029436fab3ad44f642e3a69eb1d1)
+### P1 PX4固件简介
+常用学习网站收集：  
+1. [PX4官网开发手册](https://docs.px4.io/main/zh/development/development.html)
+2. [MavLink官网](https://mavlink.io/en/mavgen_c/)
+3. [MAVSDK官网](https://mavsdk.mavlink.io/main/en/index.html)
+4. [MAVROS官网](http://wiki.ros.org/mavros)
+5. [XTDrone无人机仿真平台](https://gitee.com/robin_shaun/XTDrone)
+6. [浙大FASTLAB](http://zju-fast.com/)
+
+## [其他](https://space.bilibili.com/479817593/channel/series)
+
+
 
 # 博客教程
 [基于Pixhawk和ROS搭建自主无人车（文章链接汇总）](https://blog.csdn.net/qq_42994487/article/details/135572052?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522171223157416800186554199%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fblog.%2522%257D&request_id=171223157416800186554199&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~blog~first_rank_ecpm_v1~rank_v31_ecpm-4-135572052-null-null.nonecase&utm_term=%E5%9F%BA%E4%BA%8EPixhawk%E5%92%8CROS%E6%90%AD%E5%BB%BA%E8%87%AA%E4%B8%BB%E6%97%A0%E4%BA%BA%E8%BD%A6&spm=1018.2226.3001.4450)  

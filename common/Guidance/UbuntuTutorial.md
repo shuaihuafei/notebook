@@ -617,6 +617,15 @@ alias unproxy="unset http_proxy;unset https_proxy"
    # 关闭clash
    sudo systemctl stop clash
    ```
+2. 注意如果是ubuntu桌面版，虽然安装了clash for windows，可以直接快捷启动clash，并且也配置了  
+   ![alt text](.assets_IMG/UbuntuTutorial/image-25.png)  
+   但是在这种情况下，终端还不是科学上网的状态，这个千万注意，可以在终端通过命令`curl -i google.com`来测试。此时依旧需要`vim ~/.bashrc`，在最一开始添加  
+   ![alt text](.assets_IMG/UbuntuTutorial/image-9.png)  
+   ```bash
+   alias proxy="export http_proxy=http://127.0.0.1:7890;export https_proxy=http://127.0.0.1"
+   alias unproxy="unset http_proxy;unset https_proxy"
+   ```
+   然后`source ~/.bashrc`，刷新环境变量。`proxy`启动环境变量。再`curl -i google.com`，此时可以发现google可以ping通
 
 # 检查Linux有无新的USB插拔
 ## 指令
@@ -643,12 +652,14 @@ alias unproxy="unset http_proxy;unset https_proxy"
    ![alt text](.assets_IMG/UbuntuTutorial/image-14.png)  
 2. 将4G模块按照下图所示方式与青云1000接线。使用的连接线是SH1.25-4P转水晶头的线，4G模块接LAN口。使用4G模块的时候请确保无线网卡可用，否则断掉USB0，电脑就连不上青云1000了
    ![alt text](.assets_IMG/UbuntuTutorial/image-16.png)  
-3. 此时如果在连接USB0的情况下ping百度会发现无法ping通，如果断掉USB0，则发现可以ping通。此时可尝试使用命令`tracepath -b www.baidu.com`来查看，网络访问的依次顺序，第一个出现的是网关，如下图：  
+
+**注意**：
+1. 此时如果在连接USB0的情况下ping百度会发现无法ping通，如果断掉USB0，则发现可以ping通。此时可尝试使用命令`tracepath -b www.baidu.com`来查看，网络访问的依次顺序，第一个出现的是网关，如下图：  
    ![alt text](.assets_IMG/UbuntuTutorial/image-17.png)  
    然而这里的网关是自己在/etc/netplan/01-netcfg.yaml文件中配置的，文件内容如下，需要将其注释掉，注释后如图：  
    ![alt text](.assets_IMG/UbuntuTutorial/image-18.png)  
-4. 注释后可以发现，可以ping通了。此时就可以拔掉USB网卡，只通过4G模块上网了。注意USB0是要连接着青云1000，通过USB0来ssh青云1000
-5. 其实这里有个问题，明明是通过无线网卡连的网，但是ping百度的时候确是走的USB0的网关，为什么？经手动验证发现，连外部网时，选择网关的顺序时按照`route -n`列举的网关顺序，默认会经过第一个网关来联通外部网络
+2. 注释后可以发现，可以ping通了。此时就可以拔掉USB网卡，只通过4G模块上网了。注意USB0是要连接着青云1000，通过USB0来ssh青云1000
+3. 其实这里有个问题，明明是通过无线网卡连的网，但是ping百度的时候确是走的USB0的网关，为什么？经手动验证发现，连外部网时，选择网关的顺序时按照`route -n`列举的网关顺序，默认会经过第一个网关来联通外部网络
    ![alt text](.assets_IMG/UbuntuTutorial/image-12.png)  
    之前为什么联不通，是因为自己在/etc/netplan/01-netcfg.yaml文件中配置的网关实际上不存在，任何目标地址在本地子网之外的数据包都将被转发到这个网关进行进一步路由，指定的网关不存在或无法访问可能会导致与本地子网之外的主机之间的通信受限或无法进行。确保配置中指定的网关可访问且针对网络进行了正确配置是确保网络正常运行的关键。
 
