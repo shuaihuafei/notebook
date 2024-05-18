@@ -221,7 +221,8 @@
 # PX4主要参数讲解
 [参考视频](https://www.bilibili.com/video/BV1wr4y1o7fv/?spm_id_from=333.788.top_right_bar_window_history.content.click&vd_source=a5f4029436fab3ad44f642e3a69eb1d1)  
 1. 罗盘参数修改参考，[官网教程](https://docs.px4.io/main/en/middleware/drivers.html)，[视频教程-02:20](https://www.bilibili.com/video/BV1wr4y1o7fv/?spm_id_from=333.788.top_right_bar_window_history.content.click&vd_source=a5f4029436fab3ad44f642e3a69eb1d1)
-2. 电调调试参数修改，[视频教程-10:25](https://www.bilibili.com/video/BV1wr4y1o7fv/?spm_id_from=333.788.top_right_bar_window_history.content.click&vd_source=a5f4029436fab3ad44f642e3a69eb1d1)。无人机的电调参数图如下，[淘宝页面](https://www.taobao.com/list/item/594203724423.htm?spm=a21wu.10013406.taglist-content.4.2d61d07aqbZKJ2)在此  
+2. 电调调试参数修改，[视频教程-10:25](https://www.bilibili.com/video/BV1wr4y1o7fv/?spm_id_from=333.788.top_right_bar_window_history.content.click&vd_source=a5f4029436fab3ad44f642e3a69eb1d1)。  
+   我手头上的无人机的电调参数图如下，[淘宝页面](https://www.taobao.com/list/item/594203724423.htm?spm=a21wu.10013406.taglist-content.4.2d61d07aqbZKJ2)在此  
    ![alt text](.assets_IMG/Pixhawk_note/image-33.png)  
    可见支持DSHOT600，带BEC  
    ![alt text](.assets_IMG/Pixhawk_note/image-34.png)  
@@ -262,7 +263,7 @@
      ![alt text](.assets_IMG/Pixhawk_note/image-49.png)  
    - 如果要连接多架飞机需要修改这个参数。对多架飞机分别修改这个编号  
      ![alt text](.assets_IMG/Pixhawk_note/image-50.png)  
-9. 日志参数。什么时候记录，默认的是解锁和上锁中间记录。也有上电和下电中间都会记录。  
+9.  日志参数。什么时候记录，默认的是解锁和上锁中间记录。也有上电和下电中间都会记录。  
    ![alt text](.assets_IMG/Pixhawk_note/image-51.png)  
    记录什么数据以及记录频率  
    ![alt text](.assets_IMG/Pixhawk_note/image-52.png)  
@@ -274,6 +275,18 @@
     重启飞控后可以发现能设置串口2的波特率了  
     ![alt text](.assets_IMG/Pixhawk_note/image-55.png)  
 
+# 仿真与实物怎么通过ros结合
+控制节点对仿真中飞机的控制和实物的控制方式一样，结果也应该差不多，所以代码其实是一样的，不同的是启动仿真与启动实物的方式不同。QGC同理，飞控路径的设置方式都是一样的，只是启动仿真与启动实物的方式不同。
+## 启动仿真
+1. 刷新环境变量
+2. `roslaunch px4 mavros_posix_sitl.launch`，启动gazebo仿真，这里启动的是`mavros_posix_sitl.launch`文件，会自动启动mavros，并且gazebo中的模型默认是四旋翼，可以通过在命令行中指定变量的方式更改模型，如`roslaunch px4 mavros_posix_sitl.launch vehicle:=rover`，就将gazebo中的模型修改成了小车
+3. 启动运动控制节点(节点中注意要有切offboard模式和解锁的过程)
+4. 仿真中的飞机自动运行控制逻辑
+## 启动实物
+1. 使能串口权限`sudo chmod 777 /dev/ttyTHS1`
+2. 选择好定点方式，对于目前我手头上的无人机(T265定位)，如果是通过视觉定点，`roslaunch px4_realsense_bridge bridge_mavros.launch`(启动mavros和相机)，如果是GPS定点，`roslaunch px4_realsense_bridge bridge_mavros_gps.launch`(启动mavros)
+3. 启动运动控制节点(节点中注意不要有切offboard模式和解锁的过程，权限交给遥控器)
+4. 遥控器切`position`模式，解锁，再切`offboard`模式，飞机起飞运行控制逻辑
 
 # 补充阅读
 1. [PX4常见解锁失败报错及解决方法](https://blog.csdn.net/qq_38768959/article/details/131934515)
@@ -281,10 +294,25 @@
 3. [基于Pixhawk和ROS搭建自主无人车（文章链接汇总）](https://blog.csdn.net/qq_42994487/article/details/135572052)
 
 # 无人机飞控更换记录
-因为之前无人机摔坏了，无人机需要修理，GPS需要更换，但是飞控固件版本太低，导致GPS无法更换，因为现有的GPS都需要高版本飞控固件支持。并且原无人机飞控参考资料少，索性将其换成了国产仿制廉价飞控Pixhawk2.4.8。这款飞控价格合适，以后如果坏了，可以直接更换。
+因为之前无人机摔坏了，无人机需要修理，GPS需要更换，但是飞控固件版本太低，导致GPS无法更换，因为现有的GPS都需要高版本飞控固件支持。并且原无人机飞控参考资料少，索性将其换成了国产仿制廉价飞控Pixhawk2.4.8。这款飞控价格合适，以后如果坏了，可以直接更换。  
+接线时注意端子线的正反，端子线是分正反两面的。  
 ## 电源供电
-无人机第二层拆开后，从上往下看，给飞控POWER口供电的接口，从左往右依次对应下图中的从上往下  
+无人机第二层拆开后，从上往下看，给飞控POWER口供电的接口，引脚从左往右依次对应下图中的从上往下。下图为Pixhawk对应的引脚图。  
 ![alt text](.assets_IMG/Pixhawk_note/image-57.png)  
-上面这张图就是Pixhawk对应的引脚图。接线时注意端子线的正反，端子线是分正反两面的
 ## 连接数传
-现有无人机的数传是出来只有三根线，数传供电不需要通过
+现有无人机的数传是出来只有三根线，数传供电不需要通过TELEM1口，有单独电源5V口供电。引脚从左往右依次对应下图中的从上往下。下图为Pixhawk对应的引脚图。红框中为用到的引脚。  
+![alt text](.assets_IMG/Pixhawk_note/image-61.png)  
+## 电调接线
+下图为现有无人机的实物电机信号线排布。即红线对应一号电机，绿线对应二号电机，黑线对应三号电机，黄线对应四号电机。正负极不用接。  
+![alt text](.assets_IMG/Pixhawk_note/image-58.png)  
+![alt text](.assets_IMG/Pixhawk_note/image-59.png)  
+# 遥控器接线
+在富斯I6S遥控器中(系统->输出模式)，将接收机的输出模式改为SBUS模式，如下图  
+![alt text](.assets_IMG/Pixhawk_note/image-63.png)  
+接收机与pixhawk如下图接线接口，参考[博客](https://blog.csdn.net/qq_45362336/article/details/128588435)  
+![alt text](.assets_IMG/Pixhawk_note/image-59.png)  
+## 与nano板的串口通讯
+串口通讯也只用到了三根线，引脚从左往右依次对应下图中的从上往下。下图为Pixhawk对应的引脚图  
+![alt text](.assets_IMG/Pixhawk_note/image-57.png)  
+nano板的引脚图如下。红框中的为使用到的串口引脚。并注意对应串口号为`/dev/ttyTHS1`  
+![alt text](.assets_IMG/Pixhawk_note/image-65.png)  

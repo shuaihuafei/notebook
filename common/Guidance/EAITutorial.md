@@ -226,7 +226,7 @@ network:
 ## T265室内定位
 ### 参考博客
 [使用Jetson Nano向PX4提供T265位置信息，实现室内定点飞行](https://blog.csdn.net/shsh0810/article/details/120632267)  
-[T265 安装（Realsense SDK和Realsense-ros）](https://blog.csdn.net/weixin_63883896/article/details/129483203)
+[T265 安装（Realsense SDK和Realsense-ros）](https://blog.csdn.net/weixin_63883896/article/details/129483203)  
 [Jetson nano+T265+PX4实现室内定点飞行](https://blog.csdn.net/qq_37939940/article/details/129882230)  
 [PX4实战之旅（五）：利用T265实现室内定点飞行](https://blog.csdn.net/qq_38768959/article/details/127775815)  
 1. 主要是参考了第一个博客，但是要注意的是T265停产，Realsense的SDK后续版本将不再支持T265，所以要使用旧版的SDK。这里Realsense SDK的版本是2.48.0，realsense-ros版本是2.3.1。注意这里sdk版本和ros功能包版本要对应上，这是官网的要求，见[realsense-ros2.3.1版本的GitHub链接](https://github.com/IntelRealSense/realsense-ros/tree/2.3.1)
@@ -239,3 +239,8 @@ network:
    这个指令的含义可以问gpt，其实也是在切换realsense-ros的仓库版本。如果在git clone时就已经下载了对应的版本，这个指令就不用执行了
 4. 对于飞控的方向，pixhawk朝上的情况下，指示针指向的是x轴正方向，pixhawk往左就是y轴正方向，pixhawk往上就是z轴正方向
 5. 启动指令`roslaunch px4_realsense_bridge bridge_mavros.launch`
+### 补充
+1. 加了一个launch文件，其中就是启动了一下mavros。不使用视觉定位，使用GPS定位，启动指令`roslaunch px4_realsense_bridge bridge_mavros_gps.launch`
+## nomachine分辨率调节
+参考[博客](https://blog.csdn.net/qq_43519779/article/details/115427703)  
+终端运行`xrandr --fb 1920x1080`后，关掉nomachine客户端，重连nano板。不然鼠标会有偏移。  
