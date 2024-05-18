@@ -344,7 +344,7 @@ ps -ef | grep <想要杀死的进程中包含的关键字> | awk '{print $2}' | 
 4. 台式机Windows 192.168.1.115
 5. 台式机Linux 192.168.1.118
 6. 单体船小电脑 192.168.1.117
-7. Atlas200 192.168.1.103
+7. Atlas200 192.168.1.100
 ### 手机热点
 1. 单体船小电脑 192.168.70.100
 2. 笔记本 192.168.70.101
@@ -465,6 +465,12 @@ pandoc --pdf-engine=xelatex -V CJKmainfont="Microsoft YaHei" README.md -o README
    ![alt text](.assets_IMG/UbuntuTutorial/image-1.png)
 3. 文字识别
    ![alt text](.assets_IMG/UbuntuTutorial/image-2.png)
+4. 配置百度OCR识别API
+   [POT配置教程](https://pot-app.com/docs/api/recognize/baidu.html)  
+   百度API[官网](https://console.bce.baidu.com/ai/#/ai/ocr/overview/index)  
+   ![alt text](.assets_IMG/UbuntuTutorial/image-26.png)  
+   将官网申请的API复制到下面的输入框即可  
+   ![alt text](.assets_IMG/UbuntuTutorial/image-27.png)  
 ## Linux安装问题
 问题：dpkg: 依赖关系问题使得 pot 的配置工作不能继续
 解决：[dpkg: 依赖关系问题...](https://blog.csdn.net/qq_45618214/article/details/119824451)
@@ -510,7 +516,7 @@ Type=Application
 [clash-core下载地址(自己百度网盘中也备份了)](https://github.com/szkzn/Clash_Core_Latest_Bak_2023-09-05)
 [clash-ui下载地址(自己百度网盘中也备份了)](https://gitlab.com/accessable-net/clash-dashboard/-/tree/gh-pages?ref_type=heads)
 ### 步骤
-1. `uname -m`，查看系统架构，如果返回的是aarch64，就使用clash-linux-arm64-latest.gz这个版本的core，如果返回x86_64，就使用clash-linux-amd64-latest.gz这个版本的core
+1. `uname -m`，查看系统架构，如果返回的是aarch64，就使用clash-linux-arm64-latest.gz这个版本的core，如果返回x86_64，就使用clash-linux-amd64-latest.gz这个版本的core。下载源[GitHub网址](https://github.com/szkzn/Clash_Core_Latest_Bak_2023-09-05.git)
 2. `mkdir clash && cd clash`，将对应版本的core，通过ssh复制到板载计算机中
 3. `gunzip clash-linux-arm64-latest.gz`，解压缩
 4. `chmod +x clash-linux-arm64-latest`，添加可执行权限
@@ -547,7 +553,7 @@ alias unproxy="unset http_proxy;unset https_proxy"
 21. `proxy`，运行在.bashrc文件中定义的指令名
 22. `curl -i google.com`，此时可以发现google可以ping通
 23. 以上可以实现，在终端中输入`proxy`，就可以在终端科学上网，在终端中输入`unproxy`，就可以在终端停止科学上网。然后可以退出root用户，将当前用户的.bashrc文件中也加上那两行，这样不论是普通用户还是root用户都可以科学上网。然后再切换至root用户。但是上述方式目前为止，只能在终端查看clash的状态`systemctl status clash`，最好能有个ui，下面的步骤将介绍如何在同局域网的其他计算机的浏览器中查看clash状态
-24. 下载ui相关的zip，如下图所示
+24. [下载](https://gitlab.com/accessable-net/clash-dashboard/-/tree/gh-pages?ref_type=heads)ui相关的zip，如下图所示
     ![alt text](.assets_IMG/UbuntuTutorial/image-10.png)
 25. `mkdir /opt/clash/ui && cd /opt/clash/ui`，在Linux端新建一个目录/opt/clash/ui
 26. 将下载好的zip文件移动到Linux端的目录/opt/clash/ui中，或者复制下载链接，在终端中执行`wget 下载链接`直接下载也可以
@@ -632,111 +638,13 @@ alias unproxy="unset http_proxy;unset https_proxy"
 1. `lsusb -t`：列举USB设备
 2. `dmesg -wH`：USB插拔的日志信息
 
-# 全新青云1000镜像上手
-## 参考
-[快速上手-烧录固件](https://qingyun-docs.readthedocs.io/zh/latest/02%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B.html)  
-[网络连接-配置网络](https://qingyun-docs.readthedocs.io/zh/latest/03%E7%BD%91%E7%BB%9C%E8%BF%9E%E6%8E%A5.html)  
-[Ubuntu20.04软件源更换](https://zhuanlan.zhihu.com/p/142014944)  
-[Ubuntu软件仓库-清华大学开源软件镜像站](https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/)
-## 上网步骤
-1. 配置网络前，确保USB网卡和USB转typec线都正常连接
-2. USB连接windows，设置RNDIS，建立连接。一开始windows的IP地址设置为192.168.1.100
-3. 设置完RNDIS即可连接，然后修改青云1000usb0的IP地址为192.168.251.2，防止与wifi局域网冲突。修改文件`/etc/netplan/01-netcfg.yaml`，并执行指令`sudo netplan apply`，执行一瞬间会断网
-4. 修改windows端RNDIS的IP地址为192.168.251.100，修改后可以ssh重新连接青云1000
-5. 连接wifi，先扫描网络`nmcli device wifi list`，然后连接`sudo nmcli device wifi connect 248服务器 password 201248sciei`，再通过`nmcli device wifi list`，查看连接的网络前是否有星号。有星号表示连接上了。此时就可以通过WIFI网络来ssh青云了
-6. 尝试更新源，如果`sudo apt update`更新失败，查看当前系统时间`date`，如果当前系统时间不是当前时间，请`sudo date -s "YYYY-MM-DD HH:MM:SS"`暂时先手动修改为当前时间。然后就可以update成功，此时就可以正常使用了。
-7. (可选)修改镜像源，先备份`sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak`，再修改`sudo vim /etc/apt/sources.list`，最后更新`sudo apt update`
-## 使用4G模块(先插卡再插电源)
-1. 先看下4G模块的接口图，4G模块12V供电，并插上可用的电话卡，5G卡也可以，不过用的是4G网络。先插卡再插电源，否则连不上网  
-   ![alt text](.assets_IMG/UbuntuTutorial/image-13.png)  
-   ![alt text](.assets_IMG/UbuntuTutorial/image-14.png)  
-2. 将4G模块按照下图所示方式与青云1000接线。使用的连接线是SH1.25-4P转水晶头的线，4G模块接LAN口。使用4G模块的时候请确保无线网卡可用，否则断掉USB0，电脑就连不上青云1000了
-   ![alt text](.assets_IMG/UbuntuTutorial/image-16.png)  
-
-**注意**：
-1. 此时如果在连接USB0的情况下ping百度会发现无法ping通，如果断掉USB0，则发现可以ping通。此时可尝试使用命令`tracepath -b www.baidu.com`来查看，网络访问的依次顺序，第一个出现的是网关，如下图：  
-   ![alt text](.assets_IMG/UbuntuTutorial/image-17.png)  
-   然而这里的网关是自己在/etc/netplan/01-netcfg.yaml文件中配置的，文件内容如下，需要将其注释掉，注释后如图：  
-   ![alt text](.assets_IMG/UbuntuTutorial/image-18.png)  
-2. 注释后可以发现，可以ping通了。此时就可以拔掉USB网卡，只通过4G模块上网了。注意USB0是要连接着青云1000，通过USB0来ssh青云1000
-3. 其实这里有个问题，明明是通过无线网卡连的网，但是ping百度的时候确是走的USB0的网关，为什么？经手动验证发现，连外部网时，选择网关的顺序时按照`route -n`列举的网关顺序，默认会经过第一个网关来联通外部网络
-   ![alt text](.assets_IMG/UbuntuTutorial/image-12.png)  
-   之前为什么联不通，是因为自己在/etc/netplan/01-netcfg.yaml文件中配置的网关实际上不存在，任何目标地址在本地子网之外的数据包都将被转发到这个网关进行进一步路由，指定的网关不存在或无法访问可能会导致与本地子网之外的主机之间的通信受限或无法进行。确保配置中指定的网关可访问且针对网络进行了正确配置是确保网络正常运行的关键。
-
-# 全新华为Atlas 200IDK 2A上手
-[Atlas 200I DK A2开发者套件](https://www.hiascend.com/document/detail/zh/Atlas200IDKA2DeveloperKit/23.0.RC2/lg/toctopics/topic_0000001698461113.html)  
-## 配置网络
-最初始的/etc/netplan/01-netcfg.yaml配置文件备份
-```yaml
-network:
-  version: 2
-  renderer: networkd
-  ethernets:
-    eth0:
-      dhcp4: yes
-      nameservers:
-        addresses: [8.8.8.8]
-        addresses: [114.114.114.114]
-
-    eth1:
-      dhcp4: no
-      addresses: [192.168.137.100/24]
-      routes:
-        - to: default
-          via: 192.168.137.1
-      nameservers:
-        addresses: [8.8.8.8]
-        addresses: [114.114.114.114]
-
-    usb0:
-      dhcp4: no
-      addresses: [192.168.0.2/24]
-```
-## 使用VNC远程
-[使用VNC登录](https://www.hiascend.com/document/detail/zh/Atlas200IDKA2DeveloperKit/23.0.RC2/Hardware%20Interfaces/hiug/hiug_0060.html)
-## 如何在公网上建立局域网(内网透传)
-1. 安装Tailscale，[下载](https://tailscale.com/download/linux)。运行下载指令  
-   ![alt text](.assets_IMG/UbuntuTutorial/image-20.png)  
-2. 将指令粘贴到Linux终端直接运行
-3. 运行完后，会提示执行`sudo tailscale up`，启动tailscale
-4. 启动后终端会返回一个网址，将这个网址输入到其他电脑的浏览器里面，然后登陆账号。这样就自动构建局域网了，可以在[网站](https://login.tailscale.com/admin/machines)上看到。其中address栏就是对应的IP地址  
-   ![alt text](.assets_IMG/UbuntuTutorial/image-21.png)  
-5. 关机后，下次开机，Tailscale会自启，在上面的网址中可以看到
-### 注意
-1. 用这种方式ssh远程连接，网速很慢，达不到及时控制的要求，所以最多只能用来远程
-2. Linux终端可以输入`ip addr show tailscale0`获取tailscale的内网透传IP地址
-## 问题记录
-1. **问题**：  
-   在使用 APT 安装软件包的结尾，出现这样的报错：  
-   Failed to retrieve available kernel versions.  
-   Failed to check for processor microcode upgrades.  
-   **解决**：
-   通过修改 needrestart 的配置去消去这类报错1：  
-   ```bash
-   sudo vim /etc/needrestart/needrestart.conf
-   ```
-   在配置文件中找到 kernelhints 和 ucodehints 这两行，取消注释并将值改成 0：  
-   (vim中如何搜索？在普通模式下  
-   输入 / 后跟要搜索的词或短语，然后按 Enter。  
-   例如，/word 会搜索文档中的 “word”。  
-   使用 n（next）跳转到下一个匹配项。  
-   使用 N（previous）跳转到上一个匹配项。)  
-   ```conf
-   $nrconf{kernelhints} = 0;
-   $nrconf{ucodehints} = 0;
-   ```
-## 安装ros1
-安装前提是已经配置并可以科学上网了。安装步骤大体遵循[此教程](http://www.autolabor.com.cn/book/ROSTutorials/chapter1/12-roskai-fa-gong-ju-an-zhuang/124-an-zhuang-ros.html)  
-虽然已经科学上网，但是安装依旧有可能出错。在执行`sudo rosdep init`和`rosdep update`时。此时需要修改/etc/hosts文件，具体实现：
-1. 访问 https://www.ipaddress.com/ 并输入域名 raw.githubusercontent.com，查询 ip 地址。  
-![alt text](.assets_IMG/UbuntuTutorial/image-22.png)  
-2. 修改/etc/hosts文件：  
-`sudo gedit /etc/hosts`。添加ip和域名映射到hosts文件，保存并退出。  
-![alt text](.assets_IMG/UbuntuTutorial/image-24.png)  
-操作完毕后，终端再次运行指令即可正常执行。  
-
 # 修改Ubuntu密码
 ## 步骤
 1. `sudo su`，想要修改密码，必须先提升为root用户
 2. `sudo passwd root`，修改root用户密码
 3. `sudo passwd user`，(user是对应的用户名)修改普通用户密码
+
+# Ubuntu如何挂载局域网中电脑下的目录
+以下是两种不同的方式，第二种方式只能在Linux间相互访问  
+[Linux挂载局域网内共享目录-samba](https://blog.csdn.net/dcr_yll/article/details/127015692?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522171549818716800213075361%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=171549818716800213075361&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-2-127015692-null-null.142^v100^pc_search_result_base4&utm_term=linux%20mount%20%E6%8C%82%E8%BD%BD%20%E5%B1%80%E5%9F%9F%E7%BD%91%20%E6%96%87%E4%BB%B6%E5%A4%B9&spm=1018.2226.3001.4187)  
+[Ubuntu局域网挂载硬盘-nfs](https://blog.csdn.net/m0_46259216/article/details/127985350?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522171549854116800197048515%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=171549854116800197048515&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-2-127985350-null-null.142^v100^pc_search_result_base4&utm_term=linux%20mount%20nfs%20%E5%B1%80%E5%9F%9F%E7%BD%91%20%E6%96%87%E4%BB%B6%E5%A4%B9%20%E6%9B%B4%E6%96%B0&spm=1018.2226.3001.4187)  

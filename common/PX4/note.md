@@ -258,8 +258,9 @@
 
 
 # 博客教程
-[基于Pixhawk和ROS搭建自主无人车（文章链接汇总）](https://blog.csdn.net/qq_42994487/article/details/135572052?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522171223157416800186554199%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fblog.%2522%257D&request_id=171223157416800186554199&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~blog~first_rank_ecpm_v1~rank_v31_ecpm-4-135572052-null-null.nonecase&utm_term=%E5%9F%BA%E4%BA%8EPixhawk%E5%92%8CROS%E6%90%AD%E5%BB%BA%E8%87%AA%E4%B8%BB%E6%97%A0%E4%BA%BA%E8%BD%A6&spm=1018.2226.3001.4450)  
-注意：通过这个教程主要是为了了解飞控与ros的关系，以及一般情况下飞控怎么接线
+1. [基于Pixhawk和ROS搭建自主无人车（文章链接汇总）](https://blog.csdn.net/qq_42994487/article/details/135572052?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522171223157416800186554199%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fblog.%2522%257D&request_id=171223157416800186554199&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~blog~first_rank_ecpm_v1~rank_v31_ecpm-4-135572052-null-null.nonecase&utm_term=%E5%9F%BA%E4%BA%8EPixhawk%E5%92%8CROS%E6%90%AD%E5%BB%BA%E8%87%AA%E4%B8%BB%E6%97%A0%E4%BA%BA%E8%BD%A6&spm=1018.2226.3001.4450)  
+   注意：通过这个教程主要是为了了解飞控与ros的关系，以及一般情况下飞控怎么接线  
+2. [mavros常用消息类型表](https://blog.csdn.net/qq_26550927/article/details/102993703?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522171556379316800185869206%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=171556379316800185869206&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-1-102993703-null-null.142^v100^pc_search_result_base1&utm_term=mavros%E5%B8%B8%E7%94%A8%E6%B6%88%E6%81%AF%E7%B1%BB%E5%9E%8B&spm=1018.2226.3001.4187)
 
 
 

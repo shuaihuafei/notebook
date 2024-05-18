@@ -38,7 +38,7 @@
      ```bash
      # 先提升到root用户
      sudo su
-     # scp远程复制
+     # scp远程复制 如果提示权限不够就先复制到普通用户目录然后再复制到/usr/share
      scp -r shuai@192.168.1.xxx:/usr/share/GeographicLib /usr/share
      ```
 3. 将Pixhawk通过USB连接到电脑，打开QGC地面站(这里注意串口都是使用的pixhawk2.4.8上的TELEM 2)
@@ -97,7 +97,7 @@
 
 ## 乐迪遥控器相关设置
 1. 根据相应的机型选择对应的控制对象，比如船：基础菜单->机型选择->机型->选择船模型->长按push键一秒确定
-2. 对于左手油门的遥控器，一般这样设置：基础菜单->系统设置->摇杆模式->2。因为油门档位一般不会回弹，油门都是慢慢给，给多少是多少。并且这样设置完后，也就是常用的美国手了
+2. 对于左手油门的遥控器，一般这样设置：基础菜单->系统设置->摇杆模式->2。因为油门档位一般不会回弹，油门都是慢慢给，给多少是多少。并且这样设置完后，也就是常用的美国手了。(如果是控制车和船，这一步建议将遥控器设置为1。这样就是油门和方向都是右摇杆，左摇杆无用，控制方便一些)
 3. 如果需要查看每个摇杆对应的摇杆量：基础菜单->舵量显示。或者在初始页面直接按end键即可跳转到舵量显示
 4. 修改遥控器上面拨杆的功能，一般C拨杆是必须要修改，并且一般将其修改成五通道，修改方式：基础菜单->辅助通道->五通-SwC
 
@@ -201,20 +201,35 @@
      - `cd PX4-Autopilot`
      - `sudo bash ./Tools/setup/ubuntu.sh`安装px4的编译环境和gazebo仿真环境
      - `make px4_sitl_default gazebo`编译生成gazebo仿真所需的sdf文件
-     - 添加环境变量
+     - 添加环境变量(版本不一样，添加的环境变量不一样)
+       - 对于PX4-1.13.3的版本，添加如下环境变量
+         ```bash
+         source ~/PX4-Autopilot/Tools/setup_gazebo.bash ~/PX4-Autopilot/ ~/PX4-Autopilot/build/px4_sitl_default
+         export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:~/PX4-Autopilot
+         export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:~/PX4-Autopilot/Tools/sitl_gazebo
+         ```
+       - 对于PX4-1.14.0的版本，添加如下环境变量
+         ```bash
+         source ~/PX4-Autopilot/Tools/simulation/gazebo-classic/setup_gazebo.bash ~/PX4-Autopilot/ ~/PX4-Autopilot/build/px4_sitl_default
+         export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:~/PX4-Autopilot
+         export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:~/PX4-Autopilot/Tools/simulation/gazebo-classic/sitl_gazebo-classic
+         ```
      - `roslaunch px4 posix_sitl.launch`启动仿真环境
      - 此时启动QGC，QGC会默认连接gazebo中的无人机
      - 此时可以通过QGC做航线规划，会发现gazebo中的无人机会自动飞行
-
 
 # PX4主要参数讲解
 [参考视频](https://www.bilibili.com/video/BV1wr4y1o7fv/?spm_id_from=333.788.top_right_bar_window_history.content.click&vd_source=a5f4029436fab3ad44f642e3a69eb1d1)  
 1. 罗盘参数修改参考，[官网教程](https://docs.px4.io/main/en/middleware/drivers.html)，[视频教程-02:20](https://www.bilibili.com/video/BV1wr4y1o7fv/?spm_id_from=333.788.top_right_bar_window_history.content.click&vd_source=a5f4029436fab3ad44f642e3a69eb1d1)
 2. 电调调试参数修改，[视频教程-10:25](https://www.bilibili.com/video/BV1wr4y1o7fv/?spm_id_from=333.788.top_right_bar_window_history.content.click&vd_source=a5f4029436fab3ad44f642e3a69eb1d1)。无人机的电调参数图如下，[淘宝页面](https://www.taobao.com/list/item/594203724423.htm?spm=a21wu.10013406.taglist-content.4.2d61d07aqbZKJ2)在此  
    ![alt text](.assets_IMG/Pixhawk_note/image-33.png)  
-   ![alt text](.assets_IMG/Pixhawk_note/image-35.png)  
+   可见支持DSHOT600，带BEC  
    ![alt text](.assets_IMG/Pixhawk_note/image-34.png)  
-   可见支持DSHOT600，带BEC
+   实物电机信号线排布。即红线对应一号电机，绿线对应二号电机，黑线对应三号电机，黄线对应四号电机。正负极不用接。  
+   ![alt text](.assets_IMG/Pixhawk_note/image-58.png)  
+   ![alt text](.assets_IMG/Pixhawk_note/image-59.png)  
+   电机序号对应  
+   ![alt text](.assets_IMG/Pixhawk_note/image-60.png)  
 3. 解锁相关参数，有些时候因为一些误报或者原因导致飞机没法解锁，可以禁用这些参数，从而让飞机不报警，[参考博客](https://blog.csdn.net/qq_38768959/article/details/131934515)
 4. PID参数，[视频教程-15:50](https://www.bilibili.com/video/BV1wr4y1o7fv/?spm_id_from=333.788.top_right_bar_window_history.content.click&vd_source=a5f4029436fab3ad44f642e3a69eb1d1)  
    其中位置环外环单纯是一个比例控制，速度环是PID控制
@@ -263,3 +278,13 @@
 # 补充阅读
 1. [PX4常见解锁失败报错及解决方法](https://blog.csdn.net/qq_38768959/article/details/131934515)
 2. [PX4从放弃到精通（十八）：参数](https://blog.csdn.net/qq_38768959/article/details/109605241)
+3. [基于Pixhawk和ROS搭建自主无人车（文章链接汇总）](https://blog.csdn.net/qq_42994487/article/details/135572052)
+
+# 无人机飞控更换记录
+因为之前无人机摔坏了，无人机需要修理，GPS需要更换，但是飞控固件版本太低，导致GPS无法更换，因为现有的GPS都需要高版本飞控固件支持。并且原无人机飞控参考资料少，索性将其换成了国产仿制廉价飞控Pixhawk2.4.8。这款飞控价格合适，以后如果坏了，可以直接更换。
+## 电源供电
+无人机第二层拆开后，从上往下看，给飞控POWER口供电的接口，从左往右依次对应下图中的从上往下  
+![alt text](.assets_IMG/Pixhawk_note/image-57.png)  
+上面这张图就是Pixhawk对应的引脚图。接线时注意端子线的正反，端子线是分正反两面的
+## 连接数传
+现有无人机的数传是出来只有三根线，数传供电不需要通过
