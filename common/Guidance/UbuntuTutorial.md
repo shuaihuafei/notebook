@@ -197,7 +197,11 @@ while read requirement; do conda install --yes $requirement || pip install $requ
    解决(建议直接科学上网，用第二种方式)：  
    - 如果已经按照Bubbliiiing博客中的教程更改了pip源为国内镜像源，就尝试关闭clash，然后再执行该安装指令即可。参考[博客](https://blog.csdn.net/weixin_43501408/article/details/129486169?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522171610528716800197072555%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=171610528716800197072555&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-1-129486169-null-null.142^v100^pc_search_result_base1&utm_term=ERROR%3A%20Could%20not%20find%20a%20version%20that%20satisfies%20the%20requirement%20torch%3D%3D1.7.1%2Bcu110&spm=1018.2226.3001.4187)
    - 如果还没有配置pip源为国内镜像源，就打开clash，并在终端设置代理`set all_proxy=http://127.0.0.1:7890`，即可正常下载
-2. 运行train.py时报错：CUDA out of memory  
+2. 注意运行python文件前，先切换vscode右下角的python解释器版本，再点击右上角的运行三角形，如下  
+   ![alt text](.assets_IMG/UbuntuTutorial/image-31.png)  
+   这样就是使用右下角对应的python解释器来运行当前python文件  
+   (虽然Windows端中的终端不好用，但是图形化使用还是可以的)  
+3. 运行train.py时报错：CUDA out of memory  
    解决：可以改小输入的图片大小，或者改小batch_size的大小，一般batch_size都是2的倍数
 ### 注意
 1. 为什么安装requirements.txt中的依赖包，使用`while read requirement; do conda install --yes $requirement || pip install $requirement; done < requirements.txt`来安装，是因为直接通过`pip install -r requirements.txt`安装会导致包之间版本冲突
