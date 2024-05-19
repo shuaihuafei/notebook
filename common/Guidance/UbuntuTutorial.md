@@ -181,37 +181,67 @@ pip install -r requirements.txt  # install
 ### [Github源码](https://github.com/bubbliiiing/yolox-pytorch)
 ### [B站视频](https://www.bilibili.com/video/BV1DL4y1B7eU?p=2&vd_source=a5f4029436fab3ad44f642e3a69eb1d1)
 ### 环境配置过程
+#### Linux端配置过程
 ```bash
 # 创建环境
 conda create -n yolox python=3.6
 conda activate yolox
-# 安装torch和cuda
+# 安装torch和cuda，安装的时候关注一下pytorch的版本
 conda install pytorch torchvision torchaudio cudatoolkit=11.1 -c pytorch-lts -c nvidia
-# 安装cudnn
-conda install cudnn
 # 安装requirements.txt中的依赖包，优先采用conda安装，装不上用pip
 while read requirement; do conda install --yes $requirement || pip install $requirement; done < requirements.txt
 ```
+#### Windows端配置过程
+参考[Bubbliiiing博客](https://blog.csdn.net/weixin_44791964/article/details/120668551)，经实操发现可以配置成功。  
+1. 报错：在执行博客中`pip install torch==1.7.1+cu110 torchvision==0.8.2+cu110 torchaudio==0.7.2 -f https://download.pytorch.org/whl/torch_stable.html`这一句安装指令时，如果出现错误`Could not find a version that satisfies the requirement`  
+   解决(建议直接科学上网，用第二种方式)：  
+   - 如果已经按照Bubbliiiing博客中的教程更改了pip源为国内镜像源，就尝试关闭clash，然后再执行该安装指令即可。参考[博客](https://blog.csdn.net/weixin_43501408/article/details/129486169?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522171610528716800197072555%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=171610528716800197072555&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-1-129486169-null-null.142^v100^pc_search_result_base1&utm_term=ERROR%3A%20Could%20not%20find%20a%20version%20that%20satisfies%20the%20requirement%20torch%3D%3D1.7.1%2Bcu110&spm=1018.2226.3001.4187)
+   - 如果还没有配置pip源为国内镜像源，就打开clash，并在终端设置代理`set all_proxy=http://127.0.0.1:7890`，即可正常下载
+2. 运行train.py时报错：CUDA out of memory  
+   解决：可以改小输入的图片大小，或者改小batch_size的大小，一般batch_size都是2的倍数
 ### 注意
-为什么安装requirements.txt中的依赖包，使用`while read requirement; do conda install --yes $requirement || pip install $requirement; done < requirements.txt`来安装，是因为直接通过`pip install -r requirements.txt`安装会导致包之间版本冲突
+1. 为什么安装requirements.txt中的依赖包，使用`while read requirement; do conda install --yes $requirement || pip install $requirement; done < requirements.txt`来安装，是因为直接通过`pip install -r requirements.txt`安装会导致包之间版本冲突
+2. Windows端如何更换conda源  
+   在`C:\Users\shuai`目录下找到文件`.condarc`，修改文件内容为如下
+   ```txt
+   channels:
+      - https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/pytorch/
+      - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
+      - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+      - https://mirrors.bfsu.edu.cn/anaconda/pkgs/free/
+      - https://mirrors.bfsu.edu.cn/anaconda/pkgs/main/
+      - https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/
+      - https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/msys2/
+      - https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/bioconda/
+      - https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/menpo/
+      - https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/fastai/
+   show_channel_urls: true
+   ```
+   show_channel_urls: true的目的是下载时显示安装包来源。注意channels中不要包含`-defaults`，如果包含了，下面在安装包时也会检测默认源，速度特别慢。
+### 总结
+这里总结以下cuda直接安装与先手动安装cuda再pip安装，这两种方式的区别：
+1. Windows端推荐第二种方式，从官网下载并手动安装cuda(cuda[下载](https://developer.nvidia.com/cuda-toolkit-archive))和cudnn(cudnn与cuda对应版本及其[下载](https://developer.nvidia.com/rdp/cudnn-archive))，再切换至conda环境，用pip安装对应版本的pytorch及其他库，比如指令`pip install torch==1.7.1+cu110 torchvision==0.8.2+cu110 torchaudio==0.7.2 -f https://download.pytorch.org/whl/torch_stable.html`。这里torch与cuda的具体对应版本就看[torch官网](https://pytorch.org/get-started/previous-versions/)中，安装指令里列明的库版本。
+2. Linux端推荐第一种方式，直接在conda环境中通过conda指令安装，比如指令`conda install pytorch==1.7.1 torchvision==0.8.2 torchaudio==0.7.2 cudatoolkit=11.0 -c pytorch`。这里不需要从官网手动下载cuda库，conda会帮我们安装一个精简版的cuda库在conda虚拟环境中，做深度学习时够用的。
+3. 为什么这么推荐，主要是因为Windows的终端操作太垃圾了，conda安装基本都是在终端中进行，读者可自行体验在Windows的终端中用conda指定cuda版本进行安装，体验一言难尽。在Linux中也可以先手动下载cuda库，但是很明显直接通过conda来安装更方便一些，除非需要用cuda库来做一些其他的事，可能需要从官网下载完整的cuda库。但是如果想要库的安装都是用pip来安装，还是推荐第二种方式，毕竟cuda安装的库与pip安装的库在大型项目中是会有冲突的。
+4. 多个版本cuda切换，当然这里说的多个版本是指手动从官网下载库的方式来安装的cuda，因为conda指令安装的cuda是随着conda环境走的。Windows端切换cuda版本参考。Linux端切换cuda版本参考[Ubuntu多版本cuda安装与切换](https://qiyuan-z.github.io/2022/01/04/Ubuntu%E5%A4%9A%E7%89%88%E6%9C%ACcuda%E5%AE%89%E8%A3%85%E4%B8%8E%E5%88%87%E6%8D%A2/)和[Linux多个版本的CUDA切换](https://zhuanlan.zhihu.com/p/589442446)。Windows端切换cuda版本参考[Windows下CUDA多版本共存](https://blog.csdn.net/m0_37605642/article/details/117932717)和[在windows上安装多个cuda版本](https://zhuanlan.zhihu.com/p/568908887)。
 
 # Ubuntu卸载anaconda
 1. 删除anaconda文件夹：
 ```bash
 rm -rf ~/anaconda3
 ```
-2. 在环境变量中删除anaconda：
+1. 在环境变量中删除anaconda：
 ```bash
 vim ~/.bashrc
 ```
 如下图，删除其中和conda相关的内容。  
 ![图片](../.assets_IMG/UbuntuTutorial/anaconda_bash.png)
 
-3. 使修改立即生效：
+1. 使修改立即生效：
 ```bash
 source ~/.bashrc
 ```
-4. 删除相关的隐藏文件：
+1. 删除相关的隐藏文件：
 ```bash
 rm -rf ~/.condarc ~/.conda
 ```
@@ -648,3 +678,22 @@ alias unproxy="unset http_proxy;unset https_proxy"
 以下是两种不同的方式，第二种方式只能在Linux间相互访问  
 [Linux挂载局域网内共享目录-samba](https://blog.csdn.net/dcr_yll/article/details/127015692?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522171549818716800213075361%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=171549818716800213075361&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-2-127015692-null-null.142^v100^pc_search_result_base4&utm_term=linux%20mount%20%E6%8C%82%E8%BD%BD%20%E5%B1%80%E5%9F%9F%E7%BD%91%20%E6%96%87%E4%BB%B6%E5%A4%B9&spm=1018.2226.3001.4187)  
 [Ubuntu局域网挂载硬盘-nfs](https://blog.csdn.net/m0_46259216/article/details/127985350?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522171549854116800197048515%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=171549854116800197048515&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-2-127985350-null-null.142^v100^pc_search_result_base4&utm_term=linux%20mount%20nfs%20%E5%B1%80%E5%9F%9F%E7%BD%91%20%E6%96%87%E4%BB%B6%E5%A4%B9%20%E6%9B%B4%E6%96%B0&spm=1018.2226.3001.4187)  
+
+
+# Windows使用相关记录
+## windows中为终端设置代理
+[参考](https://blog.csdn.net/csj777/article/details/129536997)
+1. 在cmd终端中输入`set all_proxy=http://127.0.0.1:7890`即可设置clash代理。通过`curl -i google.com`测试是否设置成功。或者也可以在clash中复制cmd命令，如下图  
+   ![alt text](.assets_IMG/UbuntuTutorial/image-30.png)
+2. 直接在clash中点击
+   ![alt text](.assets_IMG/UbuntuTutorial/image-28.png)  
+   ![alt text](.assets_IMG/UbuntuTutorial/image-29.png)  
+   此时会跳出来一个终端，这个终端就是可以科学上网的终端了，直接输入`curl -i google.com`测试
+## 为 git bash 设置代理
+[参考](https://jjayyyyyyy.github.io/2019/08/11/git_bash_proxy.html)
+1. 注意里面的端口都改成clash的端口，7890，不是1080
+   在git bash中输入
+   ```bash
+   git config --global http.proxy "http://127.0.0.1:7890"
+   git config --global https.proxy "https://127.0.0.1:7890"
+   ```

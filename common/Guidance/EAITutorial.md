@@ -244,3 +244,5 @@ network:
 ## nomachine分辨率调节
 参考[博客](https://blog.csdn.net/qq_43519779/article/details/115427703)  
 终端运行`xrandr --fb 1920x1080`后，关掉nomachine客户端，重连nano板。不然鼠标会有偏移。  
+## 风扇
+[Jetson nano 风扇启动/自启动](https://blog.csdn.net/weixin_42026571/article/details/108550541)  
