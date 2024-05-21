@@ -326,8 +326,11 @@ ps -ef | grep <想要杀死的进程中包含的关键字> | awk '{print $2}' | 
 2. 解压缩时如果后面不接文件夹名都是默认解压到当前文件夹，所以尽量在新的文件夹中解压，防止解压后当前文件夹中的新文件过多。
 ```
 ## tar
+### tar.gz
 - 压缩 `tar -czvf xxx.tar.gz dir` (其中xxx.tar.gz表示要压缩成的文件名称，dir表示要将哪个文件夹进行压缩)
-- 解压缩 `tar -xzvf xxx.tar.gz -C ./dir/` (其中xxx.zip表示要解压缩的目标文件名称，./dir/表示要将文件压缩进哪个文件夹)
+- 解压缩 `tar -xzvf xxx.tar.gz -C ./dir/` (其中xxx.tar.gz表示要解压缩的目标文件名称，./dir/表示要将文件压缩进哪个文件夹)
+### tar.bz2
+- 解压缩 `tar -jxvf xxx.tar.bz2 -C ./dir/` (其中xxx.tar.gz表示要解压缩的目标文件名称，./dir/表示要将文件压缩进哪个文件夹)
 ## zip
 - 压缩 `zip -r xxx.zip dir` (其中xxx.zip表示要压缩成的文件名称，dir表示要将哪个文件夹进行压缩)
 - 解压缩 `unzip xxx.zip -d ./dir/` (其中xxx.zip表示要解压缩的目标文件名称，./dir/表示要将文件压缩进哪个文件夹)
