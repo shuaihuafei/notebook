@@ -209,24 +209,24 @@ while read requirement; do conda install --yes $requirement || pip install $requ
    在`C:\Users\shuai`目录下找到文件`.condarc`，修改文件内容为如下
    ```txt
    channels:
-      - https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/pytorch/
-      - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
-      - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
-      - https://mirrors.bfsu.edu.cn/anaconda/pkgs/free/
-      - https://mirrors.bfsu.edu.cn/anaconda/pkgs/main/
-      - https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/
-      - https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/msys2/
-      - https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/bioconda/
-      - https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/menpo/
-      - https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/fastai/
+     - https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/pytorch/
+     - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
+     - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+     - https://mirrors.bfsu.edu.cn/anaconda/pkgs/free/
+     - https://mirrors.bfsu.edu.cn/anaconda/pkgs/main/
+     - https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/
+     - https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/msys2/
+     - https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/bioconda/
+     - https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/menpo/
+     - https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/fastai/
    show_channel_urls: true
    ```
-   show_channel_urls: true的目的是下载时显示安装包来源。注意channels中不要包含`-defaults`，如果包含了，下面在安装包时也会检测默认源，速度特别慢。
+   show_channel_urls: true的目的是下载时显示安装包来源。注意channels中不要包含`- defaults`，如果包含了，下面在安装包时也会检测默认源，速度特别慢。
 ### 总结
 这里总结以下cuda直接安装与先手动安装cuda再pip安装，这两种方式的区别：
 1. Windows端推荐第二种方式，从官网下载并手动安装cuda(cuda[下载](https://developer.nvidia.com/cuda-toolkit-archive))和cudnn(cudnn与cuda对应版本及其[下载](https://developer.nvidia.com/rdp/cudnn-archive))，再切换至conda环境，用pip安装对应版本的pytorch及其他库，比如指令`pip install torch==1.7.1+cu110 torchvision==0.8.2+cu110 torchaudio==0.7.2 -f https://download.pytorch.org/whl/torch_stable.html`。这里torch与cuda的具体对应版本就看[torch官网](https://pytorch.org/get-started/previous-versions/)中，安装指令里列明的库版本。
-2. Linux端推荐第一种方式，直接在conda环境中通过conda指令安装，比如指令`conda install pytorch==1.7.1 torchvision==0.8.2 torchaudio==0.7.2 cudatoolkit=11.0 -c pytorch`。这里不需要从官网手动下载cuda库，conda会帮我们安装一个精简版的cuda库在conda虚拟环境中，做深度学习时够用的。
-3. 为什么这么推荐，主要是因为Windows的终端操作太垃圾了，conda安装基本都是在终端中进行，读者可自行体验在Windows的终端中用conda指定cuda版本进行安装，体验一言难尽。在Linux中也可以先手动下载cuda库，但是很明显直接通过conda来安装更方便一些，除非需要用cuda库来做一些其他的事，可能需要从官网下载完整的cuda库。但是如果想要库的安装都是用pip来安装，还是推荐第二种方式，毕竟cuda安装的库与pip安装的库在大型项目中是会有冲突的。
+2. Linux端推荐第一种方式，直接在conda环境中通过conda指令安装，比如指令`conda install pytorch==1.7.1 torchvision==0.8.2 torchaudio==0.7.2 cudatoolkit=11.0 -c pytorch`。这里不需要从官网手动下载cuda库，conda会帮我们安装一个精简版的cuda库在conda虚拟环境中，做深度学习是够用的。但是如果对pytorch版本以及cuda版本有特殊要求，建议还是从官网手动安装，因为conda指定版本安装时，有时会无法安装指定的版本，可能是因为conda的下载库不是很全。Linux端从官网手动下载cuda库，可以参考如下[博客](https://blog.csdn.net/weixin_37926734/article/details/123033286)。
+3. 为什么这么推荐，主要是因为Windows的终端操作太垃圾了，conda安装基本都是在终端中进行，读者可自行体验在Windows的终端中用conda指定cuda版本进行安装，体验一言难尽。在Linux中也可以先手动下载cuda库，但是很明显直接通过conda来安装更方便一些。但是如果想要库的安装都是用pip来安装，还是推荐第二种方式，毕竟cuda安装的库与pip安装的库在大型项目中是会有冲突的。
 4. 多个版本cuda切换，当然这里说的多个版本是指手动从官网下载库的方式来安装的cuda，因为conda指令安装的cuda是随着conda环境走的。Windows端切换cuda版本参考。Linux端切换cuda版本参考[Ubuntu多版本cuda安装与切换](https://qiyuan-z.github.io/2022/01/04/Ubuntu%E5%A4%9A%E7%89%88%E6%9C%ACcuda%E5%AE%89%E8%A3%85%E4%B8%8E%E5%88%87%E6%8D%A2/)和[Linux多个版本的CUDA切换](https://zhuanlan.zhihu.com/p/589442446)。Windows端切换cuda版本参考[Windows下CUDA多版本共存](https://blog.csdn.net/m0_37605642/article/details/117932717)和[在windows上安装多个cuda版本](https://zhuanlan.zhihu.com/p/568908887)。
 
 # Ubuntu卸载anaconda
@@ -665,7 +665,7 @@ alias unproxy="unset http_proxy;unset https_proxy"
    但是在这种情况下，终端还不是科学上网的状态，这个千万注意，可以在终端通过命令`curl -i google.com`来测试。此时依旧需要`vim ~/.bashrc`，在最一开始添加  
    ![alt text](.assets_IMG/UbuntuTutorial/image-9.png)  
    ```bash
-   alias proxy="export http_proxy=http://127.0.0.1:7890;export https_proxy=http://127.0.0.1"
+   alias proxy="export http_proxy=http://127.0.0.1:7890;export https_proxy=http://127.0.0.1:7890"
    alias unproxy="unset http_proxy;unset https_proxy"
    ```
    然后`source ~/.bashrc`，刷新环境变量。`proxy`启动环境变量。再`curl -i google.com`，此时可以发现google可以ping通
@@ -686,6 +686,84 @@ alias unproxy="unset http_proxy;unset https_proxy"
 [Linux挂载局域网内共享目录-samba](https://blog.csdn.net/dcr_yll/article/details/127015692?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522171549818716800213075361%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=171549818716800213075361&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-2-127015692-null-null.142^v100^pc_search_result_base4&utm_term=linux%20mount%20%E6%8C%82%E8%BD%BD%20%E5%B1%80%E5%9F%9F%E7%BD%91%20%E6%96%87%E4%BB%B6%E5%A4%B9&spm=1018.2226.3001.4187)  
 [Ubuntu局域网挂载硬盘-nfs](https://blog.csdn.net/m0_46259216/article/details/127985350?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522171549854116800197048515%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=171549854116800197048515&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~rank_v31_ecpm-2-127985350-null-null.142^v100^pc_search_result_base4&utm_term=linux%20mount%20nfs%20%E5%B1%80%E5%9F%9F%E7%BD%91%20%E6%96%87%E4%BB%B6%E5%A4%B9%20%E6%9B%B4%E6%96%B0&spm=1018.2226.3001.4187)  
 
+# MV维视相机使用后笔记
+## 安装支持巨型帧的网卡驱动
+[Linux Ubuntu20.04安装RTL8156网卡驱动开启巨型帧](https://blog.csdn.net/abanchao/article/details/125250161)  
+1. 在绿联买了几种网卡都不支持，最后买的是RTL8156网卡，这是支持巨型帧的
+2. 安装步骤：
+   - `tar -jxvf r8152-2.17.1.tar.bz2`，解压
+   - `make`和`sudo make install`，在Makefile的目录下打开终端，make编译，并安装
+   - `ifconfig`和`ethtool -i enxc84d4435b74d`，查看对应网卡的驱动安装是否正确，如果安装正确，这里driver会显示r8152
+     ![alt text](../../note_cv/Microvision/.assets_IMG/BinocularVision/image.png)  
+     ![alt text](../../note_cv/Microvision/.assets_IMG/BinocularVision/image-1.png)  
+   - `sudo cp 50-usb-realtek-net.rules /usr/lib/udev/rules.d/`
+     ![alt text](../../note_cv/Microvision/.assets_IMG/BinocularVision/image-2.png)  
+     将规则文件复制到对应目录下
+   - `modprobe r8152`，运行此指令，安装完成
+   - `sudo ifconfig enxc84d4435b74d mtu 9000`，运行此指令打开巨型帧，此时`ifconfig`查看是否成功设置了。注意，如果网卡不支持巨型帧，这里会提示`未知参数：MTU`。这种设置方式是暂时的，开机会失效  
+     ![alt text](../../note_cv/Microvision/.assets_IMG/BinocularVision/image-3.png)
+   - 永久设置巨型帧方式：修改网络配置文件`sudo vim /etc/netplan/01-network-manager-all.yaml`，就是在配置静态IP时加上`mtu: 9000`，见如下：
+     ```yaml
+     network:
+       version: 2
+       renderer: NetworkManager
+       ethernets: 
+         enxc84d4435b74d: 
+           addresses: [192.168.4.100/24]
+           gateway4: 192.168.4.1
+           nameservers: 
+             addresses: [114.114.114.114, 8.8.8.8]
+           mtu: 9000
+     ```
+     终端输入`sudo netplan apply`，即可生效。  
+     这里注意有线连接要选择该网卡，如下图：  
+     ![alt text](../../note_cv/Microvision/.assets_IMG/BinocularVision/image-4.png)  
+## MV相机的python驱动安装
+最后一步在安装驱动时，如果要安装在虚拟环境中可以如下：  
+`sudo python setup.py install --prefix=/home/shuai/miniconda3/envs/yolox`  
+但是注意，本相机在conda虚拟环境中测试过了，是无法使用多相机取图的，单相机可以。猜测应该是虚拟环境中的Opencv在多线程取图时有bug。又或者MV相机多线程取图需要系统环境中的opencv库
+## 在ubuntu中安装其他版本的python并能切换
+### 安装Python和pip
+[Ubuntu 20.04 安装 Python3.7](https://www.linjiangxiong.com/2023/04/27/how-to-install-python-3-7-on-ubuntu-linux/index.html)  
+1. 安装Python和pip，就按照上述教程来，他将的方法也是pip官网推荐的方法。
+2. 注意只安装其他版本的python后，当前系统的pip还是与之前版本的python对应，可通过`pip --version`，这里需要重新安装一下pip，`python get-pip.py`，将pip与当前版本的python对应。这里`python get-pip.py`中的`python`最好指定一下版本
+### 不同版本pyhton切换
+[在 ubuntu 中切换使用不同版本的 python](https://blog.csdn.net/wangyx1234/article/details/129130357)  
+[【Python】Ubuntu修改默认Python版本](https://blog.csdn.net/White_Idiot/article/details/78240298)  
+1. 上述教程中是使用的`update-alternatives`这个第三方工具来实现的版本切换，使用发现其实也是在修改软链接，而且是与`update-alternatives`工具自身的变量链接，虽然第三方工具管理版本切换方便，但是效果并不直观，读者可自行尝试，这里不推荐，建议通过直接修改软链接的方式来进行
+2. 命令`sudo ln -sf /usr/bin/python3.7 /usr/bin/python3`，`-sf`表示强制覆盖，前面的`/usr/bin/python3.7`替换成新安装的python版本即可，后面`/usr/bin/python3`就是当在终端中输入python3后，会显示什么版本的python。为什么这么做，是因为ubuntu20.04下的python软链接是这样的，终端输入`ll /usr/bin | grep python`查看，如下图：
+   ![alt text](../../note_cv/Microvision/.assets_IMG/BinocularVision/image-5.png)  
+   可以发现是链式链接，`/usr/bin/python->/usr/bin/python3->/usr/bin/python3.8`，如果想要永久修改python对应的版本，可以直接`sudo ln -sf /usr/bin/python3.7 /usr/bin/python3`，修改后一层链接关系，这样就可以改变终端输入python时，打开的python版本了。
+3. 注意切换python命令对应的python版本后，系统如果之前安装过`terminator终端终结者`，可能会打不开，切换回原系统的python版本就可以了`sudo ln -sf /usr/bin/python3.8 /usr/bin/python3`。参考[博客](https://www.zhihu.com/question/613552949)
+### 卸载python
+[Ubuntu系统下python3.x的卸载](https://blog.csdn.net/ylfmsn/article/details/124926549)  
+1. `sudo apt purge --auto-remove python3.7`命令卸载的干净
+### 补充阅读
+[ubuntu系统下不同版本的python和pip共存设置](https://blog.csdn.net/qq_41826708/article/details/128607549)  
+1. 这里讲了一种ubuntu系统下不同版本的python和pip共存的设置，一般情况下不需要，后续参考用  
+
+[一分钟学会Python中pip的安装与使用](https://blog.csdn.net/qq_42257666/article/details/117884849)  
+1. 这是Windows下pip的安装与使用，与ubuntu差不多，互相参考
+### 使用时遇到的问题
+[pip安装时报错, fatal error：Python.h：没有这样的文件或目录](https://blog.csdn.net/qq_35102059/article/details/132176864?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522171655916216800222822939%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=171655916216800222822939&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-4-132176864-null-null.142^v100^pc_search_result_base4&utm_term=fatal%20error%3A%20Python.h%3A%20%E6%B2%A1%E6%9C%89%E9%82%A3%E4%B8%AA%E6%96%87%E4%BB%B6%E6%88%96%E7%9B%AE%E5%BD%95&spm=1018.2226.3001.4187)  
+[typing-extensions requires Python ‘＞=3.7‘ but the running Python is 3.6.5](https://blog.csdn.net/wzs885009776/article/details/133953044?ops_request_misc=&request_id=&biz_id=102&utm_term=RROR:%20Package%20%27typing-extensio&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-1-133953044.142^v100^pc_search_result_base4&spm=1018.2226.3001.4187)  
+
+### 一些注意说明补充
+经过这一次折腾，明白了python和pip的版本管理，以及安装包的安装逻辑，对于后续管理python环境用处很大，下面分几点说明：
+1. python的版本切换上面已经详细说明了，主要是是更改软链接，`sudo ln -sf /usr/bin/python3.7 /usr/bin/python3`，如果不想永久切换使用，可以不更改python的链接指向，不过在后续使用python3.7的时候，将版本号输全就可以
+2. pip的版本切换，就是在下载了新的python后，运行对应python版本的安装pip的脚本，比如3.7版本，就运行`python3.7 get-pip.py`。这时指令`pip --version`返回的结果就会改变，可以发现变成了python3.7对应的pip。并且pip的安装目录可以发现会被安装在家目录的`.local`文件夹下  
+   ![alt text](../../note_cv/Microvision/.assets_IMG/BinocularVision/image-6.png)  
+3. 在系统环境中中通过pip安装包，pip都会先检查这些目录，如下，如果都没有才会将需要安装的包安装在`~/.local/lib/python3.X/site-packages`目录下
+   - /usr/lib/python3/dist-packages
+   - /usr/local/lib/python3.X/dist-packages
+   - ~/.local/lib/python3.X/site-packages  
+4. 在conda虚拟环境中中通过pip安装包，pip都会先检查这些目录，如下，如果都没有才会将需要安装的包安装在`~/miniconda3/envs/AAA/lib/python3.X/site-packages`目录下
+   - ~/.local/lib/python3.X/site-packages
+   - ~/miniconda3/envs/AAA/lib/python3.X/site-packages
+5. 无论是系统中安装还是conda环境中安装，最后都是为了python能使用到对应的包，而python检索包的路径可以在对应环境的python中使用sys.path查看，如下图所示。如果在前一个路径中找到了对应的包，就直接使用了。我们可以发现，除了python自身的包，`~/.local/lib/python3.X/site-packages`的优先级还是很高的，比`/usr/local/lib/python3.X/dist-packages`、`/usr/lib/python3/dist-packages`还有`~/miniconda3/envs/AAA/lib/python3.X/site-packages`的优先级都要高，所以对于`~/.local/lib/python3.X/site-packages`环境的管理要慎重。  
+   ![alt text](../../note_cv/Microvision/.assets_IMG/BinocularVision/image-7.png)  
+   ![alt text](../../note_cv/Microvision/.assets_IMG/BinocularVision/image-9.png)  
+6. 从上述特征可以看到，因为`~/.local/lib/python3.X/site-packages`目录被交叉使用，如果环境管理不当，极有可能出现，我需要使用的包在`~/miniconda3/envs/AAA/lib/python3.X/site-packages`中，但是实际python根据优先级检索检索到了`~/.local/lib/python3.X/site-packages`中的包的情况，所以在配置python环境时，最好使用conda来管理。如果不得已要使用系统python环境的包，也最好避开与conda环境中的python的版本，防止包的使用冲突。当然如果conda环境中要使用到的包与系统环境中对应python版本已经安装的包相同的话，也可以节省conda环境的配置时间。所以对于`~/.local/lib/python3.X/site-packages`目录一定要注意
 
 # Windows使用相关记录
 ## windows中为终端设置代理
@@ -704,3 +782,9 @@ alias unproxy="unset http_proxy;unset https_proxy"
    git config --global http.proxy "http://127.0.0.1:7890"
    git config --global https.proxy "https://127.0.0.1:7890"
    ```
+## 使用虚拟机VisualBox
+VisualBox设置桥接模式好像方便一些，并且是真的能设置，这一点不错  
+[VirtualBox安装Ubuntu虚拟机](https://blog.csdn.net/Amentos/article/details/127733864)  
+[VirtualBox设置桥接模式](https://blog.csdn.net/Hongwei_1990/article/details/105340373)  
+[虚拟机共享主机VPN](https://blog.csdn.net/qq_27462573/article/details/130484723)  
+[VirtualBox的虚拟机Ubuntu和Windows系统之间复制粘贴和共享文件夹](https://blog.csdn.net/weixin_64993156/article/details/129728005)  
