@@ -1,3 +1,6 @@
+# 如何使用本笔记
+`git clone --recurse-submodules https://gitee.com/shuaihuafei/notebook.git`  
+安装即可查看
 # 部分笔记参考
 ## 跟李沐学AI
 ### 李沐课件笔记
