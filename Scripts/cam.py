@@ -1,9 +1,9 @@
 import cv2
 
 # 打开笔记本摄像头
-cap = cv2.VideoCapture(0)       # 奥比中光：5 是彩色图像
-cap.set(cv2.CAP_PROP_FRAME_WIDTH,2000)
-cap.set(cv2.CAP_PROP_FRAME_HEIGHT,2000)
+cap = cv2.VideoCapture(0)  # 奥比中光：5 是彩色图像
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 800)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 800)
 
 while True:
     # w0 = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
@@ -17,7 +17,7 @@ while True:
         # 左右镜像
         # frame = cv2.flip(frame, 1)
         # 显示画面
-        cv2.imshow('Mirror Video', frame)
+        cv2.imshow("Mirror Video", frame)
     # 检测键盘按键，如果按下ESC键，则退出循环
     if cv2.waitKey(1) == 27:
         break
