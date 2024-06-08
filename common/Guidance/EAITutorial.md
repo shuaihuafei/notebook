@@ -246,3 +246,45 @@ network:
 终端运行`xrandr --fb 1920x1080`后，关掉nomachine客户端，重连nano板。不然鼠标会有偏移。  
 ## 风扇
 [Jetson nano 风扇启动/自启动](https://blog.csdn.net/weixin_42026571/article/details/108550541)  
+
+## 重新安装OpenCV
+对于nano板在使用时，可能会碰到无法调用aruco库实现二维码检测，这是因为没有安装opencv_contrib库，安装opencv_contrib库需要卸载现有的opencv，然后重新安装。这里是参考了两个博客，主要参考的是第一个博客，但是如果已经配置好了科学上网，也可以不使用第一个博客中的boostdesc_bgm.i.zip文件(这个文件里放的都是cmake过程中需要从外网下载的一些库文件)，修改第一个博客中的文件内容，为了就是防止在没有上网的情况下，部分库文件下载失败导致报错。  
+[jetson nano和jetson nx 重装opencv（opencv4.1.1+opencv-contrib安装）](https://blog.csdn.net/qq_30841655/article/details/120870998)
+[Jetson Nano重装支持cuda和aruco库的opencv-4.1.1和opencv_contrib-4.1.1](https://blog.csdn.net/weixin_43002939/article/details/139127494)
+
+cmake的配置如下：
+```bash
+sudo cmake \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DBUILD_PNG=ON \
+    -DBUILD_TIFF=ON \
+    -DBUILD_TBB=ON \
+    -DBUILD_JPEG=ON \
+    -DBUILD_JASPER=OFF \
+    -DBUILD_ZLIB=OFF \
+    -DBUILD_EXAMPLES=OFF \
+    -DBUILD_opencv_java=OFF \
+    -DBUILD_opencv_python2=OFF \
+    -DBUILD_opencv_python3=ON \
+    -DENABLE_PRECOMPILED_HEADERS=OFF \
+    -DWITH_OPENCL=ON \
+    -DWITH_OPENMP=ON \
+    -DWITH_LIBV4L=ON \
+    -DWITH_FFMPEG=ON \
+    -DWITH_GSTREAMER=ON \
+    -DWITH_GSTREAMER_0_10=ON \
+    -DWITH_CUDA=ON \
+    -DWITH_GTK=ON \
+    -DWITH_VTK=ON \
+    -DWITH_TBB=ON \
+    -DWITH_1394=OFF \
+    -DWITH_OPENEXR=OFF \
+    -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda-10.2 \
+    -DCUDA_ARCH_BIN=5.3 \
+    -DCUDA_ARCH_PTX="" \
+    -DINSTALL_C_EXAMPLES=ON \
+    -DOPENCV_ENABLE_NONFREE=ON \
+    -DINSTALL_TESTS=OFF \
+    -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-4.1.1/modules \
+    .. 
+```
