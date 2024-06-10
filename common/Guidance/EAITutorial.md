@@ -191,6 +191,20 @@ network:
 安装参考[教程](http://www.autolabor.com.cn/book/ROSTutorials/chapter1/12-roskai-fa-gong-ju-an-zhuang/127-zi-65993a-qi-ta-ros-ban-ben-an-zhuang.html)
 1. 执行`sudo rosdep init``rosdep update`时，如果报错`ERROR: cannot download default sources list from:https://raw.githubusercontent.com/ros/rosdistro/master/rosdep/sources.list.d/20-default.list Website may be down.`，进入[网址](https://www.ipaddress.com/)，并输入域名`raw.githubusercontent.com`，查询 ip 地址。将其添加到`/etc/hosts`文件中，如下图。如果添加后执行`rosdep update`依旧报错，反复执行直到成功即可。注意此时终端不要科学上网，如果科学上网，会直接报错  
    ![alt text](.assets_IMG/EAITutorial/image-2.png)
+## 安装cuda和cudnn
+jetson nano板安装的镜像版本为Jetson Nano Developer Kit SD Card Image的4.6.1版本，所有的镜像版本说明，见[官网](https://developer.nvidia.com/embedded/jetpack-archive)，我们可以找到4.6.1，点进去看到，4.6.1的镜像已经包含了cudnn8.2.1和cuda10.2，并且实际验证发现，cudnn8.2.1的头文件和库文件分别在`/usr/include`和`/usr/lib/aarch64-linux-gnu`中，cuda10.2的头文件和库文件分别在`/usr/local/cuda-10.2/include`和`/usr/local/cuda-10.2/lib64`中。
+![alt text](.assets_IMG/EAITutorial/image-5.png)  
+但是环境变量要配置一下(这里原环境变量在前在后都可以)：  
+```bash
+# cuda 环境变量
+export PATH=$PATH:/usr/local/cuda/bin  
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64  
+export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/cuda/lib64
+# cudnn 环境变量
+export CPATH=$CPATH:/usr/include
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/aarch64-linux-gnu
+export LIBRARY_PATH=$LIBRARY_PATH:/usr/lib/aarch64-linux-gnu
+```
 ## 安装conda
 因为nano板不支持安装miniconda，读者可自行尝试，安装会报错``，这里使用miniforge来替代miniconda，日常使用体验完全相同，安装[地址](https://github.com/conda-forge/miniforge?tab=readme-ov-file)，点击如下图红框处，即可下载安装文件  
 ![alt text](.assets_IMG/EAITutorial/image-3.png)  
@@ -249,42 +263,92 @@ network:
 
 ## 重新安装OpenCV
 对于nano板在使用时，可能会碰到无法调用aruco库实现二维码检测，这是因为没有安装opencv_contrib库，安装opencv_contrib库需要卸载现有的opencv，然后重新安装。这里是参考了两个博客，主要参考的是第一个博客，但是如果已经配置好了科学上网，也可以不使用第一个博客中的boostdesc_bgm.i.zip文件(这个文件里放的都是cmake过程中需要从外网下载的一些库文件)，修改第一个博客中的文件内容，为了就是防止在没有上网的情况下，部分库文件下载失败导致报错。  
-[jetson nano和jetson nx 重装opencv（opencv4.1.1+opencv-contrib安装）](https://blog.csdn.net/qq_30841655/article/details/120870998)
+[jetson nano和jetson nx 重装opencv（opencv4.1.1+opencv-contrib安装）](https://blog.csdn.net/qq_30841655/article/details/120870998)  
 [Jetson Nano重装支持cuda和aruco库的opencv-4.1.1和opencv_contrib-4.1.1](https://blog.csdn.net/weixin_43002939/article/details/139127494)
+1. cmake的配置如下：
+   ```bash
+   sudo cmake \
+      -DCMAKE_BUILD_TYPE=Release \
+      -DBUILD_PNG=ON \
+      -DBUILD_TIFF=ON \
+      -DBUILD_TBB=ON \
+      -DBUILD_JPEG=ON \
+      -DBUILD_JASPER=OFF \
+      -DBUILD_ZLIB=OFF \
+      -DBUILD_EXAMPLES=OFF \
+      -DBUILD_opencv_java=OFF \
+      -DBUILD_opencv_python2=OFF \
+      -DBUILD_opencv_python3=ON \
+      -DENABLE_PRECOMPILED_HEADERS=OFF \
+      -DWITH_OPENCL=ON \
+      -DWITH_OPENMP=ON \
+      -DWITH_LIBV4L=ON \
+      -DWITH_FFMPEG=ON \
+      -DWITH_GSTREAMER=ON \
+      -DWITH_GSTREAMER_0_10=ON \
+      -DWITH_CUDA=ON \
+      -DWITH_GTK=ON \
+      -DWITH_VTK=ON \
+      -DWITH_TBB=ON \
+      -DWITH_1394=OFF \
+      -DWITH_OPENEXR=OFF \
+      -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda-10.2 \
+      -DCUDA_ARCH_BIN=5.3 \
+      -DCUDA_ARCH_PTX="" \
+      -DINSTALL_C_EXAMPLES=ON \
+      -DOPENCV_ENABLE_NONFREE=ON \
+      -DINSTALL_TESTS=OFF \
+      -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-4.1.1/modules \
+      .. 
+   ```
+2. `sudo make -j4`后如果执行`sudo make install`可能还会编译一部分，没事，编译完就会开始安装了
 
-cmake的配置如下：
-```bash
-sudo cmake \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DBUILD_PNG=ON \
-    -DBUILD_TIFF=ON \
-    -DBUILD_TBB=ON \
-    -DBUILD_JPEG=ON \
-    -DBUILD_JASPER=OFF \
-    -DBUILD_ZLIB=OFF \
-    -DBUILD_EXAMPLES=OFF \
-    -DBUILD_opencv_java=OFF \
-    -DBUILD_opencv_python2=OFF \
-    -DBUILD_opencv_python3=ON \
-    -DENABLE_PRECOMPILED_HEADERS=OFF \
-    -DWITH_OPENCL=ON \
-    -DWITH_OPENMP=ON \
-    -DWITH_LIBV4L=ON \
-    -DWITH_FFMPEG=ON \
-    -DWITH_GSTREAMER=ON \
-    -DWITH_GSTREAMER_0_10=ON \
-    -DWITH_CUDA=ON \
-    -DWITH_GTK=ON \
-    -DWITH_VTK=ON \
-    -DWITH_TBB=ON \
-    -DWITH_1394=OFF \
-    -DWITH_OPENEXR=OFF \
-    -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda-10.2 \
-    -DCUDA_ARCH_BIN=5.3 \
-    -DCUDA_ARCH_PTX="" \
-    -DINSTALL_C_EXAMPLES=ON \
-    -DOPENCV_ENABLE_NONFREE=ON \
-    -DINSTALL_TESTS=OFF \
-    -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-4.1.1/modules \
-    .. 
-```
+## 重新安装cv_bridge
+说明一下，主要的原因就是前面更换了opencv的版本，所以这里如果不在cmake中说明版本选择的问题，会出现各种报错。nano板上新安装的opencv版本为4.1.1，但是melodic版本的ros会自动安装cv_bridge，并且ros自带的cv_bridge包中依赖的是opencv3.2，所以在安装cv_bridge的时候系统就会自动安装opencv3.2的库，所以这里一连串需要做以下几件事。  
+## 步骤
+1. 在当前需要编译的功能包的CMakeLists.txt的`find_package(OpenCV REQUIRED)`前面添加`set(OpenCV_DIR /usr/local/lib/cmake/opencv4)`，并且`find_package(OpenCV REQUIRED)`中可以明确opencv的版本，比如`find_package(OpenCV 4.1.1 REQUIRED)`。注意，如果这里`set(OpenCV_DIR /usr/local/lib/cmake/opencv4)`设置了opencv的查找路径，cmake就不会再找原系统中的opencv了
+2. 重新编译cv_bridge(说明一下，重新编译cv_bridge一定要在ros包中，否则编译会失败)
+   - 下载cv_bridge源码并编译
+     ```bash
+     cd ~
+     mkdir -p cv_bridge/src
+     cd cv_bridge
+     catkin build
+     cd src
+     git clone https://github.com/ros-perception/vision_opencv.git
+     ######################################
+     # 重新开一个终端，查一下原先cv_bridge的版本
+     apt-cache show ros-melodic-cv-bridge | grep Version
+     # Version: 1.13.1-1bionic.20221025.193650
+     # 得到版本号1.13.1之后回到之前的终端继续
+     ######################################
+     cd ~/cv_bridge/src/vision_opencv
+     git checkout 1.13.1
+     cd cv_bridge
+     # 总共要修改3处，修改后的样子见下方，截图
+     vim CMakeLists.txt
+     ```
+     ![alt text](.assets_IMG/EAITutorial/image-6.png)  
+     这三处分别是：
+     - 在`find_package(OpenCV REQUIRED)`前面添加`set(OpenCV_DIR /usr/local/lib/cmake/opencv4)`，因为系统中包含多个版本的opencv，这里是为cv_bridge指明版本，明确要使用新安装的opencv4，主要是为了指明`/usr/local/lib/cmake/opencv4`这个目录中的OpenCVConfig.cmake文件，这样cmake就知道了opencv的路径
+     - `find_package(PythonLibs)`修改为`find_package(Python3)`，是因为`find_package(PythonLibs)`找的是系统默认的python2，使用`find_package(Python3)`则是找到python3，如果系统中有多个版本的python3，则就看软链接`/usr/bin/python3`指向的是哪个版本。指向哪个版本，`find_package(Python3)`就会找到哪个版本的python3。`find_package(PythonLibs)`修改为`find_package(Python3)`后，下面的内容就可以只保留一个`find_package(Boost REQUIRED python3)`，if判断也就可以都注释掉了
+     - `find_package(OpenCV REQUIRED)`修改为`find_package(OpenCV 4.1.1 REQUIRED)`，这里可以详细指定一下版本
+   - 编译报错解决
+     ```bash
+     # 此时如果编译还是会报错：cannot declare variable ‘g_numpyAllocator’ to be of abstracttype ‘NumpyAllocator’
+     cd ~/cv_bridge/src/vision_opencv/cv_bridge/src
+     vim CMakeLists.txt
+     # 将此文件中的第35行，从if (OpenCV_VERSION_MAJOR VERSION_EQUAL 3)修改成if (OpenCV_VERSION_MAJOR VERSION_EQUAL 4)
+     vim module_opencv3.cpp
+     # 将此文件中第110行，从UMatData* allocate(int dims0, const int* sizes, int type, void* data, size_t* step, int flags, UMatUsageFlags usageFlags) const修改成UMatData* allocate(int dims0, const int* sizes, int type, void* data, size_t* step, AccessFlag flags, UMatUsageFlags usageFlags) const，其实也就是将int flags改成了AccessFlag flags
+     # 将此文件中第139行，从bool allocate(UMatData* u, int accessFlags, UMatUsageFlags usageFlags) const修改成bool allocate(UMatData* u, AccessFlag accessFlags, UMatUsageFlags usageFlags) const，其实也就是将int accessFlags改成了AccessFlag accessFlags
+     ```
+   - `vim ~/.bashrc`，在其中添加`source /home/ei/cv_bridge/devel/setup.bash`，这样每次打开终端都会自动刷新环境变量，注意放在`~/.bashrc`的最下面，因为后面的会覆盖前面的。加完保存退出来，刷新一下环境变量`source ~/.bashrc`，然后执行一下`roscd cv_bridge`看看能不能正确跳转目录。这个最好加一下，虽然不加并不会影响cmake的调用，因为cmake会根据`set(cv_bridge_DIR /home/ei/cv_bridge/devel/share/cv_bridge/cmake)`，来确定其依赖的cv_bridge，但是后面如果要运行这个功能包的时候，可能就有用了
+   - cv_bridge编译完成后，重新回到当前需要编译的功能包的CMakeLists.txt文件中，在`find_package(catkin REQUIRED COMPONENTS cv_bridge)`前添加`set(cv_bridge_DIR /home/ei/cv_bridge/devel/share/cv_bridge/cmake)`即可。此时当前功能包就可以正常编译了
+     - 注意：cv_bridge在新需要编译的功能包的CMakeLists.txt中的添加方式与opencv不一样，opencv是另起炉灶，直接`find_package(OpenCV REQUIRED)`单独添加，因为cv_bridge编译依旧是通过catkin编译的，而opencv是直接通过cmake编译的。所以cv_bridge依旧是作为catkin的组件来添加`find_package(catkin REQUIRED COMPONENTS cv_bridge)`
+
+## 参考博客
+- [ROS中catkin_make的OpenCV冲突的解决](https://blog.csdn.net/m0_46611008/article/details/124321527)
+- [ubuntu20.04安装opencv 3.2.0以及cv_bridge踩坑记录](https://blog.csdn.net/m0_54217044/article/details/134105871)
+- [Jetson xavier NX / ubuntu18.04 /ros melodic/python3安裝使用cv_bridge](https://blog.csdn.net/qq_33980935/article/details/123132452)
+- [NVIDIA Jetson TX2 根据OpenCV版本重新编译cv_bridge并配置CMakeLists.txt](https://blog.csdn.net/weixin_40378209/article/details/127573622)

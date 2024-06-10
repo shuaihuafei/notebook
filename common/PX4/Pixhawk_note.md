@@ -284,7 +284,7 @@
 4. 仿真中的飞机自动运行控制逻辑
 ## 启动实物
 1. 使能串口权限`sudo chmod 777 /dev/ttyTHS1`
-2. 选择好定点方式，对于目前我手头上的无人机(T265定位)，如果是通过视觉定点，`roslaunch px4_realsense_bridge bridge_mavros.launch`(启动mavros和相机)，如果是GPS定点，`roslaunch px4_realsense_bridge bridge_mavros_gps.launch`(启动mavros)
+2. 选择好定点方式，对于目前我手头上的无人机(T265定位)，如果是通过视觉定点，`roslaunch px4_realsense_bridge bridge_mavros.launch`(启动mavros和相机)，如果是GPS定点，`roslaunch px4_realsense_bridge bridge_mavros_gps.launch`(其实本质上就是启动了mavros，这个bridge_mavros_gps.launch文件是我放在realsense_ros_ws/src/VIO/launch文件夹中的，主要是为了启动方便，并且与bridge_mavros.launch对比方便)
 3. 启动运动控制节点(节点中注意不要有切offboard模式和解锁的过程，权限交给遥控器)
 4. 遥控器切`position`模式，解锁，再切`offboard`模式，飞机起飞运行控制逻辑
 

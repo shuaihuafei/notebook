@@ -228,6 +228,12 @@ while read requirement; do conda install --yes $requirement || pip install $requ
 2. Linux端推荐第一种方式，直接在conda环境中通过conda指令安装，比如指令`conda install pytorch==1.7.1 torchvision==0.8.2 torchaudio==0.7.2 cudatoolkit=11.0 -c pytorch`。这里不需要从官网手动下载cuda库，conda会帮我们安装一个精简版的cuda库在conda虚拟环境中，做深度学习是够用的。但是如果对pytorch版本以及cuda版本有特殊要求，建议还是从官网手动安装，因为conda指定版本安装时，有时会无法安装指定的版本，可能是因为conda的下载库不是很全。Linux端从官网手动下载cuda库，可以参考如下[博客](https://blog.csdn.net/weixin_37926734/article/details/123033286)。
 3. 为什么这么推荐，主要是因为Windows的终端操作太垃圾了，conda安装基本都是在终端中进行，读者可自行体验在Windows的终端中用conda指定cuda版本进行安装，体验一言难尽。在Linux中也可以先手动下载cuda库，但是很明显直接通过conda来安装更方便一些。但是如果想要库的安装都是用pip来安装，还是推荐第二种方式，毕竟cuda安装的库与pip安装的库在大型项目中是会有冲突的。
 4. 多个版本cuda切换，当然这里说的多个版本是指手动从官网下载库的方式来安装的cuda，因为conda指令安装的cuda是随着conda环境走的。Windows端切换cuda版本参考。Linux端切换cuda版本参考[Ubuntu多版本cuda安装与切换](https://qiyuan-z.github.io/2022/01/04/Ubuntu%E5%A4%9A%E7%89%88%E6%9C%ACcuda%E5%AE%89%E8%A3%85%E4%B8%8E%E5%88%87%E6%8D%A2/)和[Linux多个版本的CUDA切换](https://zhuanlan.zhihu.com/p/589442446)。Windows端切换cuda版本参考[Windows下CUDA多版本共存](https://blog.csdn.net/m0_37605642/article/details/117932717)和[在windows上安装多个cuda版本](https://zhuanlan.zhihu.com/p/568908887)。
+5. 注意从官网下载cuda时，尽量下载runfile(local)文件，如下：  
+   ![alt text](.assets_IMG/UbuntuTutorial/image-32.png)  
+   主要是因为runfile(local)文件可以自定义安装的内容
+   下载cudnn时，尽量下载tar文件，如下：  
+   ![alt text](.assets_IMG/UbuntuTutorial/image-33.png)  
+   这样解压后可以将cudnn的头文件和库文件复制安装到指定的文件夹下
 
 # Ubuntu卸载anaconda
 1. 删除anaconda文件夹：
@@ -727,6 +733,27 @@ alias unproxy="unset http_proxy;unset https_proxy"
 [Ubuntu 20.04 安装 Python3.7](https://www.linjiangxiong.com/2023/04/27/how-to-install-python-3-7-on-ubuntu-linux/index.html)  
 1. 安装Python和pip，就按照上述教程来，他将的方法也是pip官网推荐的方法。
 2. 注意只安装其他版本的python后，当前系统的pip还是与之前版本的python对应，可通过`pip --version`，这里需要重新安装一下pip，`python get-pip.py`，将pip与当前版本的python对应。这里`python get-pip.py`中的`python`最好指定一下版本
+[在Linux系统安装python3.7以及pip3](https://blog.csdn.net/u012559967/article/details/136376869)  
+1. 如果上一个教程失效，就按这个教程来，这里通过下面这些指令安装完后，pip也会自动安装，就不需要单独通过`python get-pip.py`安装了
+   ```bash
+   cd ~
+   # 切换到root用户
+   sudo su
+   # 下面需要的python安装包，注意版本
+   wget https://www.python.org/ftp/python/3.7.17/Python-3.7.17.tar.xz
+   tar -xvf Python-3.7.17.tar.xz
+   cd Python-3.7.4
+   mkdir -p /usr/local/python3
+   ./configure --prefix=/usr/local/python3
+   # 编译 安装
+   make
+   make install
+   # 修改软链接，使得终端运行python和pip的版本就是此时的版本
+   ln -sf /usr/local/python3/bin/python3.7 /usr/bin/python3
+   ln -sf /usr/local/python3/bin/pip3.7 /usr/bin/pip3
+   ln -sf /usr/bin/python3 /usr/bin/python
+   ln -sf /usr/bin/pip3 /usr/bin/pip
+   ```
 ### 不同版本pyhton切换
 [在 ubuntu 中切换使用不同版本的 python](https://blog.csdn.net/wangyx1234/article/details/129130357)  
 [【Python】Ubuntu修改默认Python版本](https://blog.csdn.net/White_Idiot/article/details/78240298)  
@@ -764,6 +791,15 @@ alias unproxy="unset http_proxy;unset https_proxy"
    ![alt text](../../note_cv/Microvision/.assets_IMG/BinocularVision/image-7.png)  
    ![alt text](../../note_cv/Microvision/.assets_IMG/BinocularVision/image-9.png)  
 6. 从上述特征可以看到，因为`~/.local/lib/python3.X/site-packages`目录被交叉使用，如果环境管理不当，极有可能出现，我需要使用的包在`~/miniconda3/envs/AAA/lib/python3.X/site-packages`中，但是实际python根据优先级检索检索到了`~/.local/lib/python3.X/site-packages`中的包的情况，所以在配置python环境时，最好使用conda来管理。如果不得已要使用系统python环境的包，也最好避开与conda环境中的python的版本，防止包的使用冲突。当然如果conda环境中要使用到的包与系统环境中对应python版本已经安装的包相同的话，也可以节省conda环境的配置时间。所以对于`~/.local/lib/python3.X/site-packages`目录一定要注意
+
+# CMake版本升级
+cmake版本下载[地址](https://cmake.org/files/)  
+[升级cmake（详细步骤）](https://blog.csdn.net/m0_46831734/article/details/130608506)
+1. 其实主要就是修改一下软链接的指向
+2. 注意如果原先/usr/bin/中的cmake不是一个软连接就是一个普通文件的话，需要先将其重命名，`sudo mv /usr/bin/cmake /usr/bin/cmake3.10.2`，也就是说之前版本的cmake不要删，重新指向cmake的链接对象就可以了
+3. 下载cmake，通过上面的cmake下载地址，找一个，右击复制下载链接，然后在终端执行`wget https://cmake.org/files/v3.22/cmake-3.22.6-linux-aarch64.tar.gz`，这里将版本替换成需要的版本，就可以下载了。注意wget是将文件下载到执行wget指令的目录下  
+   ![alt text](.assets_IMG/UbuntuTutorial/image-35.png)
+   ![alt text](.assets_IMG/UbuntuTutorial/image-34.png)
 
 # Windows使用相关记录
 ## windows中为终端设置代理
