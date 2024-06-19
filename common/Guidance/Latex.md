@@ -5,6 +5,8 @@
 [Tex Live & TeXstudio安装及配置](https://blog.csdn.net/weixin_42468475/article/details/108888966)  
 [LaTeX插入图片 子图](https://blog.csdn.net/gsgbgxp/article/details/129655879)(注意：如果发现很多图片都在一页，并且图片间间隙过大，可以通过手动调整图片位置，将图片尽可能分开，这样图片显示就正常了)  
 [Latex：BibTex缩小参考文献展示的间距](https://blog.csdn.net/weixin_40520963/article/details/105137544)  
+[手把手教你在 PPT中插入 LaTex 数学公式](https://blog.csdn.net/itnerd/article/details/106891793)  
+
 ### 字体
 [文档类设定字体大小为10pt11pt12pt时 对应的字号大小](https://pinvondev.github.io/blog/Latex/2018/11/19/ubuntu-%E4%B8%AD%E4%BD%BF%E7%94%A8-latex-%E6%8E%92%E7%89%88/%20Or%20/blog/Latex/ubuntu-%E4%B8%AD%E4%BD%BF%E7%94%A8-latex-%E6%8E%92%E7%89%88/)  
 [CTEX 宏集手册](https://mirrors.ibiblio.org/CTAN/language/chinese/ctex/ctex.pdf)  
