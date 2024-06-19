@@ -2,6 +2,7 @@
 ## 视频
 [【教程-30分钟速通LaTeX】LaTeX排版零基础速成教程](https://www.bilibili.com/video/BV1Mc411S75c)
 ## 博客
+[Ubuntu安装LaTeX](https://blog.csdn.net/lijf2001/article/details/122804413)  
 [Tex Live & TeXstudio安装及配置](https://blog.csdn.net/weixin_42468475/article/details/108888966)  
 [LaTeX插入图片 子图](https://blog.csdn.net/gsgbgxp/article/details/129655879)(注意：如果发现很多图片都在一页，并且图片间间隙过大，可以通过手动调整图片位置，将图片尽可能分开，这样图片显示就正常了)  
 [Latex：BibTex缩小参考文献展示的间距](https://blog.csdn.net/weixin_40520963/article/details/105137544)  
