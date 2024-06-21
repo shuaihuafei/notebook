@@ -17,3 +17,7 @@
 ![picture 5](.assets_IMG/VscodeTutorial/IMG_20231129-162854238.png)  
 ## 注意
 通过这种方式调试，同样是适用于嵌套的CMake。只需要在子节点CMakeLists.txt文件中添加`set(CMAKE_BUILD_TYPE Debug)`指令即可。
+
+# Vscode的使用技巧
+## 博客
+[vsCode中如何根据屏幕宽度自动换行](https://blog.csdn.net/weixin_42689147/article/details/87366004)  
