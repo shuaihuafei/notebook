@@ -1,6 +1,7 @@
 # 教程
 ## 视频
-[【教程-30分钟速通LaTeX】LaTeX排版零基础速成教程](https://www.bilibili.com/video/BV1Mc411S75c)
+[【教程-30分钟速通LaTeX】LaTeX排版零基础速成教程](https://www.bilibili.com/video/BV1Mc411S75c)  
+[通俗易懂的Latex教程](https://www.bilibili.com/video/BV1aT4y1f74w)  
 ## 博客
 [Ubuntu安装LaTeX](https://blog.csdn.net/lijf2001/article/details/122804413)  
 [Tex Live & TeXstudio安装及配置](https://blog.csdn.net/weixin_42468475/article/details/108888966)  
