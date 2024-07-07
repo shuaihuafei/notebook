@@ -33,7 +33,31 @@
 
 ![alt text](.assets_IMG/note/image-14.png)  
 
+### 3-5 三维图和子图
+![alt text](.assets_IMG/note/image-15.png)  
+- 这里colormap表示上色的色系，colorbar表示显示旁边每种颜色代表的值
+    ![alt text](.assets_IMG/note/image-16.png)
 
+![alt text](.assets_IMG/note/image-17.png)  
+![alt text](.assets_IMG/note/image-18.png)  
+
+### 3-6 Matlab导入数据
+![alt text](.assets_IMG/note/image-19.png)  
+
+![alt text](.assets_IMG/note/image-21.png)  
+
+### 3-7 Matlab处理缺失值和异常值
+![alt text](.assets_IMG/note/image-22.png)  
+
+![alt text](.assets_IMG/note/image-23.png)  
+这里使用的是matlab的工具箱，清理缺失值  
+![alt text](.assets_IMG/note/image-24.png)  
+![alt text](.assets_IMG/note/image-25.png)  
+这里下方有一个三角形，点击就可以显示该工具箱的具体代码，可以将此部分代码复制使用，代替工具箱  
+
+![alt text](.assets_IMG/note/image-27.png)  
+![alt text](.assets_IMG/note/image-26.png)  
+这里使用的是matlab的工具箱，处理异常值  
 
 
 
