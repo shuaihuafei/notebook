@@ -4,3 +4,6 @@
 [submodule "note_robotic_arm"]
 	path = note_robotic_arm
 	url = git@gitee.com:shuaihuafei/note_robotic_arm.git
+[submodule "note_sensor"]
+	path = note_sensor
+	url = git@gitee.com:shuaihuafei/note_sensor.git
