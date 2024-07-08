@@ -100,7 +100,15 @@ network:
 `sudo gedit /etc/hosts`。添加ip和域名映射到hosts文件，保存并退出。  
 ![alt text](.assets_IMG/UbuntuTutorial/image-24.png)  
 操作完毕后，终端再次运行指令即可正常执行。  
-
+## 设置风扇速度
+官网[教程](https://support.huawei.com/enterprise/zh/doc/EDOC1100368197/fd206500)
+1. 设置风扇模式：
+   ![alt text](.assets_IMG/EAITutorial/image-7.png)  
+   ![alt text](.assets_IMG/EAITutorial/image-8.png)  
+2. 手动模式下设置风扇速度：
+   ![alt text](.assets_IMG/EAITutorial/image-9.png)  
+   ![alt text](.assets_IMG/EAITutorial/image-10.png)  
+   
 # 全新英伟达Jetson Nano上手
 ## 镜像烧录和启动
 [jetson nano镜像烧录](https://blog.csdn.net/ZNC1998/article/details/130004714)  
@@ -121,10 +129,10 @@ network:
 1. 在终端中输入以下命令
 `export LANG=en_US`  
 `xdg-user-dirs-gtk-update`
-2. 在询问是否将目录转化为英文的窗口中选择同意
-3. 使用命令将系统语言转化为中文
+1. 在询问是否将目录转化为英文的窗口中选择同意
+2. 使用命令将系统语言转化为中文
 `export LANG=zh_CN`
-4. 重启系统，在登录的时候会提示是是否把英文目录转化为中文，选择不同意，并勾选不再提示。
+1. 重启系统，在登录的时候会提示是是否把英文目录转化为中文，选择不同意，并勾选不再提示。
 ## 配置科学上网
 这里不适用clash for windows，使用clash内核上网，在其他电脑上通过网页显示clash ui。具体步骤如下：
 1. 在其他电脑上ssh连接nano板
