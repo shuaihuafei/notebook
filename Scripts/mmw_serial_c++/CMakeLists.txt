@@ -7,7 +7,7 @@ project(SerialPortCommunication)
 set(CMAKE_CXX_STANDARD 11)
 
 # 查找源文件
-file(GLOB SOURCES "*.cpp")
+file(GLOB SOURCES "mmw_serial.cpp")
 
 # 指定生成的可执行文件
 add_executable(${PROJECT_NAME} ${SOURCES})

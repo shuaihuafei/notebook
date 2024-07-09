@@ -201,6 +201,7 @@ int main()
     }
 
     configure_serial_port(fd);
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
     std::thread send_thread(send_data, fd, write_buffer, sizeof(write_buffer));
     std::thread receive_check_thread(receive_and_check_data, fd);
