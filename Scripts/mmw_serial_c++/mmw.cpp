@@ -9,6 +9,7 @@
 #include <cstring>
 #include <sys/select.h>
 #include <sys/ioctl.h>
+#include <cerrno>
 
 std::deque<unsigned char> data_queue;
 
@@ -16,7 +17,12 @@ void configure_serial_port(int fd)
 {
     struct termios SerialPortSettings;
 
-    tcgetattr(fd, &SerialPortSettings);
+    // 获取当前串口设置
+    if (tcgetattr(fd, &SerialPortSettings) != 0)
+    {
+        std::cerr << "ERROR! in Getting attributes: " << strerror(errno) << std::endl;
+        return;
+    }
 
     // 设置波特率
     cfsetispeed(&SerialPortSettings, B115200);
@@ -32,6 +38,7 @@ void configure_serial_port(int fd)
     // 设置数据位 = 8
     SerialPortSettings.c_cflag |= CS8;
 
+    // 禁用硬件流控制
     SerialPortSettings.c_cflag &= ~CRTSCTS;
     SerialPortSettings.c_cflag |= CREAD | CLOCAL;
 
@@ -41,8 +48,18 @@ void configure_serial_port(int fd)
     // 设置操作模式
     SerialPortSettings.c_iflag &= ~(ICANON | ECHO | ECHOE | ISIG);
 
+    // 原始输出
     SerialPortSettings.c_oflag &= ~OPOST;
 
+    // 设置读取超时
+    SerialPortSettings.c_cc[VMIN] = 0;   // 最少读取字符数
+    SerialPortSettings.c_cc[VTIME] = 10; // 读取超时时间，单位为十分之一秒
+
+    // 清除串口缓冲区
+    tcflush(fd, TCIFLUSH);
+    tcflush(fd, TCOFLUSH);
+
+    // 设置串口属性
     if ((tcsetattr(fd, TCSANOW, &SerialPortSettings)) != 0)
     {
         std::cerr << "ERROR! in Setting attributes: " << strerror(errno) << std::endl;
