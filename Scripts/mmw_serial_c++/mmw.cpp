@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <thread>
 #include <vector>
 #include <deque>
@@ -66,7 +67,8 @@ void send_data(int fd, const unsigned char *write_buffer, size_t buffer_size)
         std::cout << "Data written to ttyUSB0: ";
         for (size_t i = 0; i < buffer_size; ++i)
         {
-            std::cout << std::hex << (unsigned int)write_buffer[i] << " ";
+            std::cout << std::hex << std::setw(2) << std::setfill('0') << (unsigned int)write_buffer[i] << " ";
+            // std::cout << std::hex << (unsigned int)write_buffer[i] << " ";
         }
         std::cout << std::endl;
         // std::cout << bytes_written << " Bytes written to ttyUSB0" << std::endl;
@@ -125,7 +127,8 @@ void receive_and_check_data(int fd)
                     std::cout << "Current data_queue: ";
                     for (const auto &byte : data_queue)
                     {
-                        std::cout << std::hex << (unsigned int)byte << " ";
+                        std::cout << std::hex << std::setw(2) << std::setfill('0') << (unsigned int)byte << " ";
+                        // std::cout << std::hex << (unsigned int)byte << " ";
                     }
                     std::cout << std::endl;
                 }
@@ -140,9 +143,15 @@ void receive_and_check_data(int fd)
                 std::cout << "Valid data found: ";
                 for (const auto &byte : valid_data)
                 {
-                    std::cout << std::hex << (unsigned int)byte << " ";
+                    std::cout << std::hex << std::setw(2) << std::setfill('0') << (unsigned int)byte << " ";
+                    // std::cout << std::hex << (unsigned int)byte << " ";
                 }
                 std::cout << std::endl;
+
+                // 合并第四个字节和第五个字节并转化为十进制数
+                unsigned int combined_value = (valid_data[3] << 8) | valid_data[4];
+                std::cout << "Measure Distance is: " << std::dec << combined_value << " mm" << std::endl;
+
                 data_queue.erase(data_queue.begin(), data_queue.begin() + 7);
             }
             else
