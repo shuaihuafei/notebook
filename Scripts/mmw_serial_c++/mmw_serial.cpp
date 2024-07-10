@@ -28,6 +28,9 @@ public:
             return false;
         }
 
+        // Clear input and output buffers
+        tcflush(fd, TCIOFLUSH);
+
         configureSerialPort();
         return true;
     }
@@ -184,14 +187,14 @@ void send_data(int fd, const unsigned char *write_buffer, size_t buffer_size)
             return;
         }
 
-        // std::cout << "Data written to ttyUSB0: ";
-        // for (size_t i = 0; i < buffer_size; ++i)
-        // {
-        //     std::cout << std::hex << std::setw(2) << std::setfill('0') << (unsigned int)write_buffer[i] << " ";
-        // }
-        // std::cout << std::endl;
+        std::cout << "Data written to ttyUSB0: ";
+        for (size_t i = 0; i < buffer_size; ++i)
+        {
+            std::cout << std::hex << std::setw(2) << std::setfill('0') << (unsigned int)write_buffer[i] << " ";
+        }
+        std::cout << std::endl;
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        std::this_thread::sleep_for(std::chrono::milliseconds(200));
     }
 }
 
@@ -279,7 +282,7 @@ int main()
 {
     unsigned char write_buffer[] = {0x01, 0x03, 0x00, 0x00, 0x00, 0x01, 0x84, 0x0A};
 
-    std::cout << "\n +----------------------------------+" << std::endl;
+    std::cout << " +----------------------------------+" << std::endl;
     std::cout << " |        Serial Port Write         |" << std::endl;
     std::cout << " +----------------------------------+" << std::endl;
 
