@@ -312,6 +312,7 @@ ps -ef | grep <想要杀死的进程中包含的关键字> | awk '{print $2}' | 
 3. Markdown Image的快捷键修改一下：  
 ![picture 4](.assets_IMG/UbuntuTutorial/IMG_20231018-094157011.png)  
 ![picture 2](.assets_IMG/UbuntuTutorial/IMG_20231018-093924249.png)  
+
 ## 其他
 1. [Word中复杂表格转完美的Markdown格式的技巧](https://www.cnblogs.com/taylorshi/p/13540687.html)
 2. 之前在使用Markdown Image时始终出现使用失灵的情况，所以准备弃用这个插件。替代方案：  
