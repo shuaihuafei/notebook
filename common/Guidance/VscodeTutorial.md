@@ -18,6 +18,13 @@
 ## 注意
 通过这种方式调试，同样是适用于嵌套的CMake。只需要在子节点CMakeLists.txt文件中添加`set(CMAKE_BUILD_TYPE Debug)`指令即可。
 
+# 如何关闭Vscode的语法检查报错
+## 博客
+[如何关闭 C/C++ 插件的错误提示(在这个博客的最下面可以看到)](https://discuss.em-ide.com/d/289-keil)
+## 记录步骤
+为`当前用户`关闭错误提示：打开 VsCode 设置，搜索：`C_Cpp.errorSquiggles`，将其值设置为：`Disabled`  
+![alt text](.assets_IMG/VscodeTutorial/image.png)  
+
 # Vscode的使用技巧
 ## 博客
 [vsCode中如何根据屏幕宽度自动换行](https://blog.csdn.net/weixin_42689147/article/details/87366004)  
