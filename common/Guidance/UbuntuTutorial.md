@@ -28,7 +28,7 @@ sudo ntpdate time.windows.com
 sudo hwclock --localtime --systohc
 ```
 
-# Ubuntu中的grub启动项修改
+# Ubuntu中的grub启动项修改(开机引导菜单)
 
 ```bash
 # 打开配置文件
