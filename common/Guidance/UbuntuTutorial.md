@@ -810,31 +810,3 @@ Ubuntu20.04安装matlab，可以去微信公众号`Linux资源库`，不过要�
 1. 如果iso文件无法挂载，可以通过7zip来解压，可以参考博客[linux下解压iso文件](https://blog.csdn.net/qq_44073614/article/details/125678356)，解压指令`7z x R2023b_Linux.iso -o./R2023b_Linux`
 2. 解压后按照公众号教程步骤，如果无法运行`./install`安装，并且使用root用户依旧无法运行。此时运行`ll`可以发现，其实是`install`文件没有可执行权限，可以运行`chmod +x -R .`一次性给当前文件夹中所有文件和子文件夹中的文件，添加可执行权限
 3. 安装后可以直接打开终端运行`matlab`，此时终端有可能会报错`Failed to load module “canberra-gtk-module“`，参考[博客](https://blog.csdn.net/qq_46304090/article/details/126572231)解决。注意在创建软链接时，看看原软链接的指向，判断一下能不能改。我这里原来是没有这个软链接的，所以直接就创建了
-
-# Windows使用相关记录
-## windows中为终端设置代理
-[参考](https://blog.csdn.net/csj777/article/details/129536997)
-1. 在cmd终端中输入`set all_proxy=http://127.0.0.1:7890`即可设置clash代理。通过`curl -i google.com`测试是否设置成功。或者也可以在clash中复制cmd命令，如下图  
-   ![alt text](.assets_IMG/UbuntuTutorial/image-30.png)
-2. 直接在clash中点击
-   ![alt text](.assets_IMG/UbuntuTutorial/image-28.png)  
-   ![alt text](.assets_IMG/UbuntuTutorial/image-29.png)  
-   此时会跳出来一个终端，这个终端就是可以科学上网的终端了，直接输入`curl -i google.com`测试
-## 为 git bash 设置代理
-[参考](https://jjayyyyyyy.github.io/2019/08/11/git_bash_proxy.html)
-1. 注意里面的端口都改成clash的端口，7890，不是1080
-   在git bash中输入
-   ```bash
-   git config --global http.proxy "http://127.0.0.1:7890"
-   git config --global https.proxy "https://127.0.0.1:7890"
-   ```
-## 使用虚拟机VisualBox
-VisualBox设置桥接模式好像方便一些，并且是真的能设置，这一点不错  
-[VirtualBox安装Ubuntu虚拟机](https://blog.csdn.net/Amentos/article/details/127733864)  
-[VirtualBox设置桥接模式](https://blog.csdn.net/Hongwei_1990/article/details/105340373)  
-[虚拟机共享主机VPN](https://blog.csdn.net/qq_27462573/article/details/130484723)  
-[VirtualBox的虚拟机Ubuntu和Windows系统之间复制粘贴和共享文件夹](https://blog.csdn.net/weixin_64993156/article/details/129728005)  
-
-## ssh连接失败
-如果通过vscode连接某个ubuntu电脑，但是现在那个电脑的IP地址变了，此时再通过vscode连，可能就连不上，这时需要将`C:\Users\shuai\.ssh\known_hosts`中对应的ip地址的内容删掉，然后再次连接就可以了。  
-
