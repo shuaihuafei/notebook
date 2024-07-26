@@ -17,8 +17,13 @@
 ![alt text](.assets_IMG/note/image-6.png)  
 
 ![alt text](.assets_IMG/note/image-7.png)  
-这里的真实值是
+这里的真实值是有波动的，测量误差为3，可以看到估计值随着测量次数的增多，越来越接近真实值50
 
+![alt text](.assets_IMG/note/image-8.png)  
+
+![alt text](.assets_IMG/note/image-9.png)  
+
+![alt text](.assets_IMG/note/image-10.png)  
 
 
 
