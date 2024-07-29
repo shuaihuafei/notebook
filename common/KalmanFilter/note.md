@@ -90,6 +90,51 @@
 # 视频教程02
 [华南小虎队-卡尔曼滤波器](https://www.bilibili.com/video/BV1Rh41117MT)
 
+# 视频教程03
+[卡尔曼滤波](https://www.bilibili.com/video/BV18Y411y75e)  
+
+![alt text](.assets_IMG/note/image-37.png)  
+
+![alt text](.assets_IMG/note/image-38.png)  
+
+![alt text](.assets_IMG/note/image-39.png)  
+
+![alt text](.assets_IMG/note/image-41.png)  
+
+![alt text](.assets_IMG/note/image-42.png)  
+互补滤波是卡尔曼滤波的简化版。可以精简计算量。  
+
+![alt text](.assets_IMG/note/image-43.png)  
+
+# 视频教程04
+[动画讲解卡尔曼滤波](https://www.bilibili.com/video/BV1og4y1c7Z3)  
+
+![alt text](.assets_IMG/note/image-44.png)  
+
+# 视频教程05
+[卡尔曼滤波器](https://www.bilibili.com/video/BV1hY4y167fQ)  
+
+![alt text](.assets_IMG/note/image-45.png)  
+其中$F_t$表示状态转移矩阵(就是如何从上一时刻的状态，推测当前时刻的状态)，$B_t$表示控制矩阵(就是控制量$u$如何作用于当前状态)。这里$\hat{x}_t^{-}$表示$t$时刻$x$的估计量，而不是$x$的真实值。  
+
+![alt text](.assets_IMG/note/image-46.png)  
+
+![alt text](.assets_IMG/note/image-47.png)  
+在卡尔曼滤波器中，所有不确定性的表述，都要用到协方差矩阵
+
+![alt text](.assets_IMG/note/image-48.png)  
+这里协方差矩阵也会变化
+
+![alt text](.assets_IMG/note/image-49.png)  
+这里加Q的原因是，预测模型不是百分之百准确，也会有噪声，这里的协方差矩阵表示预测模型本身带来的噪声
+
+![alt text](.assets_IMG/note/image-50.png)  
+
+
+$z_t-H\hat{x}_t^-$这里表示实际的观测值与预期的观测值之间的残差  
+这里卡尔曼增益矩阵$K_{t}$的作用是：1. 权衡预测状态协方差$P$和观察量协方差$R$的大小，来决定是相信预测模型多一点，还是观察模型多一点；2. 将残差的表现形式从观察域转化到状态域
+
+
 
 
 
