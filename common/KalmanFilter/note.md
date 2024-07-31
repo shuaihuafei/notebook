@@ -113,7 +113,7 @@
 
 # 视频教程05
 [卡尔曼滤波器](https://www.bilibili.com/video/BV1hY4y167fQ)  
-
+## 卡尔曼滤波器的原理以及在matlab中的实现
 ![alt text](.assets_IMG/note/image-45.png)  
 其中$F_t$表示状态转移矩阵(就是如何从上一时刻的状态，推测当前时刻的状态)，$B_t$表示控制矩阵(就是控制量$u$如何作用于当前状态)。这里$\hat{x}_t^{-}$表示$t$时刻$x$的估计量，而不是$x$的真实值。  
 
@@ -130,9 +130,31 @@
 
 ![alt text](.assets_IMG/note/image-50.png)  
 
-
+![alt text](.assets_IMG/note/image-53.png)
 $z_t-H\hat{x}_t^-$这里表示实际的观测值与预期的观测值之间的残差  
 这里卡尔曼增益矩阵$K_{t}$的作用是：1. 权衡预测状态协方差$P$和观察量协方差$R$的大小，来决定是相信预测模型多一点，还是观察模型多一点；2. 将残差的表现形式从观察域转化到状态域
+
+![alt text](.assets_IMG/note/image-51.png)  
+
+![alt text](.assets_IMG/note/image-52.png)  
+
+## 基于观测值进行最优估计
+![alt text](.assets_IMG/note/image-54.png)  
+
+![alt text](.assets_IMG/note/image-55.png)  
+
+![alt text](.assets_IMG/note/image-56.png)  
+
+![alt text](.assets_IMG/note/image-57.png)  
+
+![alt text](.assets_IMG/note/image-58.png)  
+
+![alt text](.assets_IMG/note/image-59.png)  
+
+
+
+
+
 
 
 
