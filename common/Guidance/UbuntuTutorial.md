@@ -810,3 +810,6 @@ Ubuntu20.04安装matlab，可以去微信公众号`Linux资源库`，不过要�
 1. 如果iso文件无法挂载，可以通过7zip来解压，可以参考博客[linux下解压iso文件](https://blog.csdn.net/qq_44073614/article/details/125678356)，解压指令`7z x R2023b_Linux.iso -o./R2023b_Linux`
 2. 解压后按照公众号教程步骤，如果无法运行`./install`安装，并且使用root用户依旧无法运行。此时运行`ll`可以发现，其实是`install`文件没有可执行权限，可以运行`chmod +x -R .`一次性给当前文件夹中所有文件和子文件夹中的文件，添加可执行权限
 3. 安装后可以直接打开终端运行`matlab`，此时终端有可能会报错`Failed to load module “canberra-gtk-module“`，参考[博客](https://blog.csdn.net/qq_46304090/article/details/126572231)解决。注意在创建软链接时，看看原软链接的指向，判断一下能不能改。我这里原来是没有这个软链接的，所以直接就创建了
+
+# 查找Eigen库头文件所在目录
+`locate Eigen/Dense`
