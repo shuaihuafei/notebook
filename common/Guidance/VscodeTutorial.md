@@ -11,9 +11,11 @@
 4. 修改该json文件中的program对应值为cmake生成的可执行文件，如下图：
 ![picture 0](.assets_IMG/VscodeTutorial/IMG_20231129-161302725.png)  
 其中变量`${workspaceFolder}`表示的当前最顶层工程目录所在的路径；`${fileDirname}`表示的是在按F5调试时，当前文件所在的路径。
-5. 回到之前构建的项目中，在`CMakeLists.txt`文件中添加`set(CMAKE_BUILD_TYPE Debug)`，并且做好在`project`之前添加，这样`cmake .. && make`生成的可执行文件才能被调试，如图：
+5. 如果之前配置过`task.json`中的`label`，并且在`launch.json`下方有`"preLaunchTask": "sudo_gdb"`，此时如果按F5调试总是提示task出错，就将此行注释掉，如下图：(注意tasks.json文件与launch.json文件的联动就是通过`"preLaunchTask"`来实现的)  
+   ![alt text](.assets_IMG/VscodeTutorial/image-1.png)  
+6. 回到之前构建的项目中，在`CMakeLists.txt`文件中添加`set(CMAKE_BUILD_TYPE Debug)`，并且做好在`project`之前添加，这样`cmake .. && make`生成的可执行文件才能被调试，如图：
 ![picture 4](.assets_IMG/VscodeTutorial/IMG_20231129-162502069.png)  
-6. 转到需要调试的cpp文件，在项目目录的`build`文件夹下执行`cmake .. && make`命令后，按`F5`进行调试。
+7. 转到需要调试的cpp文件，在项目目录的`build`文件夹下执行`cmake .. && make`命令后，按`F5`进行调试。
 ![picture 5](.assets_IMG/VscodeTutorial/IMG_20231129-162854238.png)  
 ## 注意
 通过这种方式调试，同样是适用于嵌套的CMake。只需要在子节点CMakeLists.txt文件中添加`set(CMAKE_BUILD_TYPE Debug)`指令即可。

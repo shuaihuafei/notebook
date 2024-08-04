@@ -68,8 +68,9 @@ sudo update-grub
    - 输出(缩放)分辨率还不清楚具体是什么，但是猜测是在基础(画布)分辨率的基础之上对像素缩放
    - 录制下来的图像，就是一整个黑窗口中的所含内容
    - 上面第一张图中的红色框中可以拖动的红框，应该是在尽量保持分辨率大小不变的情况下，调整录取到的图像在整个输出图像中的位置和大小
-10.  *Flameshot：截图软件[GitHub - flameshot](https://github.com/flameshot-org/flameshot)快捷键设置：[ubuntu安装flameshot截图软件，并设置快捷键_陈 洪 伟的博客-CSDN博客](https://blog.csdn.net/u013171226/article/details/107717009)
-11.  *VLC：[VLC media player for Ubuntu](https://www.videolan.org/vlc/download-ubuntu.html) 或者直接`sudo apt install vlc`(前者有些时候安装了，但是打不开)
+10. *Flameshot：截图软件[GitHub - flameshot](https://github.com/flameshot-org/flameshot)快捷键设置：[ubuntu安装flameshot截图软件，并设置快捷键_陈 洪 伟的博客-CSDN博客](https://blog.csdn.net/u013171226/article/details/107717009)  
+    *Snipaste：截图软件，安装[参考博客](https://blog.csdn.net/qq_44684757/article/details/136062578)
+11. *VLC：[VLC media player for Ubuntu](https://www.videolan.org/vlc/download-ubuntu.html) 或者直接`sudo apt install vlc`(前者有些时候安装了，但是打不开)
 ## 笔记本电脑安装软件
 笔记本电脑因为使用，可能会经常重装系统，所以只安装重要的软件：  
 Clash for windows、Google浏览器、GitHub上添加Linux端ssh、VSCode(VSCode插件)、ROS、百度网盘、搜狗输入法、VLC、Flameshot、Anaconda、NVIDA驱动、ssh服务端
