@@ -28,3 +28,7 @@ VisualBox设置桥接模式好像方便一些，并且是真的能设置，这�
 
 ## ssh连接失败
 如果通过vscode连接某个ubuntu电脑，但是现在那个电脑的IP地址变了，此时再通过vscode连，可能就连不上，这时需要将`C:\Users\shuai\.ssh\known_hosts`中对应的ip地址的内容删掉，然后再次连接就可以了。  
+
+## WORD和WPS如何使用mathtype
+mathtype有一个好处可以直接识别latex公式，所以这里可以结合simpletex软件实现截图识别并导入公式的功能  
+[mathtype破解及安装](https://www.bilibili.com/video/BV1aM4m127YJ)  
