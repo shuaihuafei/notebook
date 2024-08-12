@@ -32,3 +32,7 @@ VisualBox设置桥接模式好像方便一些，并且是真的能设置，这�
 ## WORD和WPS如何使用mathtype
 mathtype有一个好处可以直接识别latex公式，所以这里可以结合simpletex软件实现截图识别并导入公式的功能  
 [mathtype破解及安装](https://www.bilibili.com/video/BV1aM4m127YJ)  
+
+## WORD和WPS如何使用AxMath
+AxMath用法与mathtype差不多，但是好像对latex的兼容性比mathtype要好。AxMath在淘宝上买只要36块钱  
+[AxMath使用方法](https://www.bilibili.com/video/BV1Rq4y1S7S8)  
