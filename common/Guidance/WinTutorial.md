@@ -36,3 +36,7 @@ mathtype有一个好处可以直接识别latex公式，所以这里可以结合s
 ## WORD和WPS如何使用AxMath
 AxMath用法与mathtype差不多，但是好像对latex的兼容性比mathtype要好。AxMath在淘宝上买只要36块钱  
 [AxMath使用方法](https://www.bilibili.com/video/BV1Rq4y1S7S8)  
+
+## word文档中标题前面的点如何去掉
+[word文档中标题前面的点如何去掉](https://blog.csdn.net/gymaisyl/article/details/86687732)  
+
