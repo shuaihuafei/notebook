@@ -33,6 +33,19 @@
         QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
    参考：[博客](https://blog.csdn.net/qq_34732729/article/details/115513215)
 
-
-
-
+# 如何在Vscode中使用qt
+主要是使用到了一个up主开发的vscode插件`Qt configure`。  
+参考[博客](https://blog.csdn.net/cjj_kk/article/details/132579704)  
+参考[视频](https://www.bilibili.com/video/BV1YL411L7Sg)  
+## 步骤
+1. Vscode安装插件`Qt configure`
+2. ctrl+shift+p打开命令窗口，输入qt，并选择new project选项  
+   ![alt text](.assets_IMG/note/image-1.png)  
+3. 输入项目名称  
+   ![alt text](.assets_IMG/note/image-2.png)  
+4. 选择qt套件，cmake，是否带有ui文件(yes)  
+   ![alt text](.assets_IMG/note/image-3.png)  
+5. 最后生成项目文件  
+   ![alt text](.assets_IMG/note/image-4.png)  
+   其中launch.json为调试文件。如果其他地方需要调试qt文件，可以将这个文件直接复制过去。  
+   跟编译相关的最重要的还是CMakeLists.txt文件。通过该文件，cmake才知道怎么编译。所以`.vscode`中的文件有没有无所谓，都不影响编译。
