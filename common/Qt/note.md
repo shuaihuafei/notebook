@@ -203,9 +203,9 @@ add_custom_target(lrelease_task DEPENDS ${QM_FILES})
 1. [Qt Creator + CMake 管理工程翻译文件](https://blog.csdn.net/Tclser/article/details/125364058)  
 这个博客对这两个相关的翻译文件讲解的很清楚，其中针对qtcreator如何利用cmake创建这两个翻译文件说的很清楚了。以后用到了可以跟着后面操作一下。
 
-## 在vsode中如何让编写Qt程序有提示
+## 在vsode中如何让编写Qt程序有提示并可以通过头文件点进去
 1. Ctrl + Shift + p打开命令窗口
-2. 搜索C/Cpp: Edit Configurations，并选择含有json的那一项
+2. 搜索C/Cpp: Edit Configurations，并选择含有json的那一项，此时vsode会帮你自动生成一部分内容
 3. 然后在includePath这一项添加qt的头文件路径`/opt/Qt5.12.9/5.12.9/gcc_64/include/**`，如下：
    ```json
    {
