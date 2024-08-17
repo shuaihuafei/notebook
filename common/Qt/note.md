@@ -203,5 +203,33 @@ add_custom_target(lrelease_task DEPENDS ${QM_FILES})
 1. [Qt Creator + CMake 管理工程翻译文件](https://blog.csdn.net/Tclser/article/details/125364058)  
 这个博客对这两个相关的翻译文件讲解的很清楚，其中针对qtcreator如何利用cmake创建这两个翻译文件说的很清楚了。以后用到了可以跟着后面操作一下。
 
+## 在vsode中如何让编写Qt程序有提示
+1. Ctrl + Shift + p打开命令窗口
+2. 搜索C/Cpp: Edit Configurations，并选择含有json的那一项
+3. 然后在includePath这一项添加qt的头文件路径`/opt/Qt5.12.9/5.12.9/gcc_64/include/**`，如下：
+   ```json
+   {
+      "configurations": [
+         {
+               "name": "Linux",
+               "includePath": [
+                  "${workspaceFolder}/**",
+                  "/opt/Qt5.12.9/5.12.9/gcc_64/include/**"
+               ],
+               "defines": [],
+               "compilerPath": "/usr/bin/gcc",
+               "cStandard": "c17",
+               "cppStandard": "gnu++14",
+               "intelliSenseMode": "linux-gcc-x64"
+         }
+      ],
+      "version": 4
+   }
+   ```
+   注意其中主要就是配置一下includePath这一项，其他的都什么大的作用。有一点要提一下的就是，qt中编译使用的gcc就是ubuntu自带的gcc，qt下载的库中并没有自带gcc。
+## qmake和cmake的区别
+说到编译顺带记录一下，qmake和cmake是两种工具。qmake是Qt框架专用的一种构建工具，它使用.pro文件来描述项目的结构和依赖关系，然后生成Makefile。cmake是一个更为通用的构建系统，不仅限于Qt项目，也被广泛用于其他C++项目，cmake通过CMakeLists.txt文件来管理项目，这使得它能够处理更复杂的项目配置和跨平台构建。不存是qmake还是cmake，他们最后都是生成Makefile文件。
+
 # Qt教程
+[视频教程](https://www.bilibili.com/video/BV1g24y1F7X4)  
 [Qt Documentation Archives](https://doc.qt.io/archives/qt-5.12/qtmodules.html)  
