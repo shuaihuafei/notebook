@@ -4,7 +4,7 @@
 ## 参考
 [ubuntu18.04 LTS卸载qtcreator-10.0.2](https://blog.csdn.net/lyc_daniel/article/details/133858141)
 
-# Linux安装Qt5.12.9后的注意事项
+# Linux安装Qt5.12.9的注意事项
 [文档教程](./【正点原子】I.MX6U嵌入式Qt开发指南V1.1.pdf)可以参考`【正点原子】I.MX6U嵌入式Qt开发指南V1.1.pdf`的第52页  
 [视频教程](https://www.bilibili.com/video/BV1g24y1F7X4)安装主要看下第4和5讲即可  
 1. 安装后如果在左下角总菜单中找不到QtCreator，可以通过命令行运行脚本`/opt/Qt5.12.9/Tools/QtCreator/bin/qtcreator.sh &`，在后台打开QtCreator
@@ -169,7 +169,7 @@ target_link_libraries(TEST PRIVATE Qt5::Widgets)
 3. [CMake教程--QT项目使用CMake](https://blog.csdn.net/m0_46577050/article/details/134348784)  
    这个教程中对cmake中的qt使用做了更详细的说明，并且讲了一些qt6的cmake使用的新特性
 4. [一文搞懂如何在CMake中使用Qt](https://blog.csdn.net/Copperxcx/article/details/123116433)  
-   这个博客中主要要注意下对cmake变量CMAKE_PREFIX_PATH的设置。以及运行时依赖缺失的处理  
+   这个博客中主要要注意下对cmake变量CMAKE_PREFIX_PATH的设置。如果find_package找不到qt的具体路径，可以通过`set(CMAKE_PREFIX_PATH "/opt/Qt5.12.9/5.12.9/gcc_64")`指令来设置，让find_package指令能找到。以及运行时依赖缺失的处理  
 ### 关于qt的翻译文件这里单独说明一下
 这里针对翻译文件的作用，gpt是这样解释的：  
 ![alt text](.assets_IMG/note/image-5.png)  
@@ -203,3 +203,5 @@ add_custom_target(lrelease_task DEPENDS ${QM_FILES})
 1. [Qt Creator + CMake 管理工程翻译文件](https://blog.csdn.net/Tclser/article/details/125364058)  
 这个博客对这两个相关的翻译文件讲解的很清楚，其中针对qtcreator如何利用cmake创建这两个翻译文件说的很清楚了。以后用到了可以跟着后面操作一下。
 
+# Qt教程
+[Qt Documentation Archives](https://doc.qt.io/archives/qt-5.12/qtmodules.html)  
