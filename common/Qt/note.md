@@ -86,7 +86,7 @@ target_link_libraries(TEST PRIVATE Qt5::Widgets)
    - set(CMAKE_AUTOUIC ON)是控制CMake自动运行uic工具，CMake会自动检测项目中的.ui文件，并生成相应的头文件和源文件，通常以`ui_<WidgetName>.h`命名。
    - set(CMAKE_AUTOMOC ON)是控制CMake自动运行moc工具，CMake会自动检测项目中的头文件和源文件，查找包含Q_OBJECT宏的类，并为其生成支持信号与槽机制的`moc_<ClassName>.cpp`文件。
    - set(CMAKE_AUTORCC ON)是控制CMake自动运行rcc工具，CMake会自动检测项目中的.qrc文件，并使用rcc工具生成相应的源文件（通常以`qrc_<ResourceName>.cpp`命名）。
-4. 其中`set(CMAKE_AUTOUIC ON) set(CMAKE_AUTOMOC ON) set(CMAKE_AUTORCC ON)`这三句是让CMake 可以自动管理Qt项目的代码生成任务，如果要手动管理则需要分别使用(注意：其中的FORMS、HEADERS和RESOURCES都可以使用set等来设置)
+4. 其中`set(CMAKE_AUTOUIC ON) set(CMAKE_AUTOMOC ON) set(CMAKE_AUTORCC ON)`这三句是让CMake可以自动管理Qt项目的代码生成任务，如果要手动管理则需要分别使用。但是实际测试发现，通过下面三个指令手动管理文件会更方便一些。因为通过set(CMAKE_AUTOUIC ON)等让CMake自动管理Qt项目的代码生成，目前在Qt5中使用还是会出现一些Bug和限制(注意：其中的FORMS、HEADERS和RESOURCES都可以使用set等来设置)
    - `qt5_wrap_ui(UI_WRAP_FILES ${FORMS})`，其中FORMS为所有ui文件路径的一个集合
    - `qt5_wrap_cpp(CPP_WRAP_FILES ${HEADERS})`，其中HEADERS为所有包含Q_OBJECT宏的头文件的集合
    - `qt5_add_resources(RESOURCES_WRAP_FILES ${RESOURCES})`，其中RESOURCES为所以包含资源文件文件的集合  
@@ -233,3 +233,87 @@ add_custom_target(lrelease_task DEPENDS ${QM_FILES})
 # Qt教程
 [视频教程](https://www.bilibili.com/video/BV1g24y1F7X4)  
 [Qt Documentation Archives](https://doc.qt.io/archives/qt-5.12/qtmodules.html)  
+## QtCreator快捷键
+![alt text](.assets_IMG/note/image-8.png)  
+
+自定义快捷键方式：  
+![alt text](.assets_IMG/note/image-7.png)  
+## 信号槽
+1. 如果自定义信号槽，信号只要申明不要定义，但是槽函数既需要声明也需要定义
+2. 有三种常见的信号槽写法：
+   - 传统写法（使用SLOT和SIGNAL宏）:  
+     connect(sender, SIGNAL(signalName()), receiver, SLOT(slotName()));  
+   - 新式写法（使用函数指针）:  
+     connect(sender, &Sender::signalName, receiver, &Receiver::slotName);
+   - Lambda表达式:
+     connect(sender, &Sender::signalName, [=]() {  
+      // lambda expression code  
+   });  
+
+   新式写法（函数指针）通常被认为比传统写法更优，因为它更安全（类型安全），编译器可以检查信号和槽的类型是否匹配，而且在运行时也能提供更好的性能，因为它避免了使用SIGNAL和SLOT宏带来的字符串查找。  
+   Lambda表达式提供了极大的灵活性，允许你在连接信号时直接执行代码，而不需要单独定义槽函数。但是，过度使用Lambda可能会导致代码不易读和维护，并且如果Lambda捕获了大量的变量，可能会影响性能。
+## 资源文件
+1. 在QtCreator中添加图片等资源文件的步骤如下：  
+   ![alt text](.assets_IMG/note/image-11.png)  
+   ![alt text](.assets_IMG/note/image-12.png)  
+   ![alt text](.assets_IMG/note/image-10.png)  
+   ![alt text](.assets_IMG/note/image-9.png)  
+2. 如果在Vscode中添加资源文件就需要手动写Html代码了，类似如下(参考[博客](https://blog.csdn.net/m0_58178839/article/details/131825108)):  
+   ```html
+   <RCC>
+      <qresource prefix = "/">
+         <file>logo.png</file>
+      </qresource>
+   </RCC>
+   ```
+## 样式表及QSS文件
+### 如何在利用Qt帮助文档为QLabel添加样式表  
+![alt text](.assets_IMG/note/image-14.png)  
+![alt text](.assets_IMG/note/image-15.png)  
+![alt text](.assets_IMG/note/image-16.png)  
+![alt text](.assets_IMG/note/image-17.png)  
+![alt text](.assets_IMG/note/image-18.png)  
+![alt text](.assets_IMG/note/image-19.png)  
+![alt text](.assets_IMG/note/image-20.png)  
+![alt text](.assets_IMG/note/image-21.png)  
+但是这样会导致添加进去的图片平铺填充  
+![alt text](.assets_IMG/note/image-22.png)  
+需要改变样式表中的代码  
+![alt text](.assets_IMG/note/image-23.png)  
+改变字体颜色和大小等通过样式表修改会比较方便，字体的大小的单位可以是px，也可以是pt  
+![alt text](.assets_IMG/note/image-24.png)  
+也可以不ui文件来设置，直接在cpp文件中通过操作ui->setStyleSheet来设置样式表
+![alt text](.assets_IMG/note/image-25.png)  
+![alt text](.assets_IMG/note/image-26.png)  
+
+### 通过Qss文件为Qt控件修改样式
+![alt text](.assets_IMG/note/image-27.png)  
+![alt text](.assets_IMG/note/image-28.png)  
+![alt text](.assets_IMG/note/image-29.png)  
+![alt text](.assets_IMG/note/image-30.png)  
+![alt text](.assets_IMG/note/image-31.png)  
+![alt text](.assets_IMG/note/image-32.png)  
+![alt text](.assets_IMG/note/image-33.png)  
+![alt text](.assets_IMG/note/image-34.png)  
+在main.cpp和widget.cpp文件中将Qss文件读进来
+![alt text](.assets_IMG/note/image-35.png)  
+可以通过下面这种方式来获取资源文件的路径。并且另外注意qApp->setStyleSheet这里的qApp是Qt提供的一个全局变量，它可以方便地用于在应用程序的任意地方访问应用程序实例。  
+![alt text](.assets_IMG/note/image-36.png)  
+但是如果像下面这样设置，会导致其中所有的QLabel都会显示成红色。这样肯定是不符合要求的  
+![alt text](.assets_IMG/note/image-37.png)  
+![alt text](.assets_IMG/note/image-38.png)  
+这里可以单独对这个对象单独起一个名字  
+![alt text](.assets_IMG/note/image-39.png)  
+然后在qss文件中单独对这个对象设置颜色即可
+![alt text](.assets_IMG/note/image-41.png)  
+![alt text](.assets_IMG/note/image-42.png)  
+
+
+
+
+
+
+
+
+
+
