@@ -261,13 +261,25 @@ add_custom_target(lrelease_task DEPENDS ${QM_FILES})
 2. 如果在Vscode中添加资源文件就需要手动写Html代码了，类似如下(参考[博客](https://blog.csdn.net/m0_58178839/article/details/131825108)):  
    ```html
    <RCC>
+       <qresource prefix = "/">
+           <file>logo.png</file>
+       </qresource>
+   </RCC>
+   ```
+   注意：经过实操发现(就是通过qtcreator来实际创建文件后并打开文件查看，再在vsode中模仿)，如果想在代码中通过类似`ui->label->setStyleSheet("QLabel { border-image:url(:/images/bmp.png) }");`的指令来加载资源文件中的图片时，最好将资源文件放在.qrc的同级目录下。例子如下：  
+   资源文件的文件目录结构如下：  
+   ![alt text](.assets_IMG/note/image-44.png)  
+   然后.qrc的文件内容为  
+   ```html
+   <RCC>
       <qresource prefix = "/">
-         <file>logo.png</file>
+         <file>images/bmp.png</file>
       </qresource>
    </RCC>
    ```
+   这样在cpp源文件中加载的时候样式表内容就写`QLabel { border-image:url(:/images/bmp.png) }`。
 ## 样式表及QSS文件
-### 如何在利用Qt帮助文档为QLabel添加样式表  
+### 如何利用Qt帮助文档在QtCreator中为QLabel添加样式表  
 ![alt text](.assets_IMG/note/image-14.png)  
 ![alt text](.assets_IMG/note/image-15.png)  
 ![alt text](.assets_IMG/note/image-16.png)  
@@ -286,7 +298,7 @@ add_custom_target(lrelease_task DEPENDS ${QM_FILES})
 ![alt text](.assets_IMG/note/image-25.png)  
 ![alt text](.assets_IMG/note/image-26.png)  
 
-### 通过Qss文件为Qt控件修改样式
+### 如何在QtCreator通过Qss文件为Qt控件修改样式
 ![alt text](.assets_IMG/note/image-27.png)  
 ![alt text](.assets_IMG/note/image-28.png)  
 ![alt text](.assets_IMG/note/image-29.png)  
@@ -308,12 +320,158 @@ add_custom_target(lrelease_task DEPENDS ${QM_FILES})
 ![alt text](.assets_IMG/note/image-41.png)  
 ![alt text](.assets_IMG/note/image-42.png)  
 
+### 根据QtCreator步骤总结如何在vsode中通过纯代码使用样式表和QSS文件
+#### 样式表
+1. 构建文件目录结构，并在其中放入初始文件(可以通过qtcreator来创建一些初始文件，然后在此基础之上修改)：  
+   .vscode：里面的c_cpp_properties.json文件是为了代码补全
+   build：编译的中间文件夹  
+   include：头文件
+   qrc：资源文件，图片文件夹和qss文件夹等
+   src：代码源文件
+   ui：qt的ui文件
+   ![alt text](.assets_IMG/note/image-46.png)  
+2. 资源文件.qrc中写入
+   ```html
+   <RCC>
+      <qresource prefix = "/">
+         <file>images/bmp.png</file>
+         <file>qss/style.qss</file>
+      </qresource>
+   </RCC>
+   ```
+   注意其中图片资源和qss文件一定要放在.qrc的同级目录下，否则很有可能会在程序运行时加载不出来效果
+3. qss文件的内容，下面再介绍
+4. 打开qtdesigner，并通过qtdesigner打开文件目录中的.ui文件  
+   ![alt text](.assets_IMG/note/image-47.png)  
+5. 在空的mainwindow中放入一个空的label控件  
+   ![alt text](.assets_IMG/note/image-48.png)  
+6. 保存qtdesigner编辑过的.ui文件。打开mainwindow.cpp源文件，在ui->setupUi(this);下方加入如下代码
+   ```cpp
+   ui->setupUi(this);
+   ui->label->setStyleSheet("QLabel { border-image:url(:/images/bmp.png) }");
+   ```
+   注意这里样式表的路径(`url(:/images/bmp.png)`)是资源文件中的前缀和图片路径组成的  
+   ![alt text](.assets_IMG/note/image-49.png)  
+   这样编译并运行就可以在qlabel中加载出来图片了。
+#### QSS文件
+QSS文件是为了当有多个控件使用样式表时，为了简化代码，将样式表都集中到一起而形成得文件，这样直接修改QSS文件，就可以直接修改控件的样式。所以这里建议直接使用QSS文件，就不要再使用样式表了。  
+1. 构建文件目录结构，并在其中放入初始文件(可以通过qtcreator来创建一些初始文件，然后在此基础之上修改)：  
+   .vscode：里面的c_cpp_properties.json文件是为了代码补全
+   build：编译的中间文件夹  
+   include：头文件
+   qrc：资源文件，图片文件夹和qss文件夹等
+   src：代码源文件
+   ui：qt的ui文件
+   ![alt text](.assets_IMG/note/image-46.png)  
+2. 资源文件.qrc中写入
+   ```html
+   <RCC>
+      <qresource prefix = "/">
+         <file>images/bmp.png</file>
+         <file>qss/style.qss</file>
+      </qresource>
+   </RCC>
+   ```
+   注意其中图片资源和qss文件一定要放在.qrc的同级目录下，否则很有可能会在程序运行时加载不出来效果
+3. qss文件的内容如下
+   ```qss
+   QWidget { background-color: blue }
+   QLabel { border-image:url(:/images/bmp.png) }
+   ```
+   这里qss的文件内容意思是，将QWidget的背景色变为蓝色，为QLabel附上图片，图片为资源文件中的，路径这里表示为url(:/images/bmp.png)。  
+   如果想在qss中使用.qrc中的资源文件，就必须先在.qrc中添加。如果不想使用，这里的路径需要改写为
+   ```qss
+   QLabel { border-image:url(../qrc/images/bmp.png) }
+   ```
+   这里的路径是相对于可执行文件的路径，并且注意少了一个冒号
+4. 打开qtdesigner，并通过qtdesigner打开文件目录中的.ui文件  
+   ![alt text](.assets_IMG/note/image-47.png)  
+5. 在空的mainwindow中放入一个空的label控件  
+   ![alt text](.assets_IMG/note/image-48.png)  
+6. 保存qtdesigner编辑过的.ui文件。打开mainwindow.cpp源文件，在ui->setupUi(this);下方加入如下代码
+   ```cpp
+   ui->setupUi(this);
+   
+   QFile file(":/qss/style.qss");
+   /*判断文件是否存在*/
+   if (file.exists()){
+      /*以只读的方式打开*/
+      file.open(QFile::ReadOnly);
+      /*以字符串的方式保存读出的结果*/
+      QString stylesheet = QLatin1String(file.readAll());
+      /*设置全局样式*/
+      qApp->setStyleSheet(stylesheet);
+      /*关闭文件*/
+      file.close();
+   }
+   ```
+   (其中`QFile file(":/qss/style.qss");`在加载qss文件时，也可以不将qss文件放在资源文件中，直接通过相对路径来搜索，也就是省去冒号，这里写相对于可执行文件的路径`QFile file("../qrc/qss/style.qss");`即可。但是对于qss文件还是建议写在资源文件中)
+   这样就可将资源文件中的qss文件加载进来了，并且对所有的QWidget和QLabel加上对应的样式
+7. 但是这里注意，因为有些时候我们需要对特定的QLabel附上单独的样式，所以这里在qss中可以这样修改
+   ```qss
+   QLabel#label1 { border-image:url(:/images/bmp.png) }
+   ```
+   这里`#label1`中的label1是控件的名字，可以通过代码setObjectName方法指定：
+   ```cpp
+   QLabel *label1 = new QLabel(this);
+   label1->setObjectName("label1");
+   ```
+   也可以在qtdesigner拖动控件时指定：  
+   ![alt text](.assets_IMG/note/image-50.png)
+##### QSS语法补充
+1. 当想添加其他颜色时，可以通过这样去添加
+   ```qss
+   QWidget {background-color: rgb(220 220 220)}
+   ```
+   或者  
+   ```qss
+   QWidget {background-color: #DCDCDC}
+   ```
 
 
 
 
+#### 总结 关于什么时候将文件加载为资源文件 什么时候不加载
+1. 当你希望将资源（如图片、图标等）打包到应用程序中，以便在所有平台上都能使用，并且不依赖外部文件时使用。将资源文件打包进.qrc文件
+2. qss文件一定打包进.qrc文件，如果需要在qss文件中使用一些小的图标或者图片，可以打包进.qrc文件，然后在qss文件中使用这些图片的时候，注意路径要以`:/`开头
+
+## QT中如何加载图片
+### 方式一 通过资源文件加载
+需要先配置资源文件，这里就不多说了，通过样式表来添加`ui->label->setStyleSheet("QLabel { border-image:url(:/images/bmp.png) }");`
+### 方式二 通过QPixmap加载
+```cpp
+QPixmap pixmap("../qrc/images/bmp.png");
+ui->label->setPixmap(pixmap);
+```
+### 两种方式对比
+- 样式表加载图片  
+  适合简单的图像设置，尤其是静态图像、背景图片或需要集中管理的样式。
+- QPixmap加载图片  
+  更适合需要动态处理图片的场景，或需要进行更复杂的图像操作。
+
+## QWidget
+QWidget可以当成一种容器，里面放qlabel，通过搭配不同的颜色，可以起到美化空间的作用。
+![alt text](.assets_IMG/note/image-51.png)  
+![alt text](.assets_IMG/note/image-52.png)  
+
+## QPushButton
+只有设置QPushButton的setCheckable(true)属性，才能触发这个信号。  
+![alt text](.assets_IMG/note/image-53.png)  
+可以发现toggled这个槽函数是在pressed和released中间触发的，并且按钮按下去之后没有再弹起来。类似于插板按钮，再按第二下才能弹起来。  
+![alt text](.assets_IMG/note/image-54.png)  
+![alt text](.assets_IMG/note/image-55.png)  
+槽函数会有一个bool位，通过这个可以判断按钮是否被按下并且有没有弹起来。  
+![alt text](.assets_IMG/note/image-57.png)
 
 
+视频教程中添加按钮图片资源文件的步骤记录：  
+![alt text](.assets_IMG/note/image-58.png)  
+![alt text](.assets_IMG/note/image-59.png)  
+注意这里点击添加现有文件来添加图片时，会将图片文件所在的文件夹也添加进来  
+![alt text](.assets_IMG/note/image-60.png)  
 
-
+这里在qss文件中如果添加一行按钮的`:hover`可以让按钮在有鼠标悬停时，变成另一张图片，这个好像不用写信号槽，通过qss文件可以直接实现。  
+![alt text](.assets_IMG/note/image-61.png)  
+![alt text](.assets_IMG/note/image-62.png)  
+![alt text](.assets_IMG/note/image-63.png)  
 
