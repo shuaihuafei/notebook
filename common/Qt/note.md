@@ -455,6 +455,7 @@ QWidget可以当成一种容器，里面放qlabel，通过搭配不同的颜色�
 ![alt text](.assets_IMG/note/image-52.png)  
 
 ## QPushButton
+### toggled信号
 只有设置QPushButton的setCheckable(true)属性，才能触发这个信号。  
 ![alt text](.assets_IMG/note/image-53.png)  
 可以发现toggled这个槽函数是在pressed和released中间触发的，并且按钮按下去之后没有再弹起来。类似于插板按钮，再按第二下才能弹起来。  
@@ -463,15 +464,67 @@ QWidget可以当成一种容器，里面放qlabel，通过搭配不同的颜色�
 槽函数会有一个bool位，通过这个可以判断按钮是否被按下并且有没有弹起来。  
 ![alt text](.assets_IMG/note/image-57.png)
 
-
+### 添加按钮图片资源文件
 视频教程中添加按钮图片资源文件的步骤记录：  
 ![alt text](.assets_IMG/note/image-58.png)  
 ![alt text](.assets_IMG/note/image-59.png)  
 注意这里点击添加现有文件来添加图片时，会将图片文件所在的文件夹也添加进来  
 ![alt text](.assets_IMG/note/image-60.png)  
 
-这里在qss文件中如果添加一行按钮的`:hover`可以让按钮在有鼠标悬停时，变成另一张图片，这个好像不用写信号槽，通过qss文件可以直接实现。  
+### QSS 伪状态
+这里在qss文件中如果添加一行按钮的`:hover`可以让按钮在有鼠标悬停时，变成另一张图片，这个类似于信号槽，通过qss文件可以直接实现。  
 ![alt text](.assets_IMG/note/image-61.png)  
 ![alt text](.assets_IMG/note/image-62.png)  
 ![alt text](.assets_IMG/note/image-63.png)  
+通过qss的`:checked`伪状态，可以让按钮点击的时候变成另一个图片  
+![alt text](.assets_IMG/note/image-64.png)  
+![alt text](.assets_IMG/note/image-65.png)  
+这里还可以在`:checked`伪状态后面再继续衔接伪状态，可以让按钮点击后如果鼠标悬停是什么反应  
+![alt text](.assets_IMG/note/image-66.png)  
+总结：这里要注意的就是，如果想制作视频中所示的音乐播放器按钮的效果，一定要`setCheckable(true)`设置一下
+
+## QRadioButton
+1. 这里类似于QPushButton中的qss文件设置。下图中的`QRadioButton::indicator`表示单选按钮前面的小圆圈  
+   ![alt text](.assets_IMG/note/image-67.png)  
+
+2. 通过放到不同的组中来让各自组中的按钮互斥  
+   ![alt text](.assets_IMG/note/image-68.png)  
+   ![alt text](.assets_IMG/note/image-69.png)  
+
+3. 按钮组中有一个属性，可以让这组中的单选按钮不互相排斥，单选变多选
+   ![alt text](.assets_IMG/note/image-70.png)  
+
+4. 如何做到下图中，只有选项没有前面小圆圈的效果  
+   ![alt text](.assets_IMG/note/image-72.png)  
+   在qss中将圆圈的宽高都设置为0，字体大小颜色还有背景色也设置一下，但是这样出来的效果，文字不是居中的，且通过qss也无法实现文字的居中。所以这种效果通过QRadioButton来实现，有些不太方便，所以可以使用QPushButton来实现，毕竟他们是继承自一个父类  
+   ![alt text](.assets_IMG/note/image-73.png)  
+   ![alt text](.assets_IMG/note/image-74.png)  
+   将几个QPushButton分配到一个按钮组  
+   ![alt text](.assets_IMG/note/image-75.png)  
+   将这几个按钮的checkable属性都设置成可选中的，再运行，效果就有了  
+   ![alt text](.assets_IMG/note/image-76.png)  
+   ![alt text](.assets_IMG/note/image-77.png)  
+   最后再设置一下qss按钮的背景色和选中时的效果就可以了  
+   ![alt text](.assets_IMG/note/image-80.png)  
+   ![alt text](.assets_IMG/note/image-81.png)  
+5. 常用信号是这个toggled，一般情况下不会用其他的信号  
+   ![alt text](.assets_IMG/note/image-82.png)  
+   ![alt text](.assets_IMG/note/image-83.png)  
+
+## QCheckBox
+![alt text](.assets_IMG/note/image-84.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
