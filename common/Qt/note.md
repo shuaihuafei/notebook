@@ -484,44 +484,145 @@ QWidget可以当成一种容器，里面放qlabel，通过搭配不同的颜色�
 总结：这里要注意的就是，如果想制作视频中所示的音乐播放器按钮的效果，一定要`setCheckable(true)`设置一下
 
 ## QRadioButton
-1. 这里类似于QPushButton中的qss文件设置。下图中的`QRadioButton::indicator`表示单选按钮前面的小圆圈  
-   ![alt text](.assets_IMG/note/image-67.png)  
-
-2. 通过放到不同的组中来让各自组中的按钮互斥  
-   ![alt text](.assets_IMG/note/image-68.png)  
-   ![alt text](.assets_IMG/note/image-69.png)  
-
-3. 按钮组中有一个属性，可以让这组中的单选按钮不互相排斥，单选变多选
+### 如何改变QRadioButton前小圆圈的样式
+这里类似于QPushButton中的qss文件设置。下图中的`QRadioButton::indicator`表示单选按钮前面的小圆圈  
+![alt text](.assets_IMG/note/image-67.png)  
+### 如何隔离不同组 实现单选
+通过放到不同的组中来让各自组中的按钮互斥  
+![alt text](.assets_IMG/note/image-68.png)  
+![alt text](.assets_IMG/note/image-69.png)  
+### 如何让QRadioButton单选变多选
+按钮组中有一个属性，可以让这组中的单选按钮不互相排斥，单选变多选
    ![alt text](.assets_IMG/note/image-70.png)  
-
-4. 如何做到下图中，只有选项没有前面小圆圈的效果  
-   ![alt text](.assets_IMG/note/image-72.png)  
-   在qss中将圆圈的宽高都设置为0，字体大小颜色还有背景色也设置一下，但是这样出来的效果，文字不是居中的，且通过qss也无法实现文字的居中。所以这种效果通过QRadioButton来实现，有些不太方便，所以可以使用QPushButton来实现，毕竟他们是继承自一个父类  
-   ![alt text](.assets_IMG/note/image-73.png)  
-   ![alt text](.assets_IMG/note/image-74.png)  
-   将几个QPushButton分配到一个按钮组  
-   ![alt text](.assets_IMG/note/image-75.png)  
-   将这几个按钮的checkable属性都设置成可选中的，再运行，效果就有了  
-   ![alt text](.assets_IMG/note/image-76.png)  
-   ![alt text](.assets_IMG/note/image-77.png)  
-   最后再设置一下qss按钮的背景色和选中时的效果就可以了  
-   ![alt text](.assets_IMG/note/image-80.png)  
-   ![alt text](.assets_IMG/note/image-81.png)  
-5. 常用信号是这个toggled，一般情况下不会用其他的信号  
-   ![alt text](.assets_IMG/note/image-82.png)  
-   ![alt text](.assets_IMG/note/image-83.png)  
+### 如何实现下图中案例的效果
+如何做到下图中，只有选项没有前面小圆圈的效果  
+![alt text](.assets_IMG/note/image-72.png)  
+在qss中将圆圈的宽高都设置为0，字体大小颜色还有背景色也设置一下，但是这样出来的效果，文字不是居中的，且通过qss也无法实现文字的居中。所以这种效果通过QRadioButton来实现，有些不太方便，所以可以使用QPushButton来实现，毕竟他们是继承自一个父类  
+![alt text](.assets_IMG/note/image-73.png)  
+![alt text](.assets_IMG/note/image-74.png)  
+将几个QPushButton分配到一个按钮组  
+![alt text](.assets_IMG/note/image-75.png)  
+将这几个按钮的checkable属性都设置成可选中的，再运行，效果就有了  
+![alt text](.assets_IMG/note/image-76.png)  
+![alt text](.assets_IMG/note/image-77.png)  
+最后再设置一下qss按钮的背景色和选中时的效果就可以了  
+![alt text](.assets_IMG/note/image-80.png)  
+![alt text](.assets_IMG/note/image-81.png)  
+### QRadioButton常用信号
+常用信号是这个toggled，一般情况下不会用其他的信号  
+![alt text](.assets_IMG/note/image-82.png)  
+![alt text](.assets_IMG/note/image-83.png)  
 
 ## QCheckBox
-![alt text](.assets_IMG/note/image-84.png)
+### 三态选择
+要实现下图中左边的三种状态，需要打开三态的选择窗口  
+![alt text](.assets_IMG/note/image-84.png)  
+![alt text](.assets_IMG/note/image-85.png)  
+但是为了跟图片中一样，上面图片中的左边的显示效果一样，也需要修改样式表QSS  
+![alt text](.assets_IMG/note/image-86.png)  
+![alt text](.assets_IMG/note/image-87.png)  
+### QCheckBox的信号
+通过QCheckBox的stateChanged信号的参数来看是三种状态的哪一种  
+![alt text](.assets_IMG/note/image-88.png)  
+![alt text](.assets_IMG/note/image-89.png)  
+### 如何实现复选框按钮组的多选
+这里包含复选框的按钮组，将其中的属性exclusive勾选掉就可以实现多选了  
+![alt text](.assets_IMG/note/image-90.png)  
 
+## margin&padding(外边距和内边距)
+![alt text](.assets_IMG/note/image-91.png)  
+![alt text](.assets_IMG/note/image-92.png)  
+### 如何利用帮助文档来查看怎么修改样式表以修改按钮边距
+![alt text](.assets_IMG/note/image-93.png)  
+![alt text](.assets_IMG/note/image-94.png)  
+### 如何统一设置边距
+这里的margin 50px会使得按钮周围跟总窗口的距离都为50px  
+![alt text](.assets_IMG/note/image-95.png)  
+![alt text](.assets_IMG/note/image-96.png)  
+### 如何四周单独设置边距
+四周单独设置用下面的关键字
+![alt text](.assets_IMG/note/image-97.png)  
+### 如何设置按钮边界(或者叫描边)样式
+下图中widget上的绿色部分就表示按钮的边界
+![alt text](.assets_IMG/note/image-99.png)  
+### 如何设置按钮单边的边界(或者叫描边)样式
+![alt text](.assets_IMG/note/image-100.png)
+### 如何设置按钮文字和按钮边界的样式
+因为这里按钮也可以看成一个容器，所以可以通过padding改变文字与按钮边框之间的距离    
+![alt text](.assets_IMG/note/image-101.png)  
+![alt text](.assets_IMG/note/image-102.png)  
+![alt text](.assets_IMG/note/image-103.png)  
+### 关于样式表中padding的注意事项
+这里注意如果改变padding的值，虽然表示文字距离四周都是100px，但是这里实际效果却看不出来。如果我们将文字的大小变大，可以发现文字会显示不全，这个就是padding的效果  
+![alt text](.assets_IMG/note/image-104.png)  
+![alt text](.assets_IMG/note/image-105.png)  
+![alt text](.assets_IMG/note/image-106.png)  
+### 总结
+上述中提到的三个概念，margin、border和padding可以分别翻译为外边距、边框和内边距。  
+![alt text](.assets_IMG/note/image-92.png)  
+其中margin支持的控件有  
+![alt text](.assets_IMG/note/image-107.png)  
+其中padding支持的控件有  
+![alt text](.assets_IMG/note/image-108.png)  
 
+## QHBoxLayout水平布局
+布局主要有下面三个属性  
+![alt text](.assets_IMG/note/image-109.png)  
+可以框选控件然后点快捷键就可以  
+![alt text](.assets_IMG/note/image-110.png)  
+### spacing
+spacing表示间隔距离  
+![alt text](.assets_IMG/note/image-111.png)  
+### stretch
+stretch表示拉伸因子，这里表示当布局很大时，布局内的控件会按照长度1:1:2:2来，具体的长度比例，可以自己在ui中设置。  
+![alt text](.assets_IMG/note/image-112.png)  
+如果设置成0，就表示会使用按钮的默认宽度。但是为了精准控制按钮的宽度比例，所以这里最好就用明确的值。  
+![alt text](.assets_IMG/note/image-113.png)  
+### 如何将整个widget窗口设置成水平布局
+![alt text](.assets_IMG/note/image-114.png)  
+![alt text](.assets_IMG/note/image-115.png)  
+注意当整个窗口缩到最小的时候，之前设置的stretch就不起作用了  
+![alt text](.assets_IMG/note/image-116.png)  
+### 布局的margin属性
+这里可以分别设置布局的margin属性，这样就可以让按钮与布局的边界不是紧贴着的  
+![alt text](.assets_IMG/note/image-117.png)  
+### SizePolicy
+这个属性不在布局上，在布局里的控件上  
+![alt text](.assets_IMG/note/image-118.png)  
+里面有7个值  
+![alt text](.assets_IMG/note/image-119.png)
+## 如何在帮助文档中查看其用法  
+![alt text](.assets_IMG/note/image-120.png)  
+![alt text](.assets_IMG/note/image-121.png)  
+![alt text](.assets_IMG/note/image-122.png)  
+## ignored
+当外面的边界框被缩小时，之前设置为Minimum时，按钮不会缩小到比缺省值还小，就好比红框右边的按钮。但是当水平策略被设置为ignored时，外面的边界框被缩小时，按钮就会缩小到比缺省值还要小。  
+![alt text](.assets_IMG/note/image-123.png)
+![alt text](.assets_IMG/note/image-124.png)  
+## expanding
+这里可以看到当按钮的垂直策略设置为expanding时，按钮的垂直方向会扩展到他能扩展到的最大值  
+![alt text](.assets_IMG/note/image-125.png)  
+![alt text](.assets_IMG/note/image-126.png)  
 
+## QVBoxLayout垂直布局
+垂直布局这里如果设置stretch的值不一样，拉大垂直布局的边框，并不会改变按钮控件的垂直大小，是因为按钮的SizePolicy垂直策略都被默认设置为了fixed。  
+![alt text](.assets_IMG/note/image-127.png)  
+可以看到如果垂直策略设置成了ignored，stretch的比例效果就有了
+![alt text](.assets_IMG/note/image-128.png)  
+### 布局可以嵌套使用
+这里左边是垂直布局，右边是水平布局，两个一起又是一个水平布局  
+![alt text](.assets_IMG/note/image-129.png)  
+然后整个widget再设置一个布局，就可以让整个widget充满  
+![alt text](.assets_IMG/note/image-130.png)  
 
-
-
-
-
-
+## QGridLayout(网格布局)
+![alt text](.assets_IMG/note/image-131.png)  
+### layoutRowMinimumHeight
+这里可以通过设置属性layoutRowMinimumHeight来控制网格布局中的格子的大小  
+![alt text](.assets_IMG/note/image-132.png)  
+### 如何让按钮固定大小后在网格布局的中间  
+![alt text](.assets_IMG/note/image-133.png)  
+![alt text](.assets_IMG/note/image-134.png)  
 
 
 
