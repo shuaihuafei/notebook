@@ -455,6 +455,9 @@ QWidget可以当成一种容器，里面放qlabel，通过搭配不同的颜色�
 ![alt text](.assets_IMG/note/image-52.png)  
 
 ## QPushButton
+### 固定大小
+可以通过minimumSize和maximumSize来将按钮大小固定  
+![alt text](.assets_IMG/note/image-154.png)  
 ### toggled信号
 只有设置QPushButton的setCheckable(true)属性，才能触发这个信号。  
 ![alt text](.assets_IMG/note/image-53.png)  
@@ -579,6 +582,7 @@ stretch表示拉伸因子，这里表示当布局很大时，布局内的控件�
 如果设置成0，就表示会使用按钮的默认宽度。但是为了精准控制按钮的宽度比例，所以这里最好就用明确的值。  
 ![alt text](.assets_IMG/note/image-113.png)  
 ### 如何将整个widget窗口设置成水平布局
+这里表示整个widget使用ui->herizontalLayout来实现布局  
 ![alt text](.assets_IMG/note/image-114.png)  
 ![alt text](.assets_IMG/note/image-115.png)  
 注意当整个窗口缩到最小的时候，之前设置的stretch就不起作用了  
@@ -586,6 +590,8 @@ stretch表示拉伸因子，这里表示当布局很大时，布局内的控件�
 ### 布局的margin属性
 这里可以分别设置布局的margin属性，这样就可以让按钮与布局的边界不是紧贴着的  
 ![alt text](.assets_IMG/note/image-117.png)  
+实际案例演示如下：  
+![alt text](.assets_IMG/note/image-163.png)  
 ### SizePolicy
 这个属性不在布局上，在布局里的控件上  
 ![alt text](.assets_IMG/note/image-118.png)  
@@ -623,6 +629,236 @@ stretch表示拉伸因子，这里表示当布局很大时，布局内的控件�
 ### 如何让按钮固定大小后在网格布局的中间  
 ![alt text](.assets_IMG/note/image-133.png)  
 ![alt text](.assets_IMG/note/image-134.png)  
+
+## QSplitter
+![alt text](.assets_IMG/note/image-135.png)  
+这个类的位置在快捷按钮栏  
+![alt text](.assets_IMG/note/image-136.png)  
+### 如何使用
+选中两个控件后点击分裂器  
+![alt text](.assets_IMG/note/image-137.png)  
+然后就缩小了，这里要选中然后拖拽放大  
+![alt text](.assets_IMG/note/image-139.png)  
+运行程序后，把鼠标放在这个中缝上，鼠标会变形，此时点击鼠标左键拖动，即可看见效果  
+![alt text](.assets_IMG/note/image-140.png)  
+### opaqueResize属性
+opaqueResize:为false时，在拖动的时候会显示一条灰色的线条，在拖动到位并释放鼠标后再显示分割线条。默认为true，实时更新子控件大小。  
+![alt text](.assets_IMG/note/image-141.png)  
+### childrenCollapsible属性
+一般情况下如果控件的宽度有一个最小值，那么childrenCollapsible这个属性最好去掉勾选，也就是为false。此时如果将控件往左拖，控件就不会瞬间变为0。  
+![alt text](.assets_IMG/note/image-142.png)
+![alt text](.assets_IMG/note/image-143.png)  
+![alt text](.assets_IMG/note/image-144.png)  
+### handleWidth属性
+这个属性用于设置两个控件间的距离  
+![alt text](.assets_IMG/note/image-145.png)  
+### 样式表
+可以看到如果对QSplitter设置样式表，可以将其背景色改变。感觉主要是结合handleWidth属性来实现一个美化的作用。  
+![alt text](.assets_IMG/note/image-146.png)  
+![alt text](.assets_IMG/note/image-147.png)  
+### orientation属性
+控制其水平或者垂直方向  
+![alt text](.assets_IMG/note/image-148.png)  
+
+## QSpacer
+![alt text](.assets_IMG/note/image-149.png)  
+这里将sizeType设置为Fixed，将sizeHint的宽度设置为40，可以看到实际运行出来的结果就是左边宽度固定。对于水平弹簧，高度值是没有用的，同理，对于垂直弹簧，宽度值没用。  
+![alt text](.assets_IMG/note/image-151.png)  
+这里弹簧如果将sizeType设置成ignored，可以发现并不起作用。所以如果想要控件左边没有空白可以直接将弹簧删除。  
+![alt text](.assets_IMG/note/image-152.png)  
+### 小技巧
+通过两个弹簧来扩大距离  
+![alt text](.assets_IMG/note/image-162.png)  
+
+## QLineEdit
+![alt text](.assets_IMG/note/image-153.png)  
+### 样式表去除边框
+通过在样式表中设置来去除边框  
+![alt text](.assets_IMG/note/image-155.png)  
+### 如何固定大小
+可以通过minimumSize和maximumSize来将按钮大小固定
+![alt text](.assets_IMG/note/image-156.png)   
+### 如何绘制上述案例中的直线
+可以通过qwidget来做，将其高度设置为2。并设置其样式表的背景色为灰色  
+![alt text](.assets_IMG/note/image-157.png)  
+![alt text](.assets_IMG/note/image-158.png)  
+### 如何设置其中的文字大小
+![alt text](.assets_IMG/note/image-159.png)  
+并可以通过placeholderText属性来设置默认文字  
+![alt text](.assets_IMG/note/image-160.png)
+### 密码显示如何设置
+![alt text](.assets_IMG/note/image-161.png)  
+
+## QDialog
+### 简易用法
+通过pushButton点击然后显示dialog  
+![alt text](.assets_IMG/note/image-164.png)  
+### 设置模态
+通过dialog的方法来设置模态，使得该窗口打开时，其他地方会变黑，必须先操作该对话框才行  
+![alt text](.assets_IMG/note/image-165.png)  
+![alt text](.assets_IMG/note/image-166.png)  
+### 实际案例
+仿支付对话框  
+![alt text](.assets_IMG/note/image-167.png)  
+步骤：  
+1. 新建项目  
+   ![alt text](.assets_IMG/note/image-168.png)  
+   ![alt text](.assets_IMG/note/image-169.png)  
+2. 这里要选择QDialog作为基类  
+   ![alt text](.assets_IMG/note/image-170.png)  
+3. 设置一下对话框的大小  
+   ![alt text](.assets_IMG/note/image-171.png)  
+4. 设置无边框属性  
+   ![alt text](.assets_IMG/note/image-175.png)  
+   ![alt text](.assets_IMG/note/image-172.png)  
+   ![alt text](.assets_IMG/note/image-173.png)  
+5. 通过帮助文档查看border-radius样式属性都有哪些控件支持  
+   ![alt text](.assets_IMG/note/image-177.png)  
+6. 查看得知QFrame支持border-radius样式属性，这里在QDialog上放一个与之一样大的QFrame  
+   ![alt text](.assets_IMG/note/image-178.png)  
+7. 修改QFrame的样式，背景色和边框圆角半径  
+   ![alt text](.assets_IMG/note/image-180.png)  
+   可以看到圆角的效果出来了。但是背景QDialog还是直角，这里需要将背景隐藏  
+   ![alt text](.assets_IMG/note/image-181.png)  
+8. 通过设置属性，将背景QDialog隐藏  
+   ![alt text](.assets_IMG/note/image-182.png)  
+   ![alt text](.assets_IMG/note/image-183.png)  
+   ![alt text](.assets_IMG/note/image-184.png)  
+9. 再添加部分控件  
+   ![alt text](.assets_IMG/note/image-185.png)  
+10. 调整QLineEdit的大小，并添加弹簧  
+    ![alt text](.assets_IMG/note/image-186.png)  
+11. 调整QLabel的文字布局方式和字体大小粗细  
+    ![alt text](.assets_IMG/note/image-187.png)  
+    ![alt text](.assets_IMG/note/image-188.png)  
+12. 调整按钮和输入文本框的最小高度  
+    ![alt text](.assets_IMG/note/image-189.png)  
+13. 添加弹簧调整布局  
+    ![alt text](.assets_IMG/note/image-190.png)  
+14. 通过样式表调整按钮文字颜色  
+    ![alt text](.assets_IMG/note/image-191.png)  
+15. 给QFrame加上样式表，添加边框
+    ![alt text](.assets_IMG/note/image-193.png)  
+    注意这里样式表QFrame的前面要有`.`，如果没有，则会导致该QFrame容器内部的其他控件，也会加上边框  
+    ![alt text](.assets_IMG/note/image-194.png)  
+    加`.`后的效果图如下：  
+    ![alt text](.assets_IMG/note/image-196.png)  
+16. 为按钮设置边框样式。注意这里的颜色设置的是文字的颜色  
+    ![alt text](.assets_IMG/note/image-198.png)  
+    ![alt text](.assets_IMG/note/image-199.png)  
+17. 通过样式设置按钮被按下时的背景色  
+    ![alt text](.assets_IMG/note/image-200.png)  
+    ![alt text](.assets_IMG/note/image-201.png)  
+    注意这里要设置一下按钮按下时，左下角的圆角，不然其按下时会显示方角，如上图  
+    ![alt text](.assets_IMG/note/image-203.png)  
+18. 这里另一个按钮与左边的按钮一样，可以直接复制过来修改，注意下按钮边框的方向和按下时边框的圆角位置即可  
+    ![alt text](.assets_IMG/note/image-204.png)  
+19. 修改文本框默认文字  
+    ![alt text](.assets_IMG/note/image-205.png)
+20. 最后再根据实际情况调整边框和颜色等的大小  
+    ![alt text](.assets_IMG/note/image-206.png)  
+
+## QScrollArea
+### 实际案例
+实现如下滚动效果：  
+![alt text](.assets_IMG/note/image-207.png)  
+步骤：  
+1. 设置主界面和滚动区域大小  
+   ![alt text](.assets_IMG/note/image-208.png)  
+   ![alt text](.assets_IMG/note/image-209.png)  
+2. 这里注意QScrollArea里面还包含了一个QWidget，但是这个QWidget是无法通过geometory中的宽度和高度改变大小的  
+   ![alt text](.assets_IMG/note/image-210.png)  
+3. 如何让QScrollArea有滚动条的效果，这边的原理是这样的：QWidget是包含在QScrollArea中的，虽然无法改变QWidget的geometory属性中的宽度和高度大小，但是可以改变QWidget的minimumSize最小尺寸的宽度和高度，使其比QScrollArea的geometory属性中的宽度和高度大小大即可，就好像通过增大QWidget将QScrollArea撑大了。  
+   ![alt text](.assets_IMG/note/image-212.png)  
+   ![alt text](.assets_IMG/note/image-214.png)  
+4. 那如何关闭滚动条，一种方式是将QScrollArea中的QWidget的minimumSize改小，一种方式是通过修改其属性值，关闭横向的滚动条，如下图  
+   ![alt text](.assets_IMG/note/image-215.png)  
+5. 借助帮助文档修改滚动条的样式  
+   ![alt text](.assets_IMG/note/image-216.png)  
+   ![alt text](.assets_IMG/note/image-217.png)  
+   ![alt text](.assets_IMG/note/image-219.png)  
+6. 修改QScrollArea的样式，这里注意样式表中的对象是QScrollBar，也就是说修改的是滚动条的样式  
+   ![alt text](.assets_IMG/note/image-220.png)  
+   ![alt text](.assets_IMG/note/image-221.png)  
+7. 还可以单独修改滚动条滑块的样式，注意这里颜色使用的是rgba关键字，最后一个数字20%指的是透明度。还可以通过border-radius关键字修改滑块为圆角滑块  
+   ![alt text](.assets_IMG/note/image-223.png)  
+   ![alt text](.assets_IMG/note/image-224.png)  
+8. 参考帮助文档修改滚动栏按钮的样式表，让按钮消失
+   ![alt text](.assets_IMG/note/image-225.png)  
+   这里是通过让按钮的长宽分别为0，也就是消失了  
+   ![alt text](.assets_IMG/note/image-226.png)  
+   ![alt text](.assets_IMG/note/image-227.png)  
+9. 通过样式表设置其悬停属性，可以让鼠标悬停时，滑块按钮颜色变深，这里改变的是透明度值  
+   ![alt text](.assets_IMG/note/image-228.png)  
+   ![alt text](.assets_IMG/note/image-229.png)  
+10. 修改QScrollArea中的QWidget的背景色颜色  
+    ![alt text](.assets_IMG/note/image-230.png)
+11. 最后适当添加内容即可  
+    ![alt text](.assets_IMG/note/image-231.png)  
+
+## QTabWidget
+### 修改QTabWidget子对象的Widget样式
+QTabWidget中有子对象Widget，修改子对象的Widget样式  
+   ![alt text](.assets_IMG/note/image-232.png)  
+### 如何让tab标签页可关闭
+通过勾选tabsClosable属性，让tab标签上有叉号。但是此时点击该叉号，并不会关闭tab标签页。是因为没有写对应的槽函数  
+![alt text](.assets_IMG/note/image-233.png)  
+写槽函数，关闭tab标签页  
+![alt text](.assets_IMG/note/image-234.png)  
+![alt text](.assets_IMG/note/image-235.png)  
+### 添加新标签的方式  
+![alt text](.assets_IMG/note/image-236.png)  
+### 修改标签所在方位
+通过修改tabPosition属性可修改其方位  
+![alt text](.assets_IMG/note/image-237.png)  
+### 实际案例
+![alt text](.assets_IMG/note/image-207.png)  
+步骤：  
+1. 先添加一个QListWidget。因为案例中的右边看着像是一个QTabWidget，其实是一个QListWidget  
+   ![alt text](.assets_IMG/note/image-238.png)
+2. 为QListWidget添加项目  
+   ![alt text](.assets_IMG/note/image-239.png)  
+3. 可点击后直接修改属性  
+   ![alt text](.assets_IMG/note/image-240.png)  
+   ![alt text](.assets_IMG/note/image-241.png)  
+   这里先添加三个项目  
+   ![alt text](.assets_IMG/note/image-243.png)  
+4. 参考帮助文档修改样式表  
+   ![alt text](.assets_IMG/note/image-244.png)  
+   ![alt text](.assets_IMG/note/image-246.png)  
+   样式表设置条目宽度变宽，并让其被选中时，背景色变为白色  
+   ![alt text](.assets_IMG/note/image-249.png)  
+   ![alt text](.assets_IMG/note/image-250.png)  
+5. 水平布局，并调节QListWidget的maximumSize的值，这样左半边就会小一些  
+   ![alt text](.assets_IMG/note/image-251.png)  
+6. 将布局这边的空隙缩小  
+   ![alt text](.assets_IMG/note/image-252.png)  
+7. 通过样式表去除边框  
+   ![alt text](.assets_IMG/note/image-253.png)  
+8. 查看帮助文档，确认如何去除标签tab
+   ![alt text](.assets_IMG/note/image-254.png)  
+9. 一样通过将其设置为0隐藏标签tab
+   ![alt text](.assets_IMG/note/image-255.png)  
+   ![alt text](.assets_IMG/note/image-256.png)
+10. 通过listwidget的信号来触发点击翻页的效果  
+    ![alt text](.assets_IMG/note/image-257.png)  
+    其信号会发送一个int，也就是鼠标选中的行号，此时让tabwidget显示对应行号的tab页就可以了  
+    ![alt text](.assets_IMG/note/image-258.png)  
+    ![alt text](.assets_IMG/note/image-260.png)  
+    ![alt text](.assets_IMG/note/image-259.png)  
+11. 最后记得设置一下布局效果  
+    ![alt text](.assets_IMG/note/image-261.png)  
+12. QListWidget的focusPolicy一定要设置成NoFocus，否则软件一打开，QListWidget就会自动获得焦点，让第一项不是白色，而显得有些发蓝，如下第二张图，所以为了避免这种情况，focusPolicy属性一定要改  
+    ![alt text](.assets_IMG/note/image-262.png)  
+    ![alt text](.assets_IMG/note/image-263.png)  
+    ![alt text](.assets_IMG/note/image-264.png)  
+    ![alt text](.assets_IMG/note/image-265.png)  
+13. 其实QStackedWidget与QTabWidget在这个实际案例中的使用方式差不多，效果也差不多。并且在这个案例中QStackedWidget不用隐藏，还可以省掉一步  
+    ![alt text](.assets_IMG/note/image-266.png)  
+
+
+
+
 
 
 
