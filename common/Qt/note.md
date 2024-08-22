@@ -856,6 +856,192 @@ QTabWidget中有子对象Widget，修改子对象的Widget样式
 13. 其实QStackedWidget与QTabWidget在这个实际案例中的使用方式差不多，效果也差不多。并且在这个案例中QStackedWidget不用隐藏，还可以省掉一步  
     ![alt text](.assets_IMG/note/image-266.png)  
 
+## QListWidget
+### 如何添加项
+双击QListWidget，点击加号，再修改属性  
+![alt text](.assets_IMG/note/image-267.png)  
+### 如何调整项目顺序
+点击上下箭头  
+![alt text](.assets_IMG/note/image-268.png)  
+### 通过代码添加项
+![alt text](.assets_IMG/note/image-270.png)  
+直接选中QListWidget，可以修改所有项的字体大小  
+![alt text](.assets_IMG/note/image-271.png)  
+![alt text](.assets_IMG/note/image-272.png)  
+### 如何移除项
+![alt text](.assets_IMG/note/image-273.png)  
+### 如何插入项
+是从插入项的前面插入  
+![alt text](.assets_IMG/note/image-274.png)  
+### 常用信号
+发出的信号为项目下标  
+![alt text](.assets_IMG/note/image-275.png)  
+![alt text](.assets_IMG/note/image-276.png)  
+如下图可以返回对应项的名称文字  
+![alt text](.assets_IMG/note/image-277.png)  
+![alt text](.assets_IMG/note/image-278.png)  
+### 实际案例-QQ好友列表
+如下图所示QListWidget无法直接添加头像图标  
+![alt text](.assets_IMG/note/image-280.png)  
+所以先设计项，再将项添加到QListWidget中  
+![alt text](.assets_IMG/note/image-279.png)  
+步骤：  
+1. 设计项，要自定义一个QListWidget的项item的类  
+   ![alt text](.assets_IMG/note/image-281.png)  
+   ![alt text](.assets_IMG/note/image-282.png)  
+   ![alt text](.assets_IMG/note/image-283.png)  
+   ![alt text](.assets_IMG/note/image-284.png)  
+2. 在widget中放入两个QLabel，当做头像和头像下面的图标  
+   ![alt text](.assets_IMG/note/image-285.png)  
+   ![alt text](.assets_IMG/note/image-286.png)  
+3. 放一个label当昵称，并修改样式  
+   ![alt text](.assets_IMG/note/image-289.png)  
+4. 将之前头像处的两个label放在新建的widget中。因为label不能放在label中，所以需要widget来当容器。并添加布局，将布局大小调整至于widget大小一样  
+   ![alt text](.assets_IMG/note/image-290.png)  
+5. 为了与示例一致，需要添加弹簧产生间隙，并调整弹簧的属性  
+   ![alt text](.assets_IMG/note/image-291.png)  
+6. 至此，这个类就新建完成了，这个类相当于新建了一个listwidget中的item  
+7. 这里引入新建类的头文件，并创建对象，可以发现能在widget中显示。当然这里只是试试新建类能不能正常使用  
+   ![alt text](.assets_IMG/note/image-292.png)
+8. 添加资源文件，用于添加图像  
+   ![alt text](.assets_IMG/note/image-293.png)  
+   ![alt text](.assets_IMG/note/image-294.png)  
+9. 双击qqitem修改其中控件的名字，方便下面使用  
+   ![alt text](.assets_IMG/note/image-296.png)
+   ![alt text](.assets_IMG/note/image-295.png)  
+10. 这里通过代码来加载资源文件中的图片，但是直接加载图片不会自动缩放，所以需要手动将图片缩放一下，也就是通过image的scaled方法    
+   ![alt text](.assets_IMG/note/image-299.png)
+11. 这里注意加载图片的时候，刚刚在第9步修改图片的名称，所以这里ui的指针后面要跟正确的控件的名字  
+   ![alt text](.assets_IMG/note/image-300.png)
+12. 如上图所示，手机在显示的时候，后面会有一个白色的背景色，所以这里需要将白色背景去掉，也就是将放手机图片的widget的样式表去掉就行了  
+   ![alt text](.assets_IMG/note/image-301.png)  
+   ![alt text](.assets_IMG/note/image-302.png)  
+13. 设置名字qqitem的名字。注意这里老师在讲解的时候，都是在qqitem的类中设置的。这是为了临时演示方便，所以这里需要有一个接口能传入参数才行  
+   ![alt text](.assets_IMG/note/image-303.png)
+14. 这里设置了三个属性参数传入，分别是图标路径，是否显示右下角鼠标的标志位，昵称名字。是通过构造函数来传入。并注意函数的具体实现，这里是否显示phone是通过QLabel的方法setVisiable来设置的  
+   ![alt text](.assets_IMG/note/image-304.png)  
+   ![alt text](.assets_IMG/note/image-305.png)  
+15. 然后在引入的widget中，通过构造函数将参数传入即可  
+   ![alt text](.assets_IMG/note/image-306.png)  
+16. 可以看到标志位可以自由控制手机图标的显示  
+   ![alt text](.assets_IMG/note/image-307.png)  
+17. 再回到widget.ui中设计布局，并为按钮等修改样式  
+   ![alt text](.assets_IMG/note/image-308.png)  
+   将输入文本框改成透明的，去掉边框，这是默认显示文字  
+   ![alt text](.assets_IMG/note/image-310.png)  
+   ![alt text](.assets_IMG/note/image-311.png)  
+18. 设置布局，并拉直与widget一样大  
+   ![alt text](.assets_IMG/note/image-312.png)  
+   ![alt text](.assets_IMG/note/image-313.png)  
+19. 这里是利用了setItemWidget这个方法，来将widget中的内容放到ListWidgetItem中了，但是因为没有调整ListWidgetItem的大小，所以不能显示全  
+   ![alt text](.assets_IMG/note/image-314.png)  
+   ![alt text](.assets_IMG/note/image-315.png)  
+   ![alt text](.assets_IMG/note/image-316.png)  
+20. 通过样式表来调整ListWidgetItem的高度  
+   ![alt text](.assets_IMG/note/image-318.png)  
+   这样大小就合适了  
+   ![alt text](.assets_IMG/note/image-319.png)  
+21. 再设置一下布局，使大小铺满即可  
+   ![alt text](.assets_IMG/note/image-320.png)  
+   ![alt text](.assets_IMG/note/image-321.png)  
+22. 添加其余的item，效果就差不多了  
+   ![alt text](.assets_IMG/note/image-322.png)  
+   ![alt text](.assets_IMG/note/image-323.png)  
+23. 因为选中的时候背景色是蓝色，所以通过样式表修改一下。鼠标悬停时的颜色效果也要修改一下  
+   ![alt text](.assets_IMG/note/image-326.png)  
+   ![alt text](.assets_IMG/note/image-327.png)  
+24. 最后记得将这个focusPolicy改成NoFocus，关掉按钮点击时的聚焦效果  
+   ![alt text](.assets_IMG/note/image-328.png)  
+   ![alt text](.assets_IMG/note/image-329.png)  
+
+## QFile
+### 文本读写流程  
+![alt text](.assets_IMG/note/image-331.png)  
+#### 通过QFileDialog来获取文件路径和名字
+QFileDialog运行时，就是会打开系统的文件系统窗口，如下图代码中的第三个参数是`"/home/alientek"`，点击按钮时，就会打开这个目录，然后用户选择文件，就会打印文件名字  
+![alt text](.assets_IMG/note/image-332.png)  
+运行后  
+![alt text](.assets_IMG/note/image-333.png)  
+这个窗口路径就是`"/home/alientek"`，并且选择文件的窗口的名字，就是刚刚的第二个参数`"选择文本"`  
+![alt text](.assets_IMG/note/image-334.png)  
+双击选择该文件  
+![alt text](.assets_IMG/note/image-335.png)  
+然后就会在控制台窗口显示打印的文件路径和文件名  
+![alt text](.assets_IMG/note/image-336.png)  
+#### 通过QFile打开文件并关闭文件
+![alt text](.assets_IMG/note/image-337.png)  
+![alt text](.assets_IMG/note/image-340.png)  
+![alt text](.assets_IMG/note/image-341.png)  
+这里注意一下，如果qt支持的是UTF-8编码，但是文件本身是GBK编码，这里打开会乱码，所以需要额外转化一下，后面会讲  
+![alt text](.assets_IMG/note/image-339.png)  
+![alt text](.assets_IMG/note/image-338.png)  
+#### 通过QFile写文件并关闭文件
+![alt text](.assets_IMG/note/image-343.png)  
+将文本框中新添加的内容写入文件，注意要转换编码格式，这里是通过`.toUtf8()`来转的  
+### 动态创建文件
+#### 实际案例
+步骤：  
+1. 放置按钮位置，并调整布局
+   ![alt text](.assets_IMG/note/image-344.png)  
+2. 添加资源文件  
+   ![alt text](.assets_IMG/note/image-345.png)  
+3. 通过样式表调整按钮样式  
+   ![alt text](.assets_IMG/note/image-346.png)  
+4. 创建一个Dialog类来新建文件  
+   ![alt text](.assets_IMG/note/image-347.png)  
+   ![alt text](.assets_IMG/note/image-348.png)  
+   ![alt text](.assets_IMG/note/image-350.png)  
+5. 放入按钮等并调整布局  
+   ![alt text](.assets_IMG/note/image-351.png)  
+6. 按钮设置文本和图标，这里可以通过QtCreator直接添加。也可以通过样式表，如`QPushButton{qproperty-icon:url(:/images/bmp.png);qproperty-iconSize:20px;}`来设置按钮图标的图片和大小  
+   ![alt text](.assets_IMG/note/image-352.png)  
+   ![alt text](.assets_IMG/note/image-353.png)  
+7. 去掉边界  
+   ![alt text](.assets_IMG/note/image-354.png)  
+   加上颜色  
+   ![alt text](.assets_IMG/note/image-356.png)  
+8. 通过按钮槽函数来设置一下刚刚设置的按钮效果  
+   ![alt text](.assets_IMG/note/image-357.png)  
+   ![alt text](.assets_IMG/note/image-358.png)  
+9. 设置一下对话框的大小和模态显示  
+   ![alt text](.assets_IMG/note/image-359.png)  
+10. 通过信号来设置图标的颜色变化，也就是更换图片。当然也可以通过样式表来设置  
+   ![alt text](.assets_IMG/note/image-360.png)  
+11. 实现点击主widget中点击按钮后创建文件，此时`fileDialog->exec();`会一直阻塞，并不会返回输入框中的内容，只有当fileDialog被关闭时，才会返回输入框的内容，并将其存到文件中  
+   ![alt text](.assets_IMG/note/image-361.png)  
+   ![alt text](.assets_IMG/note/image-362.png)  
+   ![alt text](.assets_IMG/note/image-364.png)  
+12. 所以这里QFileDialog返回按钮一定要加上将当前窗口关闭的功能，别忘了  
+   ![alt text](.assets_IMG/note/image-365.png)  
+13. `QDir::setCurrent(QApplication::applicationDirPath());`这行代码的作用是将当前工作目录设置为应用程序的可执行文件所在的目录。这意味着，后续的文件操作（如打开或保存文件）默认会在这个目录下进行，除非你在文件路径中指定了其他目录。  
+   ![alt text](.assets_IMG/note/image-366.png)  
+14. 这里增加了一个功能，就是如果内容为空，之前创建的文件也就没有内容要写入，所以就自动删除文件。这里的判断逻辑是，字符串长度为空，就默认为文件为空  
+   ![alt text](.assets_IMG/note/image-367.png)
+
+## QPainter
+### 重写虚函数
+通过查看头文件知道paintEvent为虚函数，所以这里需要在子类中重写，注意关键字override，表示虚函数重写  
+![alt text](.assets_IMG/note/image-369.png)
+![alt text](.assets_IMG/note/image-368.png)  
+注意，因为参数event没有被使用过，所以会报错，这里可以通过Qt的宏Q_UNUSED(event)，说明一下这个参数没有被使用，所以event参数的这个地方QtCreator就不会报错  
+### 如何画图形
+![alt text](.assets_IMG/note/image-370.png)  
+![alt text](.assets_IMG/note/image-371.png)  
+### 文字也可以通过QPainter画出来
+通过QRectF给定起点和宽高就能画  
+![alt text](.assets_IMG/note/image-372.png)  
+可以通过第二个关键字来指定文字的居中方式，这里可以水平或者垂直，也应该可以通过`|`运算符实现既水平又垂直居中  
+![alt text](.assets_IMG/note/image-373.png)  
+### 画路径
+![alt text](.assets_IMG/note/image-374.png)  
+### 画笔的用法
+![alt text](.assets_IMG/note/image-376.png)  
+![alt text](.assets_IMG/note/image-377.png)  
+### 画刷的用法
+![alt text](.assets_IMG/note/image-378.png)
+![alt text](.assets_IMG/note/image-379.png)  
+### 设置抗锯齿
+![alt text](.assets_IMG/note/image-380.png)  
 
 
 
@@ -865,3 +1051,18 @@ QTabWidget中有子对象Widget，修改子对象的Widget样式
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
