@@ -1207,7 +1207,7 @@ Qt自身会附带很多参考示例
 4. 然后之前rich类的ui中的数字就会在10秒内从100万涨到600万  
    ![alt text](.assets_IMG/note/image-464.png)  
 ## QThread多线程
-
+步骤：  
 
 
 
