@@ -1042,11 +1042,66 @@ QFileDialog运行时，就是会打开系统的文件系统窗口，如下图代
 ![alt text](.assets_IMG/note/image-379.png)  
 ### 设置抗锯齿
 ![alt text](.assets_IMG/note/image-380.png)  
+### 实际案例 轮播文字
+效果如下所示：  
+文字会从右到左慢慢行进，到最左边消失，不断循环  
+![alt text](.assets_IMG/note/image-381.png)  
+步骤：  
+1. 新建并改变一下widget的大小  
+   ![alt text](.assets_IMG/note/image-382.png)  
+2. 重写虚函数paintEvent  
+   ![alt text](.assets_IMG/note/image-383.png)  
+   ![alt text](.assets_IMG/note/image-384.png)  
+3. 如何修改QPainter中的字体大小，通过QFont  
+   ![alt text](.assets_IMG/note/image-385.png)  
+   ![alt text](.assets_IMG/note/image-386.png)  
+4. 那如何实现轮播效果，可以通过setLeft这个方法，这个setLeft其实就是设置文字的左边边界与其承载边框的左边边界的距离。所以只要将setLeft中的值传入一个变值就可以实现稳定的效果  
+   ![alt text](.assets_IMG/note/image-387.png)  
+5. 通过定时器来实现改变offset的效果  
+   ![alt text](.assets_IMG/note/image-388.png)  
+   设置定时器的槽函数  
+   ![alt text](.assets_IMG/note/image-389.png)  
+   初始化并构建信号槽连接  
+   ![alt text](.assets_IMG/note/image-390.png)  
+6. 因为要实现滚动的效果，需要知道文字的长度，这里需要引进一个新的头文件，来计算文字的长度  
+   ![alt text](.assets_IMG/note/image-391.png)  
+7. 因为文字内容会变，这里定义一个QString新变量，用来存放文字的内容  
+   ![alt text](.assets_IMG/note/image-392.png)  
+8. 返回文字的宽度  
+   ![alt text](.assets_IMG/note/image-393.png)  
+9. 注意这里setLeft方法中写的是`this->rect().width()-offset`，也就是说根据之前setLeft方法的说明(setLeft其实就是设置文字的左边边界与其承载边框的左边边界的距离)，这里的offset也就是文字距离widget右边框的距离，用该距离与`this->width()+textContentWidth`比较，当offset小于该值时，offset不断+1.文字一直往左走，当offset大于等于该值时，offset重新开始+1，也就是从右往左重新开始滚动  
+   ![alt text](.assets_IMG/note/image-395.png)  
+   这里`this->update()`是一定要加的，因为要不断更新绘图效果，paintEvent在widget构造函数执行时，会自动执行一次，这里不会自动执行，需要手动通过`this->update()`让其执行，更新绘制界面  
+   ![alt text](.assets_IMG/note/image-396.png)  
 
-
-
-
-
+## QChart
+Qt自身会附带很多参考示例  
+![alt text](.assets_IMG/note/image-397.png)  
+### 实际案例
+这里绘制一个光滑曲线图  
+![alt text](.assets_IMG/note/image-399.png)  
+步骤：  
+1. 调整文字布局
+   ![alt text](.assets_IMG/note/image-398.png)  
+2. 在pro文件中加入图表模块  
+   ![alt text](.assets_IMG/note/image-401.png)
+3. 引入头文件  
+   ![alt text](.assets_IMG/note/image-400.png)  
+   加入宏，这个宏本质上就是调用了命名空间  
+   ![alt text](.assets_IMG/note/image-407.png)  
+4. 在ui文件中插入GraphicsView，用于显示图标，这里GraphicsView是QChartView的父类，所以这里可以将其提升为QChartView类  
+   ![alt text](.assets_IMG/note/image-403.png)  
+   ![alt text](.assets_IMG/note/image-402.png)  
+   ![alt text](.assets_IMG/note/image-404.png)
+   ![alt text](.assets_IMG/note/image-405.png)  
+5. 提升完之后GraphicsView就变成了QChartView  
+   ![alt text](.assets_IMG/note/image-406.png)  
+6. 在widget中进行初始化  
+   ![alt text](.assets_IMG/note/image-408.png)  
+   ![alt text](.assets_IMG/note/image-409.png)  
+7. 创建线，加入线的头文件，并加入点  
+   ![alt text](.assets_IMG/note/image-410.png)  
+   ![alt text](.assets_IMG/note/image-411.png)  
 
 
 
