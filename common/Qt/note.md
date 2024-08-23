@@ -1102,6 +1102,111 @@ Qt自身会附带很多参考示例
 7. 创建线，加入线的头文件，并加入点  
    ![alt text](.assets_IMG/note/image-410.png)  
    ![alt text](.assets_IMG/note/image-411.png)  
+8. 图表添加曲线。这里还要将曲线的数据与坐标轴相连，并且要在图标添加曲线后，如果不相连，跑出来的图就与实际不符了。最后就是将图标置于视图中  
+   ![alt text](.assets_IMG/note/image-412.png)  
+   ![alt text](.assets_IMG/note/image-413.png)  
+9. 可以通过下图红框中的方法，将格子设置的密一点  
+   ![alt text](.assets_IMG/note/image-414.png)  
+
+## QPropertyAnimation属性动画
+![alt text](.assets_IMG/note/image-415.png)  
+### 简单案例
+#### 几何动画
+步骤：  
+1. 添加三个按钮，分别对应三个功能。再添加一个QWidget用来显示。注意，添加样式表中的颜色可以通过添加来添加，如下图：  
+   ![alt text](.assets_IMG/note/image-416.png)  
+   ![alt text](.assets_IMG/note/image-417.png)  
+2. 初始化动画对象，注意构造函数的参数中，第一个表示动画的对象，第二个表示动画的类型  
+   ![alt text](.assets_IMG/note/image-418.png)
+3. 注意设置动画时长属性，还有点击按钮后，动画启动的槽函数  
+   ![alt text](.assets_IMG/note/image-419.png)  
+4. 还可以设置循环次数属性，让动画循环跑  
+   ![alt text](.assets_IMG/note/image-420.png)  
+   ![alt text](.assets_IMG/note/image-421.png)  
+5. 还可以设置动画的运动速度曲线，下图中的这个曲线就表示前面动画运动的很快，后面运动的很慢。注意这里帮助文档中的曲线表示变化的曲线，而不是运动的曲线  
+   ![alt text](.assets_IMG/note/image-422.png)  
+   ![alt text](.assets_IMG/note/image-423.png)  
+6. 还可以设置中间值，让其运动到中间时，在某个位置。比如下图中的0.5就表示，在运动到路程的一半的地方，会经过后面矩形表示的位置和大小  
+   ![alt text](.assets_IMG/note/image-425.png)
+   ![alt text](.assets_IMG/note/image-424.png)  
+#### 颜色动画
+步骤：
+1. 新复制一个widget，用来做颜色动画，并设置其背景色为蓝色  
+   ![alt text](.assets_IMG/note/image-426.png)  
+2. 因为widget实体中没有颜色属性，所以可以需要通过另一个类来设置颜色属性  
+   ![alt text](.assets_IMG/note/image-428.png)  
+3. 然后这边会有一个层层的依赖关系，通过`ui->colorWidget->setGraphicsEffect(graphicsColorizeEffect);`将graphicsColorizeEffect与ui->colorWidget产生关系，通过QPropertyAnimation的构造函数，将graphicsColorizeEffect对象传入，这样就可以通过动画来控制ui->colorWidget中的颜色变化了  
+   ![alt text](.assets_IMG/note/image-429.png)  
+4. 设置颜色变化值、时间等  
+   ![alt text](.assets_IMG/note/image-430.png)  
+5. 设置按钮槽函数触发  
+   ![alt text](.assets_IMG/note/image-431.png)  
+#### 不透明度动画
+步骤：  
+1. 一样也是新复制一个widget，用来做颜色动画，并设置其背景色  
+   ![alt text](.assets_IMG/note/image-432.png)  
+2. 因为widget实体也没有透明属性，所以可以需要通过另一个类来设置透明属性。然后还有一些设置方式与之前的动画一致  
+   ![alt text](.assets_IMG/note/image-433.png)  
+   ![alt text](.assets_IMG/note/image-435.png)  
+   ![alt text](.assets_IMG/note/image-434.png)  
+
+## Q_PROPERTY宏简介
+![alt text](.assets_IMG/note/image-436.png)  
+### 简单示例讲解
+补充说明：  
+1. 为什么动画这里能识别到字符串`"geometory"`这个字符串，是因为在QWidget的类中，通过Q_PROPERTY宏定义了geometory，如下图所示  
+   ![alt text](.assets_IMG/note/image-441.png)  
+   ![alt text](.assets_IMG/note/image-442.png)  
+2. Q_PROPERTY的第四个位置填的应该是一个函数，这里我们可以参照QWidget类，能看到其中的第四个就是一个函数，其定义在QWidget中可以找到  
+   ![alt text](.assets_IMG/note/image-443.png)  
+   ![alt text](.assets_IMG/note/image-444.png)  
+3. 通过查看帮助文档可知，这里的Q_PROPERTY宏定义要写在Q_OBJECT下面才行  
+   ![alt text](.assets_IMG/note/image-440.png)  
+
+步骤：  
+1. 新建一个界面类  
+   ![alt text](.assets_IMG/note/image-437.png)  
+   ![alt text](.assets_IMG/note/image-438.png)  
+   ![alt text](.assets_IMG/note/image-439.png)  
+2. 仿着QWidget可以写一个简单的示例如下：  
+   注意Q_OBJECT中第一个参数表示类型，这里用的是qreal，也就是double类型，然后再下面定义函数的时候，函数的返回值也是qreal类型  
+   ![alt text](.assets_IMG/note/image-445.png)  
+3. 将函数实现，这里是直接返回的一个初始化的变量值  
+   ![alt text](.assets_IMG/note/image-447.png)  
+   ![alt text](.assets_IMG/note/image-446.png)  
+4. 在主widget中加入刚刚新建的类  
+   ![alt text](.assets_IMG/note/image-448.png)  
+   并返回其初始化的数值  
+   ![alt text](.assets_IMG/note/image-449.png)  
+5. 调整一下rich类的ui界面的大小和其中的内容  
+   ![alt text](.assets_IMG/note/image-450.png)  
+6. 下面一样接着模仿QWidget类，写第六个参数  
+   ![alt text](.assets_IMG/note/image-451.png)  
+   ![alt text](.assets_IMG/note/image-452.png)  
+   rich类中就对应写  
+   ![alt text](.assets_IMG/note/image-453.png)  
+7. 将WRITE部分的函数实现写一下  
+   ![alt text](.assets_IMG/note/image-454.png)  
+   ![alt text](.assets_IMG/note/image-455.png)  
+8. 然后在主widget中直接调用，可以让富人的钱再多一些  
+   ![alt text](.assets_IMG/note/image-456.png)  
+   当然这里也可以通过之前宏定义设置的方式，用另一种方法来让富人多一些钱。这里通过setProperty来让富人多一些钱，底层会自动调用WRITE的方法，也就是调用setMoney方法，与上一种直接调用的方式效果是一样的  
+   ![alt text](.assets_IMG/note/image-457.png)  
+9. 其实现在也差不多明了，这个Q_PROPERTY宏也就是定义了一种名称，通过这个名称，可以用之前封装好的方法，来实现READ和WRITE这两个动作。第一个参数就是指定了其中传递的参数的类型  
+   ![alt text](.assets_IMG/note/image-458.png)  
+## 自定义属性动画
+步骤：  
+1. 可以将上一讲的文件添加进来，QtCreator会帮助自动归类  
+   ![alt text](.assets_IMG/note/image-459.png)  
+   ![alt text](.assets_IMG/note/image-460.png)  
+   ![alt text](.assets_IMG/note/image-461.png)  
+2. 将之前的实现函数稍微修改一下  
+   ![alt text](.assets_IMG/note/image-462.png)  
+3. 再在主widget中将动画的各个参数设置一下即可，然后运行  
+   ![alt text](.assets_IMG/note/image-463.png)  
+4. 然后之前rich类的ui中的数字就会在10秒内从100万涨到600万  
+   ![alt text](.assets_IMG/note/image-464.png)  
+## QThread多线程
 
 
 
@@ -1115,9 +1220,3 @@ Qt自身会附带很多参考示例
 
 
 
-
-
-
-
-
- 
