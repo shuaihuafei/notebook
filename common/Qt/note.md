@@ -1207,7 +1207,34 @@ Qt自身会附带很多参考示例
 4. 然后之前rich类的ui中的数字就会在10秒内从100万涨到600万  
    ![alt text](.assets_IMG/note/image-464.png)  
 ## QThread多线程
+### 如何查看是否有某个进程
+使用ubuntu指令`ps -aux | grep 51`  
+![alt text](.assets_IMG/note/image-468.png)  
+### 如何查看某个进程中是否有线程
+![alt text](.assets_IMG/note/image-469.png)  
+### 应用程序 进程 线程的关系
+![alt text](.assets_IMG/note/image-471.png)  
 步骤：  
+1. Q中的线程有两种方式，一种是继承自QThread，另一种是继承自QObject类。前者实现比较简单，但是后者更为灵活，这里的课程案例，讲解的是后一种  
+2. 在widget中新建一个类，继承自QThread
+   ![alt text](.assets_IMG/note/image-472.png)  
+   如下图所示，如果这个类中要使用信号槽，则需要有宏Q_OBJECT，并且继承QThread的类需要重写run方法  
+   ![alt text](.assets_IMG/note/image-473.png)  
+3. 在widget中创建新建的线程对象  
+   ![alt text](.assets_IMG/note/image-474.png)  
+   ![alt text](.assets_IMG/note/image-475.png)  
+4. 实例化线程并启动  
+   ![alt text](.assets_IMG/note/image-476.png)  
+   线程中运行的是一个延时函数  
+   ![alt text](.assets_IMG/note/image-479.png)  
+5. 运行后发现主界面没有卡死，线程正常运行  
+   ![alt text](.assets_IMG/note/image-480.png)  
+6. 再定义一个按钮用来结束线程  
+   ![alt text](.assets_IMG/note/image-481.png)  
+   ![alt text](.assets_IMG/note/image-482.png)  
+7. 
+
+
 
 
 
