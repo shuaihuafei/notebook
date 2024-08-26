@@ -1232,9 +1232,24 @@ Qt自身会附带很多参考示例
 6. 再定义一个按钮用来结束线程  
    ![alt text](.assets_IMG/note/image-481.png)  
    ![alt text](.assets_IMG/note/image-482.png)  
-7. 
+### 线程销毁
+让线程运行完，自动销毁，在run中加一个`deleteLater();`  
+![alt text](.assets_IMG/note/image-484.png)  
+![alt text](.assets_IMG/note/image-483.png)  
 
+## TCP服务端程序编写
+### TCP服务端如何监听客户端连接
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4/?p=57)-07:20
+### 如何写状态变化槽函数
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4/?p=57)-24:25
+### 断开连接时如何销毁QTcpSocket对象
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4/?p=57)-29:52
+### 如果有多个客户端 一对多
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4?p=58)-17:59  
+### 如何监听某个客户端IP地址的消息
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4?p=58)-28:10  
 
+## TCP客户端程序编写
 
 
 
