@@ -1250,9 +1250,64 @@ Qt自身会附带很多参考示例
 [视频](https://www.bilibili.com/video/BV1g24y1F7X4?p=58)-28:10  
 
 ## TCP客户端程序编写
+![alt text](.assets_IMG/note/image-485.png)  
+![alt text](.assets_IMG/note/image-486.png)  
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4?p=59)  
+### 客户端如何接收服务端发来的消息
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4?p=59)-01:26  
+### 如何断开连接如何检测
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4?p=59)-09:31  
+![alt text](.assets_IMG/note/image-488.png)  
+![alt text](.assets_IMG/note/image-487.png)  
+注意：如果某一个函数在其他已打开的项目中存在同名函数，并且在cpp文件中被定义了，那么在该项目中就无法通过qtcreator来自动跳转到该项目的头文件，需要将另一个已打开的项目关闭即可。这里也就是mStateChanged这个函数在项目52中定义了，如果需要在项目53中通过qtcreator来自动跳转定义，则必须先将项目52关闭了。  
+### 客户端如何发送消息给服务端
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4?p=59)-14:49  
+### 客户端如何连接服务器
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4?p=59)-16:39  
+### 客户端如何断开与服务器的连接
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4?p=59)-20:40  
 
+## TCP客户端与TCP服务端测试
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4?p=60)  
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4?p=61)  
 
+注意：  
+![alt text](.assets_IMG/note/image-489.png)  
+普通按钮也可以指定按钮组，这样两个按钮就互斥了  
 
+## UDP单播与广播程序编写
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4?p=62)  
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4?p=63)  
+### UDP如何初始化并绑定IP地址
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4?p=62)-04:17  
+### UDP如何读取数据
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4?p=62)-05:49  
+### 设计一个UDP界面
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4?p=62)-19:57  
+### UDP如何发送数据
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4?p=63)-00:00  
+### UDP如何广播消息
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4?p=63)-11:18  
+### UDP如何打印socket状态
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4?p=63)-13:14  
+
+## I.MX6U交叉编译Qt项目
+### 安装交叉编译器
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4?p=64)-04:50  
+备注：这里其实主要就是在环境中配置了一下交叉编译器的路径，这样下次在编译的时候，就会自动使用配置了的编译器
+
+## STM32MP157交叉编译Qt项目
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4?p=65)  
+
+## Qt点亮开发板的一个LED
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4?p=66)  
+### 如何让按钮选中时没有灰色
+通过样式表，可以让其只显示一种颜色，只有文字变化  
+![alt text](.assets_IMG/note/image-492.png)  
+![alt text](.assets_IMG/note/image-491.png)  
+
+## Qt控制开发板的蜂鸣器
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4?p=67)  
 
 
 
