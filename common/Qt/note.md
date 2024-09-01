@@ -1309,11 +1309,58 @@ Qt自身会附带很多参考示例
 ## Qt控制开发板的蜂鸣器
 [视频](https://www.bilibili.com/video/BV1g24y1F7X4?p=67)  
 
+## Qt使用开发版上的按键
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4?p=68)  
+### 通过重写按键事件捕获按键
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4?p=68)-06:52  
 
+## Qt串口变成
+### 上位机界面设计
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4?p=69)  
+### 编写程序功能
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4?p=70)  
+### 开发板验证
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4?p=71)  
 
+## 嵌入式Qt移植概述
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4?p=72)  
 
+## 嵌入式Qt移植方法对比说明
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4?p=73)  
 
+![alt text](.assets_IMG/note/image-493.png)  
 
+## 嵌入式Qt移植之编译器与根文件系统准备
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4?p=74)  
 
+## 嵌入式Qt移植之tslib编译
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4?p=75)  
 
+### 补充
+1. 如何通过git查看当前分支  
+   ![alt text](.assets_IMG/note/image-494.png)  
+2. 如何通过git查看当前库有什么版本  
+   ![alt text](.assets_IMG/note/image-495.png)  
+3. 如何通过git切换版本。一般情况下就将自己起的名字直接用仓库代码的版本号表示  
+   ![alt text](.assets_IMG/note/image-496.png)  
 
+## 嵌入式Qt移植之Qt源码编译
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4?p=76)  
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4?p=77)  
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4?p=78)  
+注意：  
+1. Qt中的源码都是一块一块的，需要用哪一块，就可以单独编译那一块  
+   ![alt text](.assets_IMG/note/image-497.png)  
+
+## 嵌入式Qt移植之tslib部署到Busybox根文件
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4?p=79)  
+
+## 嵌入式Qt移植之Qt部署到Busybox根文件
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4?p=80)  
+
+## 嵌入式Qt移植之编译Qt项目
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4?p=81)  
+
+## Buildroot构建Qt根文件系统
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4?p=82)  
+[视频](https://www.bilibili.com/video/BV1g24y1F7X4?p=83)  
