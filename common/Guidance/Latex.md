@@ -135,3 +135,14 @@
 6. Alt+Shift+M 可以增加显示的代码\[×\]
 7. Ctrl+Enter 软换行
 8. Ctrl+方向键 快速填空
+
+# 模板使用报错
+## 数学建模模板
+1. 代码来源：[github-CUMCMThesis](https://github.com/latexstudio/CUMCMThesis)
+   编译报错：I found no \bibdata command  
+   参考：[博客](https://blog.csdn.net/sc303165/article/details/122787923)  
+   解决：解决方法就是在.tex文件的\end{document}前面加两句
+    ```latex
+    \bibliographystyle{IEEEtran}
+    \bibliography{IEEEexample}
+    ```
